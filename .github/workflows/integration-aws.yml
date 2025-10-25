@@ -1,9 +1,5 @@
 ---
-# Disable strict editor validation so `${{ secrets.* }}` expressions don't trigger
-# "Context access might be invalid" warnings locally. GitHub evaluates these correctly.
-# yaml-language-server: $schema: "none"
-
-name: Integration Tests (AWS)
+name: Integration Tests (Mock AWS)
 
 on:
   workflow_dispatch:
@@ -13,16 +9,27 @@ on:
     branches: [ main ]
 
 jobs:
-  integration-aws:
-    name: AWS integration tests
+  integration-mock-aws:
+    name: Integration tests (LocalStack mock)
     runs-on: ubuntu-latest
-    # Provide env at the job level; values come from repository secrets on GitHub
     env:
-      AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
+      # Mock AWS credentials for LocalStack (no real AWS account needed)
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_REGION: us-east-1
+      AWS_S3_BUCKET: test-bucket
+      AWS_ENDPOINT: http://localhost:4566
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Start LocalStack
+        uses: LocalStack/setup-localstack@v0.2.2
+        with:
+          image-tag: 'latest'
+          install-awslocal: 'true'
+          configuration: |
+            SERVICES=s3
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -31,17 +38,14 @@ jobs:
           cache: npm
           cache-dependency-path: ih-frontend/package-lock.json
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
       - name: Install dependencies
         working-directory: ih-frontend
         run: npm ci
 
-      - name: Run integration tests (real AWS)
+      - name: Create S3 bucket in LocalStack
+        run: |
+          aws --endpoint-url=$AWS_ENDPOINT s3 mb s3://$AWS_S3_BUCKET || true
+
+      - name: Run integration tests (LocalStack)
         working-directory: ih-frontend
         run: npm run test:integration
