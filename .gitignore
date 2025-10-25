@@ -1,1 +1,40 @@
 node_modules
+
+# Build artifacts
+.next/
+out/
+build/
+dist/
+
+# Cache
+.cache/
+*.log
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backups and archives
+*.tar.gz
+*.zip
+*-backup-*
+sanity-backup-*
+
+# Laravel backend
+ih-backend/vendor/
+ih-backend/storage/*.key
+ih-backend/.env
+ih-backend/database/*.sqlite
+
