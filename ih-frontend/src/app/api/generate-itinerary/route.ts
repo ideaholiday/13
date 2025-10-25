@@ -22,6 +22,10 @@ export async function POST(request: NextRequest) {
     const parsedPrompt = parsed || parsePrompt(prompt)
 
     // Use Perplexity API to generate itinerary
+      const apiKey = process.env.PERPLEXITY_API_KEY || ''
+      if (!apiKey) {
+        return NextResponse.json({ error: 'PERPLEXITY_API_KEY not configured' }, { status: 500 })
+      }
     // Compose prompt for Perplexity
     const systemPrompt = `You are an expert travel planner. Given a user's trip request, generate a detailed itinerary in JSON format matching the following TypeScript type:\n\ninterface Itinerary {\n  id: string;\n  title: string;\n  description: string;\n  destination: string;\n  duration: number;\n  startDate: string;\n  endDate: string;\n  tags: string[];\n  difficulty: string;\n  pace: string;\n  preferences: string[];\n  days: DayPlan[];\n  totalCost: { amount: number; currency: string; breakdown: Record<string, number>; };\n  createdAt: string;\n  updatedAt: string;\n  isPublic: boolean;\n  likes: number;\n  saves: number;\n  views: number;\n}\n\ninterface DayPlan {\n  id: string;\n  dayNumber: number;\n  date: string;\n  title: string;\n  description: string;\n  activities: Activity[];\n  totalCost: { amount: number; currency: string; };\n}\n\ninterface Activity {\n  id: string;\n  type: string;\n  title: string;\n  description: string;\n  startTime: string;\n  endTime: string;\n  location: string;\n  cost: { amount: number; currency: string; };\n  tags: string[];\n}\n\nRespond ONLY with valid JSON for the itinerary.`
     const userPrompt = parsed ? JSON.stringify(parsed) : prompt
