@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
-import { fetchJSON, ApiError } from '../lib/api'
+import { fetchJSON } from '../lib/api'
 
 export function useTicket() {
-  return useMutation<any, ApiError, { bookingId: string }>({
+  return useMutation<any, Error, { bookingId: string }>({
     mutationFn: async ({ bookingId }) => {
       return fetchJSON('/api/flights/ticket', {
         method: 'POST',

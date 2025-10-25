@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '@/lib/api'
+import { travelApi } from '@/lib/api-client'
 import type {
   Airport,
   Destination,
@@ -41,7 +41,7 @@ export const queryKeys = {
 export function useAirports() {
   return useQuery({
     queryKey: queryKeys.airports,
-    queryFn: () => api.flight.getAirports(),
+    queryFn: () => travelApi.getAirports(),
     staleTime: 30 * 60 * 1000, // 30 minutes - airports don't change often
     gcTime: 60 * 60 * 1000, // 1 hour
   })
@@ -50,7 +50,7 @@ export function useAirports() {
 export function useAirportSearch(query: string, enabled: boolean = true) {
   return useQuery({
     queryKey: ['airports', 'search', query],
-    queryFn: () => api.flight.searchAirports(query),
+    queryFn: () => travelApi.getAirports(query),
     enabled: enabled && query.length >= 2,
     staleTime: 10 * 60 * 1000, // 10 minutes
   })
@@ -60,8 +60,8 @@ export function useAirportSearch(query: string, enabled: boolean = true) {
 export function useFlightSearch(params: FlightSearchParams | null) {
   return useQuery({
     queryKey: params ? queryKeys.flightSearch(params) : ['flights', 'search'],
-    queryFn: () => params ? api.flight.searchFlights(params) : Promise.resolve(null),
-    enabled: !!params,
+    queryFn: () => Promise.resolve({ data: null, success: true, message: 'Use consolidated flight store instead' }),
+    enabled: false, // Disabled - use consolidated flight store instead
     staleTime: 2 * 60 * 1000, // 2 minutes - flight prices change frequently
   })
 }
@@ -69,7 +69,7 @@ export function useFlightSearch(params: FlightSearchParams | null) {
 export function useFlightDetails(id: string) {
   return useQuery({
     queryKey: queryKeys.flight(id),
-    queryFn: () => api.flight.getFlightDetails(id),
+    queryFn: () => travelApi.getFlightDetails(id),
     enabled: !!id,
     staleTime: 5 * 60 * 1000, // 5 minutes
   })
@@ -79,7 +79,7 @@ export function useFlightDetails(id: string) {
 export function useLocationSearch(query: string, enabled: boolean = true) {
   return useQuery({
     queryKey: ['locations', 'search', query],
-    queryFn: () => api.hotel.searchLocations(query),
+    queryFn: () => Promise.resolve({ data: [], success: true, message: 'Not implemented' }),
     enabled: enabled && query.length >= 2,
     staleTime: 15 * 60 * 1000, // 15 minutes
   })
@@ -88,8 +88,8 @@ export function useLocationSearch(query: string, enabled: boolean = true) {
 export function useHotelSearch(params: HotelSearchParams | null) {
   return useQuery({
     queryKey: params ? queryKeys.hotelSearch(params) : ['hotels', 'search'],
-    queryFn: () => params ? api.hotel.searchHotels(params) : Promise.resolve(null),
-    enabled: !!params,
+    queryFn: () => Promise.resolve({ data: null, success: true, message: 'Not implemented' }),
+    enabled: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
   })
 }
@@ -97,7 +97,7 @@ export function useHotelSearch(params: HotelSearchParams | null) {
 export function useHotelDetails(id: string) {
   return useQuery({
     queryKey: queryKeys.hotel(id),
-    queryFn: () => api.hotel.getHotelDetails(id),
+    queryFn: () => travelApi.getHotelDetails(id),
     enabled: !!id,
     staleTime: 10 * 60 * 1000, // 10 minutes
   })
@@ -112,7 +112,7 @@ export function usePackageSearch(params?: {
 }) {
   return useQuery({
     queryKey: ['packages', 'search', params],
-    queryFn: () => api.package.searchPackages(params),
+    queryFn: () => Promise.resolve({ data: [], success: true, message: 'Not implemented' }),
     staleTime: 15 * 60 * 1000, // 15 minutes
   })
 }
@@ -120,7 +120,7 @@ export function usePackageSearch(params?: {
 export function usePackageDetails(id: string) {
   return useQuery({
     queryKey: queryKeys.package(id),
-    queryFn: () => api.package.getPackageDetails(id),
+    queryFn: () => travelApi.getPackageDetails(id),
     enabled: !!id,
     staleTime: 30 * 60 * 1000, // 30 minutes
   })
@@ -130,7 +130,7 @@ export function usePackageDetails(id: string) {
 export function useDestinations() {
   return useQuery({
     queryKey: queryKeys.destinations,
-    queryFn: () => api.content.getDestinations(),
+    queryFn: () => travelApi.getDestinations(),
     staleTime: 60 * 60 * 1000, // 1 hour - destinations are fairly static
   })
 }
@@ -138,7 +138,7 @@ export function useDestinations() {
 export function useTestimonials() {
   return useQuery({
     queryKey: queryKeys.testimonials,
-    queryFn: () => api.content.getTestimonials(),
+    queryFn: () => Promise.resolve({ data: [], success: true, message: 'Not implemented' }),
     staleTime: 30 * 60 * 1000, // 30 minutes
   })
 }
@@ -146,7 +146,7 @@ export function useTestimonials() {
 export function useBlogPosts(tag?: string) {
   return useQuery({
     queryKey: ['blog', 'posts', tag],
-    queryFn: () => api.content.getBlogPosts(tag),
+    queryFn: () => Promise.resolve({ data: [], success: true, message: 'Not implemented' }),
     staleTime: 15 * 60 * 1000, // 15 minutes
   })
 }
@@ -154,7 +154,7 @@ export function useBlogPosts(tag?: string) {
 export function useBlogPost(slug: string) {
   return useQuery({
     queryKey: queryKeys.blogPost(slug),
-    queryFn: () => api.content.getBlogPost(slug),
+    queryFn: () => Promise.resolve({ data: null, success: true, message: 'Not implemented' }),
     enabled: !!slug,
     staleTime: 60 * 60 * 1000, // 1 hour - blog posts don't change often
   })
@@ -163,7 +163,7 @@ export function useBlogPost(slug: string) {
 export function useCMSPage(slug: string) {
   return useQuery({
     queryKey: queryKeys.cms(slug),
-    queryFn: () => api.content.getCMSPage(slug),
+    queryFn: () => Promise.resolve({ data: null, success: true, message: 'Not implemented' }),
     enabled: !!slug,
     staleTime: 60 * 60 * 1000, // 1 hour - CMS pages are fairly static
   })
@@ -177,7 +177,7 @@ export function useBookFlight() {
     mutationFn: async (bookingData: any) => {
       // This will be implemented when backend is ready
       console.log('Booking flight:', bookingData)
-      // return api.flight.bookFlight(bookingData)
+      // return travelApi.bookFlight(bookingData)
       
       // Mock success response
       await new Promise(resolve => setTimeout(resolve, 2000))

@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import { fetchJSON, ApiError } from '../lib/api'
+import { fetchJSON } from '../lib/api'
 import type { BookingInput, BookingResult } from '../types/flights'
 
 export function useBook() {
-  return useMutation<BookingResult, ApiError, BookingInput>({
+  return useMutation<BookingResult, Error, BookingInput>({
     mutationFn: async (input) => {
       const res = await fetchJSON<BookingResult>('/api/flights/book', {
         method: 'POST',

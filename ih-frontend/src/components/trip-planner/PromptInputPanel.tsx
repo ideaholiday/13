@@ -9,7 +9,13 @@ import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select'
 import type { TripPlannerPrompt } from '@/types/itinerary'
 
 const promptTemplates = [
@@ -191,14 +197,15 @@ export function PromptInputPanel({ onGenerate, isGenerating = false }: PromptInp
                   <DollarSign className="w-3.5 h-3.5" />
                   Budget
                 </Label>
-                <Select 
-                  id="budget"
-                  value={budget} 
-                  onChange={(e) => setBudget(e.target.value as typeof budget)}
-                >
-                  <option value="budget">Budget</option>
-                  <option value="moderate">Moderate</option>
-                  <option value="luxury">Luxury</option>
+                <Select value={budget} onValueChange={(value) => setBudget(value as typeof budget)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select budget" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="budget">Budget</SelectItem>
+                    <SelectItem value="moderate">Moderate</SelectItem>
+                    <SelectItem value="luxury">Luxury</SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
             </div>
@@ -208,14 +215,15 @@ export function PromptInputPanel({ onGenerate, isGenerating = false }: PromptInp
               <Label htmlFor="pace" className="text-sm mb-2 block">
                 Travel Pace
               </Label>
-              <Select 
-                id="pace"
-                value={pace} 
-                onChange={(e) => setPace(e.target.value as typeof pace)}
-              >
-                <option value="relaxed">Relaxed (fewer activities)</option>
-                <option value="moderate">Moderate</option>
-                <option value="fast-paced">Fast-paced (packed schedule)</option>
+              <Select value={pace} onValueChange={(value) => setPace(value as typeof pace)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select pace" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="relaxed">Relaxed (fewer activities)</SelectItem>
+                  <SelectItem value="moderate">Moderate</SelectItem>
+                  <SelectItem value="fast-paced">Fast-paced (packed schedule)</SelectItem>
+                </SelectContent>
               </Select>
             </div>
 
