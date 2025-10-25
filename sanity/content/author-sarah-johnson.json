@@ -1,0 +1,12 @@
+{
+  "_type": "author",
+  "_id": "author-sarah-johnson",
+  "name": "Sarah Johnson",
+  "image": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-sarah-johnson"
+    }
+  }
+}

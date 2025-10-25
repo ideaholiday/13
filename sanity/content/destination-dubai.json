@@ -1,0 +1,67 @@
+{
+  "_type": "destination",
+  "_id": "dubai-destination",
+  "title": "Dubai",
+  "slug": {
+    "current": "dubai",
+    "_type": "slug"
+  },
+  "country": "United Arab Emirates",
+  "description": "Experience luxury, shopping, desert safaris, and iconic landmarks in the heart of the Middle East. Dubai offers a perfect blend of modern innovation and traditional charm.",
+  "image": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-dubai-destination"
+    }
+  },
+  "gallery": [
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-gallery-1"
+      }
+    },
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-gallery-2"
+      }
+    },
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-gallery-3"
+      }
+    }
+  ],
+  "isPopular": true,
+  "averagePrice": 25999,
+  "bestTime": "November to March",
+  "highlights": [
+    "Burj Khalifa observation deck",
+    "Desert safari with camel ride",
+    "Dubai Mall shopping",
+    "Palm Jumeirah visit",
+    "Dubai Fountain show",
+    "Burj Al Arab luxury",
+    "Gold Souk traditional market",
+    "Dubai Marina waterfront"
+  ],
+  "climate": "Dubai has a hot desert climate with very hot summers (June-September) reaching 45°C and mild winters (November-March) with temperatures around 25°C. The best time to visit is during winter months when the weather is pleasant for outdoor activities.",
+  "seo": {
+    "_type": "seo",
+    "title": "Dubai Travel Guide 2024 | Luxury Destinations & Desert Adventures",
+    "description": "Complete Dubai travel guide covering luxury hotels, desert safaris, shopping, and iconic landmarks. Plan your Dubai trip with Idea Holiday.",
+    "image": {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-seo"
+      }
+    }
+  }
+}

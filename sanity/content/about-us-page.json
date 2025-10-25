@@ -1,0 +1,296 @@
+{
+  "_type": "page",
+  "_id": "about-us-page",
+  "title": "About Us - Idea Holiday Pvt Ltd",
+  "slug": {
+    "current": "about-us",
+    "_type": "slug"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "style": "h1",
+      "children": [
+        {
+          "_type": "span",
+          "text": "About Idea Holiday Pvt Ltd",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Welcome to Idea Holiday Pvt Ltd, your trusted travel partner for discovering the world in comfort and style. We are a leading B2B and B2C travel company offering flights, hotels, holidays, visas, and customized travel experiences for individuals, families, and corporate groups.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "With over 1000+ trusted travel agents and distributors across India, Idea Holiday has become one of the most dependable names in the travel industry.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Our Mission",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "At Idea Holiday, we believe that every journey should be seamless, inspiring, and memorable. Whether you're flying for business, relaxing at a beach resort, or exploring the wonders of the world, our expert team ensures you enjoy best fares, handpicked hotels, and tailor-made holiday packages powered by the latest travel technology.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Our mission is to make travel affordable, transparent, and enjoyable, backed by 24×7 support and real-time booking systems.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Key Services",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "✈️ Flight Booking (Domestic & International)",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "🏨 Hotel Booking & Resort Stays",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "🌴 Holiday Packages (Custom & Fixed Departures)",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "📄 Visa Assistance",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "🧳 B2B Agent Portal & White Label Solutions",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "💳 Secure Online Payments with Razorpay",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Our Vision",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "To empower every traveler and agent with smart, AI-driven travel solutions that make planning and booking faster, simpler, and more enjoyable.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Company Details",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Name: Idea Holiday Private Limited",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Website: www.ideaholiday.com",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Email: info@ideaholiday.com | support@ideaholiday.com | customersupport@ideaholiday.com",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Phone/WhatsApp: +91-9696777391",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Address: Office No. 129, Deva Palace, Viram Khand 1, Gomti Nagar, Lucknow – 226010",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Tagline: Your Trusted Travel Partner",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    }
+  ],
+  "hero": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-about-hero"
+    }
+  },
+  "seo": {
+    "_type": "seo",
+    "title": "About Us - Idea Holiday Pvt Ltd | Your Trusted Travel Partner",
+    "description": "Learn about Idea Holiday Pvt Ltd, a leading B2B and B2C travel company offering flights, hotels, holidays, visas, and customized travel experiences across India.",
+    "image": {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-about-seo"
+      }
+    }
+  },
+  "showInFooter": true,
+  "footerCategory": "company"
+}

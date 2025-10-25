@@ -1,0 +1,66 @@
+name: Integration Tests (uploads)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: |
+          cd ih-frontend
+          npm ci
+      # NOTE: real-AWS integration tests have been moved to `.github/workflows/integration-aws.yml`
+      # to keep this workflow linter-friendly. Run the AWS workflow manually when you want to
+      # execute integration tests against a real S3 bucket.
+  localstack-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start LocalStack
+        uses: localstack/localstack-action@v1
+        with:
+          services: s3
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: |
+          cd ih-frontend
+          npm ci
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y awscli
+      - name: Create S3 bucket in LocalStack
+        env:
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+        run: |
+          aws --endpoint-url=http://localhost:4566 s3 mb s3://test-bucket || true
+      - name: Run integration tests against LocalStack (dev server)
+        env:
+          AWS_S3_BUCKET: test-bucket
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+          AWS_ENDPOINT: http://localhost:4566
+          UPLOAD_URL: http://localhost:3000/api/uploads-multipart
+        run: |
+          cd ih-frontend
+          # start the Next dev server in background bound to localhost:3000 for faster startup
+          npm run dev &
+          # give the dev server a couple seconds to come up
+          sleep 5
+          npm run test:integration

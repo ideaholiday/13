@@ -1,0 +1,152 @@
+{
+  "_type": "package",
+  "_id": "dubai-luxury-package",
+  "title": "Dubai Luxury Escape",
+  "slug": {
+    "current": "dubai-luxury-escape",
+    "_type": "slug"
+  },
+  "shortDescription": "Experience the ultimate luxury in Dubai with 5-star accommodations, desert safaris, and iconic landmarks.",
+  "description": "Indulge in the ultimate luxury experience in Dubai, the crown jewel of the UAE. This exclusive package includes 5-star accommodations, thrilling desert safaris, and access to the world's most iconic landmarks. From the towering Burj Khalifa to the man-made Palm Jumeirah, experience Dubai's opulence and innovation.",
+  "coverImage": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-dubai-luxury-package"
+    }
+  },
+  "images": [
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-package-1"
+      }
+    },
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-package-2"
+      }
+    },
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-package-3"
+      }
+    }
+  ],
+  "destination": {
+    "_type": "reference",
+    "_ref": "destination-dubai"
+  },
+  "duration": 5,
+  "theme": ["luxury", "city"],
+  "difficulty": "easy",
+  "groupSize": {
+    "min": 2,
+    "max": 6
+  },
+  "pricing": {
+    "basePrice": 25999,
+    "currency": "INR",
+    "pricePerPerson": true,
+    "childDiscount": 20
+  },
+  "inclusions": [
+    "Return flights from Mumbai/Delhi",
+    "4 nights accommodation in 5-star hotel",
+    "Daily breakfast",
+    "Desert safari with dinner",
+    "Burj Khalifa observation deck",
+    "City tour with guide",
+    "Airport transfers",
+    "Travel insurance"
+  ],
+  "exclusions": [
+    "Lunch and dinner (except desert safari dinner)",
+    "Personal expenses",
+    "Optional activities",
+    "Visa fees",
+    "Tips and gratuities"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Dubai",
+      "description": "Arrive at Dubai International Airport and transfer to your luxury hotel. Evening at leisure to explore the city.",
+      "activities": ["Airport transfer", "Hotel check-in", "City orientation"],
+      "meals": ["Breakfast"],
+      "accommodation": "5-star hotel in Dubai Marina",
+      "transportation": "Private transfer"
+    },
+    {
+      "day": 2,
+      "title": "Dubai City Tour",
+      "description": "Explore Dubai's iconic landmarks including Burj Khalifa, Dubai Mall, and traditional souks.",
+      "activities": ["Burj Khalifa observation deck", "Dubai Mall visit", "Gold Souk tour"],
+      "meals": ["Breakfast"],
+      "accommodation": "5-star hotel in Dubai Marina",
+      "transportation": "Private vehicle with guide"
+    },
+    {
+      "day": 3,
+      "title": "Desert Safari Adventure",
+      "description": "Experience the magic of the Arabian Desert with dune bashing, camel riding, and traditional entertainment.",
+      "activities": ["Desert safari", "Camel riding", "Sandboarding", "Cultural show"],
+      "meals": ["Breakfast", "BBQ dinner"],
+      "accommodation": "5-star hotel in Dubai Marina",
+      "transportation": "4x4 desert vehicle"
+    },
+    {
+      "day": 4,
+      "title": "Palm Jumeirah & Luxury",
+      "description": "Visit the iconic Palm Jumeirah and enjoy luxury experiences at Atlantis, The Palm.",
+      "activities": ["Palm Jumeirah visit", "Atlantis tour", "Beach relaxation"],
+      "meals": ["Breakfast"],
+      "accommodation": "5-star hotel in Dubai Marina",
+      "transportation": "Private vehicle"
+    },
+    {
+      "day": 5,
+      "title": "Departure",
+      "description": "Check out from hotel and transfer to airport for departure.",
+      "activities": ["Hotel check-out", "Airport transfer"],
+      "meals": ["Breakfast"],
+      "accommodation": "N/A",
+      "transportation": "Private transfer"
+    }
+  ],
+  "highlights": [
+    "Burj Khalifa observation deck",
+    "Desert safari with camel ride",
+    "Dubai Mall shopping",
+    "Palm Jumeirah visit",
+    "Dubai Fountain show"
+  ],
+  "rating": 4.8,
+  "reviewCount": 15420,
+  "available": true,
+  "departureDates": [
+    "2024-02-15T00:00:00Z",
+    "2024-03-01T00:00:00Z",
+    "2024-03-15T00:00:00Z",
+    "2024-04-01T00:00:00Z"
+  ],
+  "featured": true,
+  "deals": [],
+  "seo": {
+    "_type": "seo",
+    "title": "Dubai Luxury Package 2024 | 5-Star Desert Safari & Burj Khalifa",
+    "description": "Experience luxury in Dubai with our exclusive package including 5-star hotels, desert safari, Burj Khalifa access, and city tours. Book now!",
+    "image": {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-package-seo"
+      }
+    }
+  }
+}

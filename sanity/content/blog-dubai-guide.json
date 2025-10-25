@@ -1,0 +1,354 @@
+{
+  "_type": "post",
+  "_id": "dubai-luxury-guide",
+  "title": "Ultimate Guide to Dubai: From Desert Safaris to Burj Khalifa Views",
+  "slug": {
+    "current": "ultimate-guide-dubai-desert-safaris-burj-khalifa",
+    "_type": "slug"
+  },
+  "excerpt": "Discover the magic of Dubai with our comprehensive guide covering everything from luxury shopping to desert adventures and iconic landmarks.",
+  "coverImage": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-dubai-guide"
+    }
+  },
+  "author": {
+    "_type": "reference",
+    "_ref": "author-sarah-johnson"
+  },
+  "tags": [
+    {
+      "_type": "reference",
+      "_ref": "tag-dubai"
+    },
+    {
+      "_type": "reference",
+      "_ref": "tag-luxury"
+    },
+    {
+      "_type": "reference",
+      "_ref": "tag-desert-safari"
+    },
+    {
+      "_type": "reference",
+      "_ref": "tag-burj-khalifa"
+    }
+  ],
+  "publishedAt": "2024-01-15T10:00:00Z",
+  "body": [
+    {
+      "_type": "block",
+      "style": "h1",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Ultimate Guide to Dubai: From Desert Safaris to Burj Khalifa Views",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Dubai, the crown jewel of the United Arab Emirates, is a city that seamlessly blends ancient traditions with futuristic innovation. From towering skyscrapers to golden deserts, this emirate offers an unparalleled travel experience that caters to every type of traveler.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Why Visit Dubai?",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Dubai is more than just a luxury destination; it's a melting pot of cultures, a shopping paradise, and an adventure playground. Whether you're seeking world-class shopping, thrilling desert adventures, or iconic landmarks, Dubai delivers an experience like no other.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Top Attractions",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Burj Khalifa",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Standing at 828 meters, the Burj Khalifa is the world's tallest building and Dubai's most iconic landmark. The observation deck on the 124th floor offers breathtaking 360-degree views of the city, desert, and Persian Gulf. Book your tickets in advance to avoid long queues.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Desert Safari",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Experience the magic of the Arabian Desert with a thrilling desert safari. Enjoy dune bashing in 4x4 vehicles, camel riding, sandboarding, and traditional entertainment under the stars. Most safaris include a delicious BBQ dinner and cultural performances.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Dubai Mall",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "The world's largest shopping mall houses over 1,200 stores, an aquarium, an ice rink, and the famous Dubai Fountain. It's not just a shopping destination but a complete entertainment complex that can keep you occupied for days.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Palm Jumeirah",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "This man-made island shaped like a palm tree is home to luxury resorts, including the iconic Atlantis, The Palm. The island offers pristine beaches, world-class dining, and exclusive experiences.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Best Time to Visit",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "The best time to visit Dubai is from November to March when the weather is pleasant and comfortable for outdoor activities. Summer months (June to September) can be extremely hot with temperatures reaching 45°C, making it less ideal for sightseeing.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Travel Tips",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Book attractions in advance to avoid long queues",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Dress modestly when visiting religious sites",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Use the Dubai Metro for efficient city transportation",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Try local cuisine at traditional restaurants",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "• Respect local customs and traditions",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Budget Planning",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Dubai can be expensive, but with proper planning, you can enjoy a memorable trip without breaking the bank. Budget accommodations start from ₹3,000 per night, while luxury hotels can cost ₹15,000+. Food costs vary from ₹500 for street food to ₹5,000+ for fine dining.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Conclusion",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Dubai offers an extraordinary blend of modern luxury and traditional charm. Whether you're exploring the world's tallest building, experiencing desert adventures, or indulging in world-class shopping, Dubai promises memories that will last a lifetime. Plan your trip with Idea Holiday for the best deals and experiences.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    }
+  ],
+  "seo": {
+    "_type": "seo",
+    "title": "Ultimate Dubai Travel Guide 2024 | Desert Safari & Burj Khalifa Tips",
+    "description": "Complete Dubai travel guide covering top attractions, desert safaris, Burj Khalifa, shopping, and travel tips. Plan your perfect Dubai trip with Idea Holiday.",
+    "image": {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-dubai-seo"
+      }
+    }
+  }
+}

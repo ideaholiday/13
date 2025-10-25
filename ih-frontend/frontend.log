@@ -1,0 +1,18 @@
+
+> idea-holiday-frontend@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.33
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+   automatically enabled Fast Refresh for 1 custom loader
+ ✓ Ready in 1754ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.7s (2344 modules)
+ GET /?id=56a385d3-1212-4f46-bb3d-808102d92e7a&vscodeBrowserReqId=1760882247616 200 in 3073ms
+ GET /?id=56a385d3-1212-4f46-bb3d-808102d92e7a&vscodeBrowserReqId=1760882249182 200 in 1308ms
+ ✓ Compiled in 517ms (1058 modules)
+ ○ Compiling /flights/search ...
+ ✓ Compiled /flights/search in 679ms (2455 modules)

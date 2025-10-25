@@ -1,0 +1,12 @@
+{
+  "_type": "author",
+  "_id": "author-priya-sharma",
+  "name": "Priya Sharma",
+  "image": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-priya-sharma"
+    }
+  }
+}

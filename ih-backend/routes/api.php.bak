@@ -1,0 +1,45 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\FlightsController;
+use App\Http\Controllers\Api\V1\HotelsController;
+use App\Http\Controllers\Api\V1\PaymentController;
+
+// Health check (no auth)
+Route::get('/v1/health', function () {
+    return response()->json([
+        'ok' => true,
+        'ts' => now()->toIso8601String(),
+    ]);
+});
+
+// All booking APIs guarded by api_key
+Route::prefix('v1')->middleware(['api-key'])->group(function () {
+
+    // Flights
+    Route::prefix('flights')->group(function () {
+        Route::post('search',     [FlightsController::class, 'search']);
+        Route::post('fare-quote', [FlightsController::class, 'fareQuote']);
+        Route::post('book',       [FlightsController::class, 'book']);
+        Route::post('ticket',     [FlightsController::class, 'ticket']);
+        Route::get('pnr',         [FlightsController::class, 'pnr']);
+        Route::post('cancel',     [FlightsController::class, 'cancel']);
+    });
+
+    // Hotels
+    Route::prefix('hotels')->group(function () {
+        Route::post('search',   [HotelsController::class, 'search']);
+        Route::post('rooms',    [HotelsController::class, 'rooms']);
+        Route::post('pricing',  [HotelsController::class, 'pricing']);
+        Route::post('book',     [HotelsController::class, 'book']);
+        Route::post('voucher',  [HotelsController::class, 'voucher']);
+        Route::get('booking',   [HotelsController::class, 'bookingDetail']);
+        Route::post('cancel',   [HotelsController::class, 'cancel']);
+    });
+
+    // Payments
+    Route::prefix('payment')->group(function () {
+        Route::post('order',   [PaymentController::class, 'createOrder']);
+        Route::post('webhook', [PaymentController::class, 'webhook']);
+    });
+});

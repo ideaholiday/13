@@ -1,0 +1,487 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "iHoliday API",
+        "description": "Base API documentation for the iHoliday services.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Local development server"
+        }
+    ],
+    "paths": {
+        "/up": {
+            "get": {
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health check",
+                "description": "Returns HTTP 200 when the application is running.",
+                "operationId": "healthStatus",
+                "responses": {
+                    "200": {
+                        "description": "Service is available"
+                    }
+                }
+            }
+        },
+        "/api/v1/flight/search": {
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Search available flights",
+                "operationId": "flightSearch",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "origin",
+                                    "destination",
+                                    "departureDate",
+                                    "adults"
+                                ],
+                                "properties": {
+                                    "origin": {
+                                        "type": "string",
+                                        "example": "DEL"
+                                    },
+                                    "destination": {
+                                        "type": "string",
+                                        "example": "BOM"
+                                    },
+                                    "departureDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-10-01"
+                                    },
+                                    "returnDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "nullable": true
+                                    },
+                                    "adults": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "children": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "infants": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "travelClass": {
+                                        "type": "string",
+                                        "example": "Economy"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Flight search results"
+                    }
+                }
+            }
+        },
+        "/api/v1/flight/review": {
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Create a flight booking review record",
+                "operationId": "flightReview",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "offer"
+                                ],
+                                "properties": {
+                                    "offer": {
+                                        "type": "object"
+                                    },
+                                    "total_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "INR"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Booking draft created"
+                    }
+                }
+            }
+        },
+        "/api/v1/flight/book": {
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Confirm passenger details and initiate flight booking",
+                "operationId": "flightBook",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "booking_id",
+                                    "passengers"
+                                ],
+                                "properties": {
+                                    "booking_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "passengers": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "first_name",
+                                                "last_name"
+                                            ],
+                                            "properties": {
+                                                "first_name": {
+                                                    "type": "string",
+                                                    "example": "Aman"
+                                                },
+                                                "last_name": {
+                                                    "type": "string",
+                                                    "example": "Sharma"
+                                                },
+                                                "age": {
+                                                    "type": "integer",
+                                                    "example": 32
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Booking updated with passengers"
+                    }
+                }
+            }
+        },
+        "/api/v1/flight/ticket": {
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Retrieve flight ticket after payment",
+                "operationId": "flightTicket",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "booking_id"
+                                ],
+                                "properties": {
+                                    "booking_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ticket issued for booking"
+                    }
+                }
+            }
+        },
+        "/api/v1/hotel/search": {
+            "post": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Search hotels for a city and dates",
+                "operationId": "hotelSearch",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "city",
+                                    "checkIn",
+                                    "checkOut"
+                                ],
+                                "properties": {
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Goa"
+                                    },
+                                    "checkIn": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-11-10"
+                                    },
+                                    "checkOut": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-11-15"
+                                    },
+                                    "rooms": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "adults": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Hotel search results"
+                    }
+                }
+            }
+        },
+        "/api/v1/hotel/details": {
+            "post": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Fetch hotel details for selected property",
+                "operationId": "hotelDetails",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "hotelId"
+                                ],
+                                "properties": {
+                                    "hotelId": {
+                                        "type": "string",
+                                        "example": "hotel-XYZ"
+                                    },
+                                    "criteria": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Hotel details returned"
+                    }
+                }
+            }
+        },
+        "/api/v1/hotel/book": {
+            "post": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Create hotel booking",
+                "operationId": "hotelBook",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "hotel",
+                                    "guests"
+                                ],
+                                "properties": {
+                                    "hotel": {
+                                        "type": "object"
+                                    },
+                                    "guests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Hotel booking created"
+                    }
+                }
+            }
+        },
+        "/api/v1/hotel/voucher": {
+            "post": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Retrieve hotel voucher after payment",
+                "operationId": "hotelVoucher",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "booking_id"
+                                ],
+                                "properties": {
+                                    "booking_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Voucher returned"
+                    }
+                }
+            }
+        },
+        "/api/v1/payment/order": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Create a Razorpay order for booking",
+                "operationId": "paymentOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "booking_id"
+                                ],
+                                "properties": {
+                                    "booking_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 8999
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created"
+                    }
+                }
+            }
+        },
+        "/api/v1/payment/webhook": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Handle Razorpay checkout webhook",
+                "operationId": "paymentWebhook",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "razorpay_order_id",
+                                    "razorpay_payment_id"
+                                ],
+                                "properties": {
+                                    "razorpay_order_id": {
+                                        "type": "string",
+                                        "example": "order_abc123"
+                                    },
+                                    "razorpay_payment_id": {
+                                        "type": "string",
+                                        "example": "pay_abc123"
+                                    },
+                                    "razorpay_signature": {
+                                        "type": "string",
+                                        "example": "signature"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment processed"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Health",
+            "description": "Health"
+        },
+        {
+            "name": "Flights",
+            "description": "Flights"
+        },
+        {
+            "name": "Hotels",
+            "description": "Hotels"
+        },
+        {
+            "name": "Payments",
+            "description": "Payments"
+        }
+    ]
+}

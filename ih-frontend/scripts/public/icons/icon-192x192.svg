@@ -1,0 +1,31 @@
+
+    <svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background -->
+      <rect width="192" height="192" fill="#1e3a8a" rx="19.200000000000003"/>
+      
+      <!-- Inner Circle -->
+      <circle cx="96" cy="96" r="67.19999999999999" fill="#3b82f6"/>
+      
+      <!-- Plane Icon -->
+      <g transform="translate(57.599999999999994, 57.599999999999994)">
+        <!-- Plane Body -->
+        <path d="M38.400000000000006 38.400000000000006 L53.760000000000005 38.400000000000006 L57.599999999999994 46.08 L53.760000000000005 53.760000000000005 L38.400000000000006 53.760000000000005 Z" fill="white" opacity="0.9"/>
+        
+        <!-- Plane Wings -->
+        <path d="M46.08 30.72 L61.44 38.400000000000006 L46.08 46.08 Z" fill="white" opacity="0.8"/>
+        <path d="M46.08 46.08 L61.44 53.760000000000005 L46.08 61.44 Z" fill="white" opacity="0.8"/>
+        
+        <!-- Plane Tail -->
+        <path d="M38.400000000000006 46.08 L30.72 42.24 L30.72 49.92 Z" fill="white" opacity="0.7"/>
+        
+        <!-- Window -->
+        <circle cx="49.92" cy="46.08" r="3.072" fill="#1e3a8a" opacity="0.6"/>
+      </g>
+      
+      <!-- Decorative Elements -->
+      <circle cx="38.400000000000006" cy="38.400000000000006" r="1.536" fill="white" opacity="0.3"/>
+      <circle cx="153.60000000000002" cy="46.08" r="1.1520000000000001" fill="white" opacity="0.4"/>
+      <circle cx="30.72" cy="153.60000000000002" r="1.92" fill="white" opacity="0.2"/>
+      <circle cx="161.28" cy="145.92000000000002" r="1.536" fill="white" opacity="0.3"/>
+    </svg>
+  

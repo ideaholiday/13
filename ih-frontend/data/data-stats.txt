@@ -1,0 +1,65 @@
+========================================
+AUTOSUGGESTION DATA - FINAL STATISTICS
+========================================
+
+AIRPORTS (airports.json)
+------------------------
+Total airports: 4,858
+Indian airports: 149
+International airports: 4,709
+
+Sample Indian airports:
+  DEL - Delhi (Indira Gandhi Airport)
+  BOM - Mumbai (Chhatrapati Shivaji International Airport)
+  BLR - Bangalore (Kempegowda International Airport)
+  MAA - Chennai (Chennai International Airport)
+  CCU - Kolkata (Netaji Subhash Chandra Bose International Airport)
+  HYD - Hyderabad (Rajiv Gandhi International Airport)
+  AMD - Ahmedabad (Sardar Vallabhbhai Patel International Airport)
+  GOI - Goa (Dabolim Airport)
+
+AIRLINES (airlines.json)
+------------------------
+Total airlines: 965
+
+Major Indian airlines:
+  6E - IndiGo
+  AI - Air India
+  SG - SpiceJet
+  UK - Vistara
+  G8 - GO FIRST
+  IX - Air India Express
+
+CITIES (cities.json)
+--------------------
+Total cities: 662
+Indian cities: 146
+International cities: 516
+
+Top 10 Indian cities (order in file):
+  1. Mumbai (BOM)
+  2. Delhi (DEL)
+  3. Bangalore (BLR)
+  4. Kolkata (CCU)
+  5. Chennai (MAA)
+  6. Hyderabad (BPM)
+  7. Pune (PNQ)
+  8. Ahmedabad (AMD)
+  9. Jaipur (JAI)
+  10. Goa (GOI)
+
+Top 10 International cities:
+  1. Dubai (DXB)
+  2. Singapore (SIN)
+  3. Bangkok (BKK)
+  4. Kuala Lumpur (KUL)
+  5. London (LHR)
+  6. Paris (CDG)
+  7. New York (JFK)
+  8. Tokyo (NRT)
+  9. Hong Kong (HKG)
+  10. Istanbul (IST)
+
+========================================
+STATUS: ✅ ALL DATA FILES READY
+========================================

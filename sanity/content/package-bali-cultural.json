@@ -1,0 +1,161 @@
+{
+  "_type": "package",
+  "_id": "bali-cultural-package",
+  "title": "Bali Cultural Journey",
+  "slug": {
+    "current": "bali-cultural-journey",
+    "_type": "slug"
+  },
+  "shortDescription": "Immerse yourself in Balinese culture with temple visits, traditional ceremonies, and authentic experiences.",
+  "description": "Discover the spiritual heart of Bali with this immersive cultural journey. Experience ancient temples, traditional ceremonies, authentic cooking classes, and the island's rich heritage. From the sacred Monkey Forest to the stunning rice terraces of Ubud, this package offers a deep dive into Balinese culture and traditions.",
+  "coverImage": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-bali-cultural-package"
+    }
+  },
+  "images": [
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-bali-cultural-1"
+      }
+    },
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-bali-cultural-2"
+      }
+    },
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-bali-cultural-3"
+      }
+    }
+  ],
+  "destination": {
+    "_type": "reference",
+    "_ref": "destination-bali"
+  },
+  "duration": 6,
+  "theme": ["culture", "spiritual"],
+  "difficulty": "easy",
+  "groupSize": {
+    "min": 2,
+    "max": 8
+  },
+  "pricing": {
+    "basePrice": 19500,
+    "currency": "INR",
+    "pricePerPerson": true,
+    "childDiscount": 25
+  },
+  "inclusions": [
+    "Return flights from Mumbai/Delhi",
+    "5 nights accommodation in boutique hotel",
+    "Daily breakfast",
+    "Temple tour with guide",
+    "Traditional cooking class",
+    "Rice terrace visit",
+    "Airport transfers",
+    "Travel insurance"
+  ],
+  "exclusions": [
+    "Lunch and dinner (except cooking class)",
+    "Personal expenses",
+    "Optional activities",
+    "Visa fees",
+    "Tips and gratuities"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Bali",
+      "description": "Arrive at Ngurah Rai International Airport and transfer to your boutique hotel in Ubud.",
+      "activities": ["Airport transfer", "Hotel check-in", "Ubud orientation"],
+      "meals": ["Breakfast"],
+      "accommodation": "Boutique hotel in Ubud",
+      "transportation": "Private transfer"
+    },
+    {
+      "day": 2,
+      "title": "Sacred Monkey Forest & Ubud",
+      "description": "Visit the Sacred Monkey Forest and explore Ubud's art market and cultural center.",
+      "activities": ["Sacred Monkey Forest", "Ubud Art Market", "Traditional art gallery"],
+      "meals": ["Breakfast"],
+      "accommodation": "Boutique hotel in Ubud",
+      "transportation": "Walking tour"
+    },
+    {
+      "day": 3,
+      "title": "Rice Terraces & Cooking Class",
+      "description": "Explore the famous Tegallalang Rice Terraces and learn traditional Balinese cooking.",
+      "activities": ["Rice terrace visit", "Traditional cooking class", "Local market tour"],
+      "meals": ["Breakfast", "Cooking class lunch"],
+      "accommodation": "Boutique hotel in Ubud",
+      "transportation": "Private vehicle"
+    },
+    {
+      "day": 4,
+      "title": "Temple Tour",
+      "description": "Visit Bali's most sacred temples including Tanah Lot and Uluwatu.",
+      "activities": ["Tanah Lot Temple", "Uluwatu Temple", "Kecak dance performance"],
+      "meals": ["Breakfast"],
+      "accommodation": "Boutique hotel in Ubud",
+      "transportation": "Private vehicle with guide"
+    },
+    {
+      "day": 5,
+      "title": "Cultural Village Experience",
+      "description": "Experience authentic Balinese village life and traditional ceremonies.",
+      "activities": ["Village tour", "Traditional ceremony", "Local handicraft workshop"],
+      "meals": ["Breakfast"],
+      "accommodation": "Boutique hotel in Ubud",
+      "transportation": "Private vehicle"
+    },
+    {
+      "day": 6,
+      "title": "Departure",
+      "description": "Check out from hotel and transfer to airport for departure.",
+      "activities": ["Hotel check-out", "Airport transfer"],
+      "meals": ["Breakfast"],
+      "accommodation": "N/A",
+      "transportation": "Private transfer"
+    }
+  ],
+  "highlights": [
+    "Tanah Lot temple sunset",
+    "Ubud rice terraces",
+    "Traditional Balinese cooking",
+    "Sacred monkey forest",
+    "Cultural dance performance"
+  ],
+  "rating": 4.7,
+  "reviewCount": 12850,
+  "available": true,
+  "departureDates": [
+    "2024-02-20T00:00:00Z",
+    "2024-03-05T00:00:00Z",
+    "2024-03-20T00:00:00Z",
+    "2024-04-05T00:00:00Z"
+  ],
+  "featured": true,
+  "deals": [],
+  "seo": {
+    "_type": "seo",
+    "title": "Bali Cultural Package 2024 | Temple Tours & Traditional Experiences",
+    "description": "Immerse in Balinese culture with temple visits, cooking classes, rice terraces, and traditional ceremonies. Book your cultural journey to Bali!",
+    "image": {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-bali-cultural-seo"
+      }
+    }
+  }
+}

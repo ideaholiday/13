@@ -1,0 +1,74 @@
+[
+  {
+    "_type": "tag",
+    "_id": "tag-dubai",
+    "title": "Dubai",
+    "slug": {
+      "current": "dubai",
+      "_type": "slug"
+    }
+  },
+  {
+    "_type": "tag",
+    "_id": "tag-luxury",
+    "title": "Luxury",
+    "slug": {
+      "current": "luxury",
+      "_type": "slug"
+    }
+  },
+  {
+    "_type": "tag",
+    "_id": "tag-desert-safari",
+    "title": "Desert Safari",
+    "slug": {
+      "current": "desert-safari",
+      "_type": "slug"
+    }
+  },
+  {
+    "_type": "tag",
+    "_id": "tag-burj-khalifa",
+    "title": "Burj Khalifa",
+    "slug": {
+      "current": "burj-khalifa",
+      "_type": "slug"
+    }
+  },
+  {
+    "_type": "tag",
+    "_id": "tag-bali",
+    "title": "Bali",
+    "slug": {
+      "current": "bali",
+      "_type": "slug"
+    }
+  },
+  {
+    "_type": "tag",
+    "_id": "tag-budget",
+    "title": "Budget",
+    "slug": {
+      "current": "budget",
+      "_type": "slug"
+    }
+  },
+  {
+    "_type": "tag",
+    "_id": "tag-itinerary",
+    "title": "Itinerary",
+    "slug": {
+      "current": "itinerary",
+      "_type": "slug"
+    }
+  },
+  {
+    "_type": "tag",
+    "_id": "tag-indonesia",
+    "title": "Indonesia",
+    "slug": {
+      "current": "indonesia",
+      "_type": "slug"
+    }
+  }
+]

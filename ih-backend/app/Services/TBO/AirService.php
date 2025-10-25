@@ -1,0 +1,1246 @@
+<?php
+
+namespace App\Services\TBO;
+
+use App\Exceptions\TboException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use RuntimeException;
+
+class AirService
+{
+    // Legacy constants kept for reference, dynamic methods below decide the actual action/namespace
+    private const ACTION_SEARCH = 'http://TekTravel/FlightApi/Search';
+    private const ACTION_FARE_QUOTE = 'http://TekTravel/FlightApi/FareQuote';
+    private const ACTION_BOOK = 'http://TekTravel/FlightApi/Book';
+    private const ACTION_TICKET = 'http://TekTravel/FlightApi/Ticket';
+    private const ACTION_PNR = 'http://TekTravel/FlightApi/PNRDetail';
+    private const ACTION_CANCEL = 'http://TekTravel/FlightApi/Cancel';
+
+    private array $config;
+    private float $flightMarkupPct;
+    private ?string $restToken = null;
+
+    public function __construct(private readonly SoapClient12 $client)
+    {
+        $this->config = config('services.tbo', []);
+        $this->flightMarkupPct = (float) Arr::get($this->config, 'flight_markup_pct', 0);
+    }
+
+    public function getMarkupPct(): float
+    {
+        return $this->flightMarkupPct;
+    }
+
+    public function search(array $payload): array
+    {
+        \Illuminate\Support\Facades\Log::debug('AirService::search flags', [
+            'shouldUseMock' => $this->shouldUseMock(),
+            'enable_flight_api' => \Illuminate\Support\Arr::get($this->config, 'enable_flight_api'),
+            'use_mock' => \Illuminate\Support\Arr::get($this->config, 'use_mock'),
+            'mode' => \Illuminate\Support\Arr::get($this->config, 'flight_mode', 'soap'),
+        ]);
+        
+        if ($this->shouldUseMock()) {
+            \Illuminate\Support\Facades\Log::debug('AirService::search - USING MOCK DATA');
+            return $this->mockResponse('search', $payload);
+        }
+
+        // Decide between SOAP and REST based on config
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        \Illuminate\Support\Facades\Log::debug('AirService::search - mode='.$mode);
+
+        if ($mode === 'rest') {
+            return $this->searchRest($payload);
+        }
+
+        \Illuminate\Support\Facades\Log::debug('AirService::search - CALLING REAL TBO API (SOAP)');
+        $xml = $this->buildSearchRequest($payload);
+        $response = $this->call($this->action('Search'), $xml, false);
+
+        $data = $this->extractResponse($response, 'SearchResponse');
+
+        return $this->applyMarkupToSearchResults($data);
+    }
+
+    public function fareQuote(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return $this->mockResponse('fareQuote', $payload);
+        }
+
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->fareQuoteRest($payload);
+        }
+
+        $xml = $this->buildFareQuoteRequest($payload);
+        $response = $this->call($this->action('FareQuote'), $xml, false);
+
+        $data = $this->extractResponse($response, 'FareQuoteResponse');
+
+        return $this->applyMarkupToFareQuote($data);
+    }
+
+    public function book(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return $this->mockResponse('book', $payload);
+        }
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->bookRest($payload);
+        }
+
+        $xml = $this->buildBookRequest($payload);
+        $response = $this->call($this->action('Book'), $xml, true);
+
+        return $this->extractResponse($response, 'BookResponse');
+    }
+
+    public function ticket(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return $this->mockResponse('ticket', $payload);
+        }
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->ticketRest($payload);
+        }
+
+        $xml = $this->buildTicketRequest($payload);
+        $response = $this->call($this->action('Ticket'), $xml, true);
+
+        return $this->extractResponse($response, 'TicketResponse');
+    }
+
+    public function pnr(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return $this->mockResponse('pnr', $payload);
+        }
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->bookingDetailsRest($payload);
+        }
+
+        $xml = $this->buildPnrRequest($payload);
+        $response = $this->call($this->action('PNRDetail'), $xml, true);
+
+        return $this->extractResponse($response, 'PNRResponse');
+    }
+
+    /**
+     * Fare Rule - REST only
+     */
+    public function fareRule(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return ['mock' => true, 'message' => 'FareRule mocked'];
+        }
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->fareRuleRest($payload);
+        }
+        throw new RuntimeException('FareRule not supported in SOAP mode');
+    }
+
+    /**
+     * SSR - REST only
+     */
+    public function ssr(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return ['mock' => true, 'message' => 'SSR mocked'];
+        }
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->ssrRest($payload);
+        }
+        throw new RuntimeException('SSR not supported in SOAP mode');
+    }
+
+    /**
+     * Calendar Fare - REST only
+     */
+    public function getCalendarFare(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return ['mock' => true, 'message' => 'GetCalendarFare mocked'];
+        }
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->getCalendarFareRest($payload);
+        }
+        throw new RuntimeException('GetCalendarFare not supported in SOAP mode');
+    }
+
+    /**
+     * Update Calendar Fare Of Day - REST only
+     */
+    public function updateCalendarFareOfDay(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return ['mock' => true, 'message' => 'UpdateCalendarFareOfDay mocked'];
+        }
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->updateCalendarFareOfDayRest($payload);
+        }
+        throw new RuntimeException('UpdateCalendarFareOfDay not supported in SOAP mode');
+    }
+
+    /**
+     * Price RBD - REST only
+     */
+    public function priceRBD(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return ['mock' => true, 'message' => 'PriceRBD mocked'];
+        }
+        $mode = Arr::get($this->config, 'flight_mode', 'soap');
+        if ($mode === 'rest') {
+            return $this->priceRBDRest($payload);
+        }
+        throw new RuntimeException('PriceRBD not supported in SOAP mode');
+    }
+
+    // --- REST implementations ---
+    private function httpClient(): \GuzzleHttp\Client
+    {
+        $opts = [
+            'timeout' => 40,
+            'connect_timeout' => 15,
+            'headers' => [ 'Content-Type' => 'application/json' ],
+        ];
+        return \App\Support\Http\GuzzleFactory::make($opts);
+    }
+
+    private function authenticateRest(): string
+    {
+        if ($this->restToken) {
+            return $this->restToken;
+        }
+        
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_auth_rest_url');
+            $res = $client->post($url, ['json' => $this->authPayload()]);
+            $json = json_decode((string) $res->getBody(), true) ?? [];
+            $status = Arr::get($json, 'Status');
+            $token = Arr::get($json, 'TokenId');
+            
+            if (!$token) {
+                $errorMsg = Arr::get($json, 'Error.ErrorMessage') ?? 'TBO Authenticate failed';
+                $errorCode = Arr::get($json, 'Error.ErrorCode');
+                
+                // Log authentication failure with details
+                \Illuminate\Support\Facades\Log::warning('TBO Authentication Failed', [
+                    'error_code' => $errorCode,
+                    'error_message' => $errorMsg,
+                    'status' => $status,
+                    'url' => $url,
+                    'fallback' => 'Will use mock data if configured'
+                ]);
+                
+                throw new \RuntimeException($errorMsg);
+            }
+            
+            $this->restToken = $token;
+            \Illuminate\Support\Facades\Log::info('TBO Authentication Successful', ['token_id' => substr($token, 0, 20).'...']);
+            return $token;
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('TBO Authentication Exception', [
+                'exception' => get_class($e),
+                'message' => $e->getMessage(),
+                'fallback' => 'Will use mock data'
+            ]);
+            throw $e;
+        }
+    }
+
+    private function authPayload(): array
+    {
+        return [
+            'ClientId' => Arr::get($this->config, 'client_id'),
+            'UserName' => Arr::get($this->config, 'username'),
+            'Password' => Arr::get($this->config, 'password'),
+            'EndUserIp' => Arr::get($this->config, 'end_user_ip', '127.0.0.1'),
+        ];
+    }
+
+    private function shouldFallbackToMockOnError(): bool
+    {
+        // Fallback to mock only when explicit mock is enabled AND live API is not enforced
+        $useMock = Arr::get($this->config, 'use_mock');
+        $enableLive = Arr::get($this->config, 'enable_flight_api');
+        return ($useMock === true) && ($enableLive !== true);
+    }
+
+    private function searchRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_search_rest_url');
+            $token = $this->authenticateRest();
+            // Build REST body as per TBO V10 spec
+            $preferredAirlines = $this->ensureArray(Arr::get($payload, 'preferredAirlines', []));
+            // Build segments for O/R/M journeys
+            $segments = $this->buildRestSegments($payload);
+            $body = array_merge($this->authPayload(), [
+                'TokenId' => $token,
+                // TBO REST expects numeric counts and JourneyType (1=O,2=R,3=M)
+                'AdultCount' => (int) Arr::get($payload, 'adults', 1),
+                'ChildCount' => (int) Arr::get($payload, 'children', 0),
+                'InfantCount' => (int) Arr::get($payload, 'infants', 0),
+                'JourneyType' => $this->mapTripTypeToJourneyType(Arr::get($payload, 'tripType', 'O')),
+                'DirectFlight' => (bool) Arr::get($payload, 'direct', false),
+                'OneStopFlight' => (bool) Arr::get($payload, 'oneStop', false),
+                'Segments' => $segments,
+                // Widen sources to both GDS and LCC by default
+                'Sources' => ['GDS', 'LCC'],
+                // Optional: preferred airlines list or null
+                'PreferredAirlines' => count($preferredAirlines) ? $preferredAirlines : null,
+            ]);
+
+            // Log request with redacted token
+            \Illuminate\Support\Facades\Log::debug('TBO Flight Search REST Request', [
+                'url' => $url,
+                'body' => array_merge($body, ['TokenId' => substr($token, 0, 6).'...'])
+            ]);
+
+            $res = $client->post($url, [ 'json' => $body ]);
+            $json = json_decode((string) $res->getBody(), true) ?? [];
+            \Illuminate\Support\Facades\Log::debug('TBO Flight Search REST Response', [
+                'http_status' => method_exists($res, 'getStatusCode') ? $res->getStatusCode() : null,
+                'has_Response' => Arr::has($json, 'Response'),
+                'keys' => is_array($json) ? array_slice(array_keys($json), 0, 10) : null,
+                'response_status' => Arr::get($json, 'Response.ResponseStatus'),
+                'error' => Arr::get($json, 'Response.Error') ?? Arr::get($json, 'Error') ?? null,
+            ]);
+            
+            // Compute flattened results count for both flat and 2D arrays
+            $resultsRaw = Arr::get($json, 'Response.Results', []);
+            $flatCount = 0;
+            if (is_array($resultsRaw)) {
+                // If 2D array (array of arrays), flatten and count
+                if (isset($resultsRaw[0]) && is_array($resultsRaw[0]) && isset($resultsRaw[0][0])) {
+                    $flat = [];
+                    foreach ($resultsRaw as $group) {
+                        if (is_array($group)) {
+                            foreach ($group as $itm) { $flat[] = $itm; }
+                        }
+                    }
+                    $flatCount = count($flat);
+                } else {
+                    $flatCount = count($resultsRaw);
+                }
+            }
+            \Illuminate\Support\Facades\Log::info('TBO Flight Search Success', [
+                'origin' => Arr::get($payload, 'origin'),
+                'destination' => Arr::get($payload, 'destination'),
+                'results_count' => $flatCount,
+                'response_status' => Arr::get($json, 'Response.ResponseStatus'),
+                'error' => Arr::get($json, 'Response.Error') ?? Arr::get($json, 'Error')
+            ]);
+            
+            return $this->applyMarkupToSearchResults($json);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO Flight Search Failed - Falling back to mock', [
+                'exception' => get_class($e),
+                'message' => $e->getMessage(),
+                'origin' => Arr::get($payload, 'origin'),
+                'destination' => Arr::get($payload, 'destination')
+            ]);
+            
+            if ($this->shouldFallbackToMockOnError()) {
+                return $this->mockResponse('search', $payload);
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Build REST segments array from payload supporting O/R/M journeys
+     */
+    private function buildRestSegments(array $payload): array
+    {
+        $segmentsPayload = $this->ensureArray(Arr::get($payload, 'segments'));
+        $cabinInt = $this->mapCabinClassToInt(Arr::get($payload, 'cabinClass', 'E'));
+
+        $segments = [];
+
+        if (!empty($segmentsPayload)) {
+            foreach ($segmentsPayload as $seg) {
+                $segments[] = [
+                    'Origin' => strtoupper(Arr::get($seg, 'origin')),
+                    'Destination' => strtoupper(Arr::get($seg, 'destination')),
+                    'FlightCabinClass' => $cabinInt,
+                    'PreferredDepartureTime' => $this->formatIsoDateTime(Arr::get($seg, 'departureDate')),
+                    'PreferredArrivalTime' => $this->formatIsoDateTime(Arr::get($seg, 'arrivalDate', Arr::get($seg, 'departureDate'))),
+                ];
+            }
+        } else {
+            // Derive from top-level fields
+            $origin = strtoupper((string) Arr::get($payload, 'origin'));
+            $dest = strtoupper((string) Arr::get($payload, 'destination'));
+            $depart = Arr::get($payload, 'departDate');
+            $return = Arr::get($payload, 'returnDate');
+            if ($origin && $dest && $depart) {
+                $segments[] = [
+                    'Origin' => $origin,
+                    'Destination' => $dest,
+                    'FlightCabinClass' => $cabinInt,
+                    'PreferredDepartureTime' => $this->formatIsoDateTime($depart),
+                    'PreferredArrivalTime' => $this->formatIsoDateTime($depart),
+                ];
+                // Round-trip: add reverse leg
+                if ($this->mapTripTypeToJourneyType(Arr::get($payload, 'tripType', 'O')) === 2 && $return) {
+                    $segments[] = [
+                        'Origin' => $dest,
+                        'Destination' => $origin,
+                        'FlightCabinClass' => $cabinInt,
+                        'PreferredDepartureTime' => $this->formatIsoDateTime($return),
+                        'PreferredArrivalTime' => $this->formatIsoDateTime($return),
+                    ];
+                }
+            }
+        }
+
+        return $segments;
+    }
+
+    private function fareQuoteRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_farequote_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), [
+                'TokenId' => $token,
+                'ResultIndex' => Arr::get($payload, 'resultIndex'),
+                'TraceId' => Arr::get($payload, 'traceId'),
+            ]);
+            $res = $client->post($url, [ 'json' => $body ]);
+            $json = json_decode((string) $res->getBody(), true) ?? [];
+            return $this->applyMarkupToFareQuote($json);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO Fare Quote Failed - Falling back to mock', [
+                'exception' => get_class($e),
+                'message' => $e->getMessage()
+            ]);
+            if ($this->shouldFallbackToMockOnError()) {
+                return $this->mockResponse('fareQuote', $payload);
+            }
+            throw $e;
+        }
+    }
+
+    private function bookRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_book_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, [ 'json' => $body ]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO Book Failed - Falling back to mock', [
+                'exception' => get_class($e),
+                'message' => $e->getMessage()
+            ]);
+            if ($this->shouldFallbackToMockOnError()) {
+                return $this->mockResponse('book', $payload);
+            }
+            throw $e;
+        }
+    }
+
+    private function ticketRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_ticket_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, [ 'json' => $body ]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO Ticket Failed - Falling back to mock', [
+                'exception' => get_class($e),
+                'message' => $e->getMessage()
+            ]);
+            if ($this->shouldFallbackToMockOnError()) {
+                return $this->mockResponse('ticket', $payload);
+            }
+            throw $e;
+        }
+    }
+
+    private function bookingDetailsRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_booking_details_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, [ 'json' => $body ]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO Booking Details Failed - Falling back to mock', [
+                'exception' => get_class($e),
+                'message' => $e->getMessage()
+            ]);
+            if ($this->shouldFallbackToMockOnError()) {
+                return $this->mockResponse('pnr', $payload);
+            }
+            throw $e;
+        }
+    }
+
+    public function cancel(array $payload): array
+    {
+        if ($this->shouldUseMock()) {
+            return $this->mockResponse('cancel', $payload);
+        }
+
+    $xml = $this->buildCancelRequest($payload);
+    $response = $this->call($this->action('Cancel'), $xml, true);
+
+        return $this->extractResponse($response, 'CancelResponse');
+    }
+
+    private function call(string $action, string $xml, bool $useBookingEndpoint): array
+    {
+        $endpoint = $useBookingEndpoint
+            ? Arr::get($this->config, 'flight_book_url', '')
+            : Arr::get($this->config, 'flight_search_url', '');
+
+        if ($endpoint === '') {
+            throw new RuntimeException('TBO flight endpoint is not configured.');
+        }
+
+        return $this->client->request($action, $xml, $endpoint, $this->buildCredentialsHeader());
+    }
+
+    private function buildSearchRequest(array $payload): string
+    {
+        $segments = $this->ensureArray(Arr::get($payload, 'segments', []));
+        // If segments were not provided, derive from top-level fields
+        if (empty($segments)) {
+            $origin = Arr::get($payload, 'origin');
+            $destination = Arr::get($payload, 'destination');
+            $departureDate = Arr::get($payload, 'departDate');
+            if ($origin && $destination && $departureDate) {
+                $segments = [[
+                    'origin' => strtoupper($origin),
+                    'destination' => strtoupper($destination),
+                    'departureDate' => $departureDate,
+                ]];
+            }
+        }
+
+        $searchModifiers = $this->buildSearchModifiers($payload);
+        $originDestinationsXml = collect($segments)->map(function ($segment) {
+            $origin = Arr::get($segment, 'origin');
+            $destination = Arr::get($segment, 'destination');
+            $departureDate = Arr::get($segment, 'departureDate');
+
+            return <<<XML
+<fl:OriginDestinationInformation>
+    <fl:DeparturePoint>{$origin}</fl:DeparturePoint>
+    <fl:ArrivalPoint>{$destination}</fl:ArrivalPoint>
+    <fl:DepartureDateTime>{$departureDate}</fl:DepartureDateTime>
+</fl:OriginDestinationInformation>
+XML;
+        })->implode('');
+
+        $travellersXml = $this->buildTravellerXml($payload);
+
+        $ns = $this->namespace();
+        $clientId = Arr::get($this->config, 'client_id');
+        $endUserIp = Arr::get($this->config, 'end_user_ip', '127.0.0.1');
+        $clientIdXml = $clientId ? "<fl:ClientId>{$clientId}</fl:ClientId>" : '';
+        $endUserIpXml = $endUserIp ? "<fl:EndUserIp>{$endUserIp}</fl:EndUserIp>" : '';
+
+        return <<<XML
+<fl:Search xmlns:fl="{$ns}">
+    <fl:request>
+        {$searchModifiers}
+        <fl:OriginDestinationInformations>{$originDestinationsXml}</fl:OriginDestinationInformations>
+        {$travellersXml}
+        {$clientIdXml}
+        {$endUserIpXml}
+    </fl:request>
+</fl:Search>
+XML;
+    }
+
+    private function buildFareQuoteRequest(array $payload): string
+    {
+        $resultIndex = Arr::get($payload, 'resultIndex');
+        $sessionId = Arr::get($payload, 'sessionId');
+
+        $ns = $this->namespace();
+
+        return <<<XML
+<fl:FareQuote xmlns:fl="{$ns}">
+    <fl:request>
+        <fl:ResultIndex>{$resultIndex}</fl:ResultIndex>
+        <fl:SessionId>{$sessionId}</fl:SessionId>
+    </fl:request>
+</fl:FareQuote>
+XML;
+    }
+
+    private function buildBookRequest(array $payload): string
+    {
+        $resultIndex = Arr::get($payload, 'resultIndex');
+        $sessionId = Arr::get($payload, 'sessionId');
+        $bookRequest = Arr::get($payload, 'bookRequest', []);
+        $clientReference = Arr::get($payload, 'clientReference');
+
+        $passengersXml = collect($this->ensureArray(Arr::get($bookRequest, 'passengers', [])))->map(function ($passenger) {
+            $type = Arr::get($passenger, 'type', 'ADT');
+            $title = Arr::get($passenger, 'title');
+            $firstName = Arr::get($passenger, 'firstName');
+            $lastName = Arr::get($passenger, 'lastName');
+            $gender = Arr::get($passenger, 'gender');
+            $dob = Arr::get($passenger, 'dob');
+
+            return <<<XML
+<fl:Passenger>
+    <fl:PaxType>{$type}</fl:PaxType>
+    <fl:Title>{$title}</fl:Title>
+    <fl:FirstName>{$firstName}</fl:FirstName>
+    <fl:LastName>{$lastName}</fl:LastName>
+    <fl:Gender>{$gender}</fl:Gender>
+    <fl:DateOfBirth>{$dob}</fl:DateOfBirth>
+</fl:Passenger>
+XML;
+        })->implode('');
+
+        $contact = Arr::get($bookRequest, 'contact', []);
+        $email = Arr::get($contact, 'email');
+        $phone = Arr::get($contact, 'phone');
+
+        $clientId = Arr::get($this->config, 'client_id');
+        $endUserIp = Arr::get($this->config, 'end_user_ip', '127.0.0.1');
+        $clientReferenceXml = $clientReference ? '<fl:ClientReference>'.$clientReference.'</fl:ClientReference>' : '';
+
+        $ns = $this->namespace();
+
+        return <<<XML
+<fl:Book xmlns:fl="{$ns}">
+    <fl:request>
+        <fl:ResultIndex>{$resultIndex}</fl:ResultIndex>
+        <fl:SessionId>{$sessionId}</fl:SessionId>
+        <fl:Passengers>{$passengersXml}</fl:Passengers>
+        <fl:ContactInformation>
+            <fl:Email>{$email}</fl:Email>
+            <fl:Phone>{$phone}</fl:Phone>
+        </fl:ContactInformation>
+        <fl:ClientId>{$clientId}</fl:ClientId>
+        <fl:EndUserIp>{$endUserIp}</fl:EndUserIp>
+        {$clientReferenceXml}
+    </fl:request>
+</fl:Book>
+XML;
+    }
+
+    private function buildTicketRequest(array $payload): string
+    {
+        $bookingId = Arr::get($payload, 'bookingId');
+        $pnr = Arr::get($payload, 'pnr');
+
+        $ns = $this->namespace();
+
+        return <<<XML
+<fl:Ticket xmlns:fl="{$ns}">
+    <fl:request>
+        <fl:BookingId>{$bookingId}</fl:BookingId>
+        <fl:PNR>{$pnr}</fl:PNR>
+    </fl:request>
+</fl:Ticket>
+XML;
+    }
+
+    private function buildPnrRequest(array $payload): string
+    {
+        $pnr = Arr::get($payload, 'pnr');
+        $bookingId = Arr::get($payload, 'bookingId');
+
+        if (! $pnr && ! $bookingId) {
+            throw new RuntimeException('Provide PNR or bookingId to fetch PNR detail.');
+        }
+
+        $clientId = Arr::get($this->config, 'client_id');
+
+        $ns = $this->namespace();
+
+        return <<<XML
+<fl:PNRDetail xmlns:fl="{$ns}">
+    <fl:request>
+        <fl:PNR>{$pnr}</fl:PNR>
+        <fl:BookingId>{$bookingId}</fl:BookingId>
+        <fl:ClientId>{$clientId}</fl:ClientId>
+    </fl:request>
+</fl:PNRDetail>
+XML;
+    }
+
+    private function buildCancelRequest(array $payload): string
+    {
+        $bookingId = Arr::get($payload, 'bookingId');
+        $pnr = Arr::get($payload, 'pnr');
+        $remarks = Arr::get($payload, 'remarks');
+
+        if (! $bookingId && ! $pnr) {
+            throw new RuntimeException('Provide bookingId or PNR to cancel ticket.');
+        }
+
+        $clientId = Arr::get($this->config, 'client_id');
+        $endUserIp = Arr::get($this->config, 'end_user_ip', '127.0.0.1');
+        $remarksXml = $remarks ? '<fl:Remarks>'.htmlspecialchars($remarks, ENT_XML1).'</fl:Remarks>' : '';
+
+        $ns = $this->namespace();
+
+        return <<<XML
+<fl:Cancel xmlns:fl="{$ns}">
+    <fl:request>
+        <fl:BookingId>{$bookingId}</fl:BookingId>
+        <fl:PNR>{$pnr}</fl:PNR>
+        <fl:ClientId>{$clientId}</fl:ClientId>
+        <fl:EndUserIp>{$endUserIp}</fl:EndUserIp>
+        {$remarksXml}
+    </fl:request>
+</fl:Cancel>
+XML;
+    }
+
+    private function applyMarkupToSearchResults(array $data): array
+    {
+        $data['markupPct'] = $this->flightMarkupPct;
+
+        // Support both SOAP-shaped and REST-shaped responses
+        $paths = ['Results', 'SearchResult.Results', 'Response.Results'];
+
+        $flattenedResults = [];
+        foreach ($paths as $path) {
+            if (! Arr::has($data, $path)) {
+                continue;
+            }
+
+            $results = Arr::get($data, $path);
+            // Handle TBO REST 2D arrays: flatten if needed
+            if (is_array($results) && isset($results[0]) && is_array($results[0]) && isset($results[0][0])) {
+                $flattened = [];
+                foreach ($results as $group) {
+                    if (is_array($group)) {
+                        foreach ($group as $itm) { $flattened[] = $itm; }
+                    }
+                }
+                $results = $flattened;
+            }
+            $results = array_map(fn ($result) => $this->applyMarkupToFlightResult($result), $this->ensureArray($results));
+            Arr::set($data, $path, $results);
+            // Also compute flattened for aliasing below
+            $flattenedResults = $results;
+        }
+
+        // Add top-level aliases for simpler frontend consumption
+        if (!empty($flattenedResults)) {
+            $data['results'] = $flattenedResults;
+        }
+        // TraceId alias (REST) or SessionId (SOAP/mock)
+        $traceId = Arr::get($data, 'Response.TraceId') ?? Arr::get($data, 'TraceId') ?? Arr::get($data, 'SessionId');
+        if ($traceId) {
+            $data['traceId'] = $traceId;
+        }
+        // Origin/Destination alias if provided by REST Response
+        $origin = Arr::get($data, 'Response.Origin') ?? Arr::get($data, 'Origin');
+        $dest = Arr::get($data, 'Response.Destination') ?? Arr::get($data, 'Destination');
+        if ($origin) { $data['origin'] = $origin; }
+        if ($dest) { $data['destination'] = $dest; }
+
+        return $data;
+    }
+
+    private function applyMarkupToFlightResult(array $result): array
+    {
+        if (Arr::has($result, 'Fare')) {
+            $result['Fare'] = $this->applyMarkupToFare(Arr::get($result, 'Fare', []));
+        }
+
+        if (Arr::has($result, 'Fares')) {
+            $fares = Arr::get($result, 'Fares');
+            $fares = array_map(fn ($fare) => $this->applyMarkupToFare($fare), $this->ensureArray($fares));
+            Arr::set($result, 'Fares', $fares);
+        }
+
+        $result['markupPct'] = $this->flightMarkupPct;
+
+        return $result;
+    }
+
+    private function applyMarkupToFare(array $fare): array
+    {
+        $currency = Arr::get($fare, 'Currency') ?? Arr::get($fare, 'CurrencyCode');
+        $totalKey = Arr::has($fare, 'TotalFare') ? 'TotalFare' : (Arr::has($fare, 'TotalFAre') ? 'TotalFAre' : null);
+        $base = $totalKey ? (float) Arr::get($fare, $totalKey, 0) : (float) Arr::get($fare, 'BaseFare', 0);
+
+        $pricing = $this->formatFlightPrice($base, $currency);
+
+        if ($totalKey) {
+            $fare[$totalKey] = $pricing['finalFare'];
+        }
+
+        $fare['Currency'] = $pricing['currency'];
+        $fare['baseFare'] = $pricing['baseFare'];
+        $fare['finalFare'] = $pricing['finalFare'];
+        $fare['markupPct'] = $pricing['markupPct'];
+
+        return $fare;
+    }
+
+    private function applyMarkupToFareQuote(array $data): array
+    {
+        $data['markupPct'] = $this->flightMarkupPct;
+
+        // Add REST-shaped path under Response as well
+        $paths = ['Price', 'FareQuoteResult.Price', 'Response.Price', 'Response.FareQuoteResult.Price'];
+
+        foreach ($paths as $path) {
+            if (! Arr::has($data, $path)) {
+                continue;
+            }
+
+            $price = Arr::get($data, $path);
+            if (! is_array($price)) {
+                continue;
+            }
+
+            $currency = Arr::get($price, 'Currency');
+            $base = (float) Arr::get($price, 'TotalFare', Arr::get($price, 'OfferedFare', 0));
+            $pricing = $this->formatFlightPrice($base, $currency);
+
+            $price['Currency'] = $pricing['currency'];
+            $price['TotalFare'] = $pricing['finalFare'];
+            $price['baseFare'] = $pricing['baseFare'];
+            $price['finalFare'] = $pricing['finalFare'];
+            $price['markupPct'] = $pricing['markupPct'];
+
+            Arr::set($data, $path, $price);
+        }
+
+        return $data;
+    }
+
+    // --- REST: Other endpoints implemented ---
+    private function fareRuleRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_farerule_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            $json = json_decode((string) $res->getBody(), true) ?? [];
+            return $json;
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO FareRule Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function ssrRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_ssr_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO SSR Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function getCalendarFareRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_getcalendarfare_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO GetCalendarFare Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function updateCalendarFareOfDayRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_updatecalendarfareofday_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO UpdateCalendarFareOfDay Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function priceRBDRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_pricerbd_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO PriceRBD Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function sendChangeRequestRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_sendchangerequest_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO SendChangeRequest Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function getChangeRequestStatusRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_getchangerequeststatus_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO GetChangeRequestStatus Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function releasePNRRequestRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_releasepnrrequest_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO ReleasePNRRequest Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function getCancellationChargesRest(array $payload): array
+    {
+        try {
+            $client = $this->httpClient();
+            $url = Arr::get($this->config, 'flight_getcancellationcharges_rest_url');
+            $token = $this->authenticateRest();
+            $body = array_merge($this->authPayload(), ['TokenId' => $token], $payload);
+            $res = $client->post($url, ['json' => $body]);
+            return json_decode((string) $res->getBody(), true) ?? [];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('TBO GetCancellationCharges Failed', ['message' => $e->getMessage()]);
+            if ($this->shouldFallbackToMockOnError()) { return ['error' => 'mocked']; }
+            throw $e;
+        }
+    }
+
+    private function mapTripTypeToJourneyType(string $tripType): int
+    {
+        return match (strtoupper($tripType)) {
+            'O' => 1, // One-way
+            'R' => 2, // Round-trip
+            'M' => 3, // Multi-city
+            default => 1,
+        };
+    }
+
+    private function mapCabinClassToInt(string $cabin): int
+    {
+        return match (strtoupper($cabin)) {
+            'E' => 1, // Economy
+            'PE' => 2, // Premium Economy
+            'B' => 3, // Business
+            'F' => 4, // First
+            default => 1,
+        };
+    }
+
+    private function formatIsoDateTime(?string $date): ?string
+    {
+        if (!$date) return null;
+        // If already contains time separator, return as-is
+        if (str_contains($date, 'T')) {
+            return $date;
+        }
+        // Basic YYYY-MM-DD -> YYYY-MM-DDT00:00:00
+        return $date.'T00:00:00';
+    }
+
+    private function formatFlightPrice(float $amount, ?string $currency): array
+    {
+        $base = round($amount, 2);
+        $final = $this->applyMarkupValue($base, $this->flightMarkupPct);
+
+        return [
+            'currency' => $currency,
+            'baseFare' => $base,
+            'finalFare' => $final,
+            'markupPct' => $this->flightMarkupPct,
+        ];
+    }
+
+    private function applyMarkupValue(float $amount, float $markupPct): float
+    {
+        if ($amount <= 0 || $markupPct === 0.0) {
+            return round($amount, 2);
+        }
+
+        return round($amount * (1 + ($markupPct / 100)), 2);
+    }
+
+    private function buildSearchModifiers(array $payload): string
+    {
+        $adults = (int) Arr::get($payload, 'adults', 1);
+        $children = (int) Arr::get($payload, 'children', 0);
+        $infants = (int) Arr::get($payload, 'infants', 0);
+        $cabinClass = Arr::get($payload, 'cabinClass', 'Economy');
+        $preferredAirlines = $this->ensureArray(Arr::get($payload, 'preferredAirlines', []));
+
+        $airlinesXml = collect($preferredAirlines)->map(fn ($airline) => '<fl:PreferredAirline>'.$airline.'</fl:PreferredAirline>')->implode('');
+
+        return <<<XML
+<fl:SearchModifiers>
+    <fl:AdultCount>{$adults}</fl:AdultCount>
+    <fl:ChildCount>{$children}</fl:ChildCount>
+    <fl:InfantCount>{$infants}</fl:InfantCount>
+    <fl:CabinClass>{$cabinClass}</fl:CabinClass>
+    {$airlinesXml}
+</fl:SearchModifiers>
+XML;
+    }
+
+    private function buildTravellerXml(array $payload): string
+    {
+        $adults = (int) Arr::get($payload, 'adults', 1);
+        $children = (int) Arr::get($payload, 'children', 0);
+        $infants = (int) Arr::get($payload, 'infants', 0);
+
+        return <<<XML
+<fl:TravellerInfo>
+    <fl:Adult>{$adults}</fl:Adult>
+    <fl:Child>{$children}</fl:Child>
+    <fl:Infant>{$infants}</fl:Infant>
+</fl:TravellerInfo>
+XML;
+    }
+
+    private function buildCredentialsHeader(): string
+    {
+        $username = Arr::get($this->config, 'username');
+        $password = Arr::get($this->config, 'password');
+
+        if (! $username || ! $password) {
+            return '';
+        }
+
+        $ns = $this->namespace();
+
+        return <<<XML
+<fl:Authentication xmlns:fl="{$ns}">
+    <fl:UserName>{$username}</fl:UserName>
+    <fl:Password>{$password}</fl:Password>
+</fl:Authentication>
+XML;
+    }
+
+    private function namespace(): string
+    {
+        $searchUrl = Arr::get($this->config, 'flight_search_url', '');
+        if (stripos($searchUrl, 'BookingEngineService_Air') !== false) {
+            return 'http://TekTravel/BookingEngineService_Air/';
+        }
+        // Default for V10 AirService.svc
+        return 'http://TekTravel/FlightApi/';
+    }
+
+    private function action(string $method): string
+    {
+        return $this->namespace().$method;
+    }
+
+    private function extractResponse(array $response, string $node): array
+    {
+        $paths = [
+            'soap12:Body.'.$node,
+            'soap:Body.'.$node,
+            's:Body.'.$node,
+            'soapenv:Body.'.$node,
+            $node,
+        ];
+
+        $data = null;
+        foreach ($paths as $path) {
+            $data = Arr::get($response, $path);
+            if ($data !== null) {
+                break;
+            }
+        }
+
+        if ($data === null) {
+            throw new RuntimeException('Unexpected SOAP response for '.$node);
+        }
+
+        if (! is_array($data)) {
+            $data = [$data];
+        }
+
+        $status = Arr::get($data, 'Status.StatusCode');
+        if ($status && Str::upper((string) $status) !== '01') {
+            $description = Arr::get($data, 'Status.Description', 'TBO request failed');
+            throw new TboException($description, (string) $status, $data);
+        }
+
+        return $data;
+    }
+
+    private function ensureArray($value): array
+    {
+        if ($value === null || $value === '') {
+            return [];
+        }
+
+        if (is_array($value)) {
+            return array_values($value);
+        }
+
+        return [$value];
+    }
+
+    private function shouldUseMock(): bool
+    {
+        if (Arr::get($this->config, 'enable_flight_api') === true) {
+            return false;
+        }
+
+        if (Arr::get($this->config, 'use_mock') === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function mockResponse(string $type, array $payload): array
+    {
+        $origin = Str::upper(Arr::get($payload, 'origin', Arr::get($payload, 'segments.0.origin', 'DEL')));
+        $destination = Str::upper(Arr::get($payload, 'destination', Arr::get($payload, 'segments.0.destination', 'BOM')));
+        $departDate = Arr::get($payload, 'departDate', Arr::get($payload, 'segments.0.departureDate', now()->addWeek()->toDateString()));
+        $sessionId = Arr::get($payload, 'sessionId', 'MOCK-SESSION-'.Str::upper(Str::random(6)));
+        $resultIndex = (int) Arr::get($payload, 'resultIndex', 1);
+        $bookingId = Arr::get($payload, 'bookingId', 'IH-FLT-'.rand(1000, 9999));
+        $pnr = Arr::get($payload, 'pnr', 'PNR'.rand(10000, 99999));
+
+        return match ($type) {
+            'search' => $this->applyMarkupToSearchResults([
+                'Response' => [
+                    'TraceId' => $sessionId,
+                    'ResponseStatus' => 1,
+                    'Results' => [[
+                        'ResultIndex' => 1,
+                        'Fare' => [
+                            'Currency' => 'INR',
+                            'BaseFare' => 4200,
+                            'OfferedFare' => 4899,
+                        ],
+                        'Segments' => [[
+                            'Airline' => ['AirlineCode' => 'AI', 'AirlineName' => 'Air India'],
+                            'FlightNumber' => '101',
+                            'Origin' => ['AirportCode' => $origin],
+                            'Destination' => ['AirportCode' => $destination],
+                            'DepTime' => $departDate.'T08:10:00',
+                            'ArrTime' => $departDate.'T10:30:00',
+                            'Duration' => 140,
+                            'Craft' => 'A320',
+                            'Baggage' => '15 KG',
+                        ]],
+                    ]],
+                ]
+            ]),
+            'fareQuote' => $this->applyMarkupToFareQuote([
+                'SessionId' => $sessionId,
+                'ResultIndex' => $resultIndex,
+                'IsPriceChanged' => false,
+                'Price' => [
+                    'Currency' => 'INR',
+                    'BaseFare' => 4200,
+                    'Taxes' => 499,
+                    'TotalFare' => 4699,
+                ],
+            ]),
+            'book' => [
+                'BookingStatus' => 'Pending',
+                'BookingId' => $bookingId,
+                'PNR' => $pnr,
+            ],
+            'ticket' => [
+                'TicketStatus' => 'Ticketed',
+                'TicketNumber' => 'TKT'.rand(100000, 999999),
+                'PNR' => $pnr,
+            ],
+            'pnr' => [
+                'BookingId' => $bookingId,
+                'PNR' => $pnr,
+                'Status' => [
+                    'StatusCode' => '01',
+                    'Description' => 'Success',
+                ],
+            ],
+            'cancel' => [
+                'Status' => [
+                    'StatusCode' => '01',
+                    'Description' => 'Cancellation initiated',
+                ],
+                'CancellationId' => 'CNL'.rand(1000, 9999),
+            ],
+            default => [],
+        };
+    }
+}

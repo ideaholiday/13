@@ -1,0 +1,90 @@
+[
+  {
+    "id": "test-001",
+    "name": "Priya Sharma",
+    "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b977?w=100&h=100&fit=crop&crop=face",
+    "location": "Mumbai, India",
+    "rating": 5,
+    "comment": "Amazing experience with Idea Holiday! The team planned every detail perfectly. Our Goa trip was absolutely fantastic, and the hotel recommendations were spot on.",
+    "tripType": "Beach Holiday",
+    "date": "2024-03-15T00:00:00Z",
+    "featured": true
+  },
+  {
+    "id": "test-002", 
+    "name": "Rajesh Kumar",
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    "location": "Delhi, India",
+    "rating": 5,
+    "comment": "Excellent service and great value for money. The Rajasthan heritage tour was well-organized with comfortable stays and knowledgeable guides. Highly recommended!",
+    "tripType": "Heritage Tour",
+    "date": "2024-02-28T00:00:00Z",
+    "featured": true
+  },
+  {
+    "id": "test-003",
+    "name": "Anita Desai",
+    "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    "location": "Bangalore, India",
+    "rating": 4,
+    "comment": "Great planning for our Kerala backwater cruise. The customer support was very responsive and helped us modify our itinerary. Would definitely book again.",
+    "tripType": "Backwater Cruise",
+    "date": "2024-01-20T00:00:00Z",
+    "featured": true
+  },
+  {
+    "id": "test-004",
+    "name": "Vikram Singh",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    "location": "Pune, India",
+    "rating": 5,
+    "comment": "Outstanding adventure tour to Ladakh! Every aspect was well-planned from accommodation to activities. The team's attention to detail made our trip memorable.",
+    "tripType": "Adventure Tour",
+    "date": "2024-07-10T00:00:00Z",
+    "featured": false
+  },
+  {
+    "id": "test-005",
+    "name": "Meera Patel",
+    "avatar": "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100&h=100&fit=crop&crop=face",
+    "location": "Ahmedabad, India",
+    "rating": 4,
+    "comment": "Wonderful Dubai experience! The city tour and desert safari were highlights. Smooth booking process and excellent customer service throughout.",
+    "tripType": "International Tour",
+    "date": "2024-04-05T00:00:00Z",
+    "featured": false
+  },
+  {
+    "id": "test-006",
+    "name": "Arjun Nair",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+    "location": "Chennai, India",
+    "rating": 5,
+    "comment": "Perfect honeymoon package to Maldives! The resort was exactly as described and the overwater villa exceeded our expectations. Thank you for making it special!",
+    "tripType": "Honeymoon Package",
+    "date": "2024-06-18T00:00:00Z",
+    "featured": true
+  },
+  {
+    "id": "test-007",
+    "name": "Sneha Gupta",
+    "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+    "location": "Kolkata, India",
+    "rating": 4,
+    "comment": "Great family trip to Thailand! Kid-friendly activities and comfortable accommodations. The local guides were very helpful and spoke good English.",
+    "tripType": "Family Vacation",
+    "date": "2024-05-12T00:00:00Z",
+    "featured": false
+  },
+  {
+    "id": "test-008",
+    "name": "Rohit Agarwal",
+    "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face",
+    "location": "Hyderabad, India",
+    "rating": 5,
+    "comment": "Exceptional service for our Singapore trip! Everything from flights to hotel bookings was seamless. The 24/7 support during travel was very reassuring.",
+    "tripType": "City Break",
+    "date": "2024-08-25T00:00:00Z",
+    "featured": false
+  }
+]

@@ -1,0 +1,4636 @@
+[
+  {
+    "name": "Mumbai",
+    "country": "India",
+    "airportCode": "BOM",
+    "airportName": "Chhatrapati Shivaji International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Delhi",
+    "country": "India",
+    "airportCode": "DEL",
+    "airportName": "Indira Gandhi Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bangalore",
+    "country": "India",
+    "airportCode": "BLR",
+    "airportName": "Kempegowda International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Kolkata",
+    "country": "India",
+    "airportCode": "CCU",
+    "airportName": "Netaji Subhash Chandra Bose International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Chennai",
+    "country": "India",
+    "airportCode": "MAA",
+    "airportName": "Chennai International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Hyderabad",
+    "country": "India",
+    "airportCode": "BPM",
+    "airportName": "Begumpet Airport",
+    "type": "city"
+  },
+  {
+    "name": "Pune",
+    "country": "India",
+    "airportCode": "PNQ",
+    "airportName": "Lohegaon",
+    "type": "city"
+  },
+  {
+    "name": "Ahmedabad",
+    "country": "India",
+    "airportCode": "AMD",
+    "airportName": "Sardar Vallabhbhai Patel International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Jaipur",
+    "country": "India",
+    "airportCode": "JAI",
+    "airportName": "Jaipur",
+    "type": "city"
+  },
+  {
+    "name": "Goa",
+    "country": "India",
+    "airportCode": "GOI",
+    "airportName": "Dabolim",
+    "type": "city"
+  },
+  {
+    "name": "Kochi",
+    "country": "India",
+    "airportCode": "COK",
+    "airportName": "Cochin International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Guwahati",
+    "country": "India",
+    "airportCode": "GAU",
+    "airportName": "Lokpriya Gopinath Bordoloi International",
+    "type": "city"
+  },
+  {
+    "name": "Lucknow",
+    "country": "India",
+    "airportCode": "LKO",
+    "airportName": "Amausi",
+    "type": "city"
+  },
+  {
+    "name": "Chandigarh",
+    "country": "India",
+    "airportCode": "IXC",
+    "airportName": "Chandigarh",
+    "type": "city"
+  },
+  {
+    "name": "Indore",
+    "country": "India",
+    "airportCode": "IDR",
+    "airportName": "Devi Ahilya Bai Holkar International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Coimbatore",
+    "country": "India",
+    "airportCode": "CJB",
+    "airportName": "Coimbatore International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Varanasi",
+    "country": "India",
+    "airportCode": "VNS",
+    "airportName": "Varanasi",
+    "type": "city"
+  },
+  {
+    "name": "Udaipur",
+    "country": "India",
+    "airportCode": "UDR",
+    "airportName": "Dabok",
+    "type": "city"
+  },
+  {
+    "name": "Amritsar",
+    "country": "India",
+    "airportCode": "ATQ",
+    "airportName": "Sri Guru Ram Dass Jee International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Agra",
+    "country": "India",
+    "airportCode": "AGR",
+    "airportName": "Kheria",
+    "type": "city"
+  },
+  {
+    "name": "Srinagar",
+    "country": "India",
+    "airportCode": "SXR",
+    "airportName": "Srinagar International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Leh",
+    "country": "India",
+    "airportCode": "IXL",
+    "airportName": "Kushok Bakula Rimpochee Airport ",
+    "type": "city"
+  },
+  {
+    "name": "Dubai",
+    "country": "United Arab Emirates",
+    "airportCode": "DWC",
+    "airportName": "Al Maktoum",
+    "type": "city"
+  },
+  {
+    "name": "Singapore",
+    "country": "Singapore",
+    "airportCode": "QPG",
+    "airportName": "Paya Lebar",
+    "type": "city"
+  },
+  {
+    "name": "Bangkok",
+    "country": "Thailand",
+    "airportCode": "BKK",
+    "airportName": "Bangkok Int'l",
+    "type": "city"
+  },
+  {
+    "name": "London",
+    "country": "United Kingdom",
+    "airportCode": "LCY",
+    "airportName": "London City Apt",
+    "type": "city"
+  },
+  {
+    "name": "Paris",
+    "country": "France",
+    "airportCode": "BVA",
+    "airportName": "Beauvais-Tille",
+    "type": "city"
+  },
+  {
+    "name": "New York",
+    "country": "United States",
+    "airportCode": "EWR",
+    "airportName": "Newark Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Tokyo",
+    "country": "Japan",
+    "airportCode": "HND",
+    "airportName": "Haneda",
+    "type": "city"
+  },
+  {
+    "name": "Hong Kong",
+    "country": "Hong Kong",
+    "airportCode": "HKG",
+    "airportName": "Hong Kong Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Istanbul",
+    "country": "Turkey",
+    "airportCode": "IST",
+    "airportName": "Ataturk",
+    "type": "city"
+  },
+  {
+    "name": "Barcelona",
+    "country": "Spain",
+    "airportCode": "BCN",
+    "airportName": "Barcelona",
+    "type": "city"
+  },
+  {
+    "name": "Amsterdam",
+    "country": "Netherlands",
+    "airportCode": "AMS",
+    "airportName": "Schiphol",
+    "type": "city"
+  },
+  {
+    "name": "Sydney",
+    "country": "Australia",
+    "airportCode": "SYD",
+    "airportName": "Kingsford Smith",
+    "type": "city"
+  },
+  {
+    "name": "Bali",
+    "country": "Cameroon",
+    "airportCode": "BLC",
+    "airportName": "Bali",
+    "type": "city"
+  },
+  {
+    "name": "Phuket",
+    "country": "Thailand",
+    "airportCode": "HKT",
+    "airportName": "Phuket Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Kathmandu",
+    "country": "Nepal",
+    "airportCode": "KTM",
+    "airportName": "Tribhuvan",
+    "type": "city"
+  },
+  {
+    "name": "Colombo",
+    "country": "Sri Lanka",
+    "airportCode": "CMB",
+    "airportName": "Katunayake",
+    "type": "city"
+  },
+  {
+    "name": "Agatti Island",
+    "country": "India",
+    "airportCode": "AGX",
+    "airportName": "Agatti Island",
+    "type": "city"
+  },
+  {
+    "name": "Ambikapur",
+    "country": "India",
+    "airportCode": "AHA",
+    "airportName": "Maa Mahamaya",
+    "type": "city"
+  },
+  {
+    "name": "Adampur",
+    "country": "India",
+    "airportCode": "AIP",
+    "airportName": "Adampur Airport",
+    "type": "city"
+  },
+  {
+    "name": "Aizawl",
+    "country": "India",
+    "airportCode": "AJL",
+    "airportName": "Lengpui Airport",
+    "type": "city"
+  },
+  {
+    "name": "Akola",
+    "country": "India",
+    "airportCode": "AKD",
+    "airportName": "Akola",
+    "type": "city"
+  },
+  {
+    "name": "Amravati",
+    "country": "India",
+    "airportCode": "AVR",
+    "airportName": "Amravati Airport",
+    "type": "city"
+  },
+  {
+    "name": "Ayodhya",
+    "country": "India",
+    "airportCode": "AYJ",
+    "airportName": "Maharishi Valmiki International Airport Ayodhya Dham",
+    "type": "city"
+  },
+  {
+    "name": "Azamgarh",
+    "country": "India",
+    "airportCode": "AZH",
+    "airportName": "Azamgarh",
+    "type": "city"
+  },
+  {
+    "name": "Bhubaneshwar",
+    "country": "India",
+    "airportCode": "BBI",
+    "airportName": "Biju Patnaik International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Vadodara",
+    "country": "India",
+    "airportCode": "BDQ",
+    "airportName": "Vadodara",
+    "type": "city"
+  },
+  {
+    "name": "Bareilly",
+    "country": "India",
+    "airportCode": "BEK",
+    "airportName": "Bareilly Air Force Station",
+    "type": "city"
+  },
+  {
+    "name": "Bellary",
+    "country": "India",
+    "airportCode": "BEP",
+    "airportName": "Bellary",
+    "type": "city"
+  },
+  {
+    "name": "Bhuj",
+    "country": "India",
+    "airportCode": "BHJ",
+    "airportName": "Rudra Mata Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bhopal",
+    "country": "India",
+    "airportCode": "BHO",
+    "airportName": "Raja Bhoj Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bhavnagar",
+    "country": "India",
+    "airportCode": "BHU",
+    "airportName": "Bhavnagar",
+    "type": "city"
+  },
+  {
+    "name": "Bhatinda",
+    "country": "India",
+    "airportCode": "BUP",
+    "airportName": "Bhatinda",
+    "type": "city"
+  },
+  {
+    "name": "Car Nicobar",
+    "country": "India",
+    "airportCode": "CBD",
+    "airportName": "Car Nicobar",
+    "type": "city"
+  },
+  {
+    "name": "Calicut",
+    "country": "India",
+    "airportCode": "CCJ",
+    "airportName": "Calicut",
+    "type": "city"
+  },
+  {
+    "name": "Cuddapah",
+    "country": "India",
+    "airportCode": "CDP",
+    "airportName": "Cuddapah Airport",
+    "type": "city"
+  },
+  {
+    "name": "Kannur",
+    "country": "India",
+    "airportCode": "CNN",
+    "airportName": "Kannur International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Cooch Behar",
+    "country": "India",
+    "airportCode": "COH",
+    "airportName": "Cooch Behar",
+    "type": "city"
+  },
+  {
+    "name": "Chitrakoot",
+    "country": "India",
+    "airportCode": "CWK",
+    "airportName": "Chitrakoot Airport",
+    "type": "city"
+  },
+  {
+    "name": "Dhanbad",
+    "country": "India",
+    "airportCode": "DBD",
+    "airportName": "DHANBAD",
+    "type": "city"
+  },
+  {
+    "name": "Darbhanga",
+    "country": "India",
+    "airportCode": "DBR",
+    "airportName": "Darbhanga Airport",
+    "type": "city"
+  },
+  {
+    "name": "Dehra Dun",
+    "country": "India",
+    "airportCode": "DED",
+    "airportName": "Jolly Grant Airport",
+    "type": "city"
+  },
+  {
+    "name": "Deoghar",
+    "country": "India",
+    "airportCode": "DGH",
+    "airportName": "Deoghar Airport",
+    "type": "city"
+  },
+  {
+    "name": "Dharamsala",
+    "country": "India",
+    "airportCode": "DHM",
+    "airportName": "Gaggal",
+    "type": "city"
+  },
+  {
+    "name": "Dibrugarh",
+    "country": "India",
+    "airportCode": "DIB",
+    "airportName": "Mohanbari",
+    "type": "city"
+  },
+  {
+    "name": "Diu",
+    "country": "India",
+    "airportCode": "DIU",
+    "airportName": "DIU",
+    "type": "city"
+  },
+  {
+    "name": "Dimapur",
+    "country": "India",
+    "airportCode": "DMU",
+    "airportName": "Dimapur",
+    "type": "city"
+  },
+  {
+    "name": "Madhya Pradesh",
+    "country": "India",
+    "airportCode": "DPP",
+    "airportName": "Datia Airport",
+    "type": "city"
+  },
+  {
+    "name": "Gaya",
+    "country": "India",
+    "airportCode": "GAY",
+    "airportName": "Gaya International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Gulbarga",
+    "country": "India",
+    "airportCode": "GBI",
+    "airportName": "Kalaburagi Gulbarga",
+    "type": "city"
+  },
+  {
+    "name": "Gondia",
+    "country": "India",
+    "airportCode": "GDB",
+    "airportName": "Gondia Airport",
+    "type": "city"
+  },
+  {
+    "name": "Gorakhpur",
+    "country": "India",
+    "airportCode": "GOP",
+    "airportName": "Gorakhpur",
+    "type": "city"
+  },
+  {
+    "name": "Gwalior",
+    "country": "India",
+    "airportCode": "GWL",
+    "airportName": "Gwalior",
+    "type": "city"
+  },
+  {
+    "name": "Ghaziabad",
+    "country": "India",
+    "airportCode": "VDX",
+    "airportName": "Hindon",
+    "type": "city"
+  },
+  {
+    "name": "Hubli",
+    "country": "India",
+    "airportCode": "HBX",
+    "airportName": "Hubli",
+    "type": "city"
+  },
+  {
+    "name": "Itanagar",
+    "country": "India",
+    "airportCode": "HGI",
+    "airportName": "Itanagar Airport",
+    "type": "city"
+  },
+  {
+    "name": "Khajuraho",
+    "country": "India",
+    "airportCode": "HJR",
+    "airportName": "Khajuraho",
+    "type": "city"
+  },
+  {
+    "name": "Aligarh",
+    "country": "India",
+    "airportCode": "HRH",
+    "airportName": "Aligarh Airport",
+    "type": "city"
+  },
+  {
+    "name": "Hirasar Rajkot",
+    "country": "India",
+    "airportCode": "HSR",
+    "airportName": "Rajkot Greenfield International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Hissar",
+    "country": "India",
+    "airportCode": "HSS",
+    "airportName": "Hissar Airport",
+    "type": "city"
+  },
+  {
+    "name": "Imphal",
+    "country": "India",
+    "airportCode": "IMF",
+    "airportName": "Tulihal International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Nasik",
+    "country": "India",
+    "airportCode": "ISK",
+    "airportName": "Ozar Airport",
+    "type": "city"
+  },
+  {
+    "name": "Agartala",
+    "country": "India",
+    "airportCode": "IXA",
+    "airportName": "Maharaja Bir Bikram Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bagdogra",
+    "country": "India",
+    "airportCode": "IXB",
+    "airportName": "Bagdogra",
+    "type": "city"
+  },
+  {
+    "name": "Prayagraj [Allahabad]",
+    "country": "India",
+    "airportCode": "IXD",
+    "airportName": "Bamrauli",
+    "type": "city"
+  },
+  {
+    "name": "Mangalore",
+    "country": "India",
+    "airportCode": "IXE",
+    "airportName": "Mangaluru International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Belgaum",
+    "country": "India",
+    "airportCode": "IXG",
+    "airportName": "Sambre",
+    "type": "city"
+  },
+  {
+    "name": "Kailashahar",
+    "country": "India",
+    "airportCode": "IXH",
+    "airportName": "Kailashahar",
+    "type": "city"
+  },
+  {
+    "name": "Lakhimpur (Lilabari)",
+    "country": "India",
+    "airportCode": "IXI",
+    "airportName": "Lilabari",
+    "type": "city"
+  },
+  {
+    "name": "Jammu",
+    "country": "India",
+    "airportCode": "IXJ",
+    "airportName": "Satwari",
+    "type": "city"
+  },
+  {
+    "name": "Keshod",
+    "country": "India",
+    "airportCode": "IXK",
+    "airportName": "Keshod",
+    "type": "city"
+  },
+  {
+    "name": "Madurai",
+    "country": "India",
+    "airportCode": "IXM",
+    "airportName": "Madurai",
+    "type": "city"
+  },
+  {
+    "name": "Pathankot",
+    "country": "India",
+    "airportCode": "IXP",
+    "airportName": "Pathankot",
+    "type": "city"
+  },
+  {
+    "name": "Ranchi",
+    "country": "India",
+    "airportCode": "IXR",
+    "airportName": "Birsa Munda Airport",
+    "type": "city"
+  },
+  {
+    "name": "Silchar",
+    "country": "India",
+    "airportCode": "IXS",
+    "airportName": "Kumbhirgram",
+    "type": "city"
+  },
+  {
+    "name": "Pasighat",
+    "country": "India",
+    "airportCode": "IXT",
+    "airportName": "Pasighat Airport",
+    "type": "city"
+  },
+  {
+    "name": "Aurangabad",
+    "country": "India",
+    "airportCode": "IXU",
+    "airportName": "Aurangabad Airport",
+    "type": "city"
+  },
+  {
+    "name": "Jamshedpur",
+    "country": "India",
+    "airportCode": "IXW",
+    "airportName": "Sonari",
+    "type": "city"
+  },
+  {
+    "name": "Bidar",
+    "country": "India",
+    "airportCode": "IXX",
+    "airportName": "Bidar Airport",
+    "type": "city"
+  },
+  {
+    "name": "Kandla",
+    "country": "India",
+    "airportCode": "IXY",
+    "airportName": "Kandla",
+    "type": "city"
+  },
+  {
+    "name": "Port Blair",
+    "country": "India",
+    "airportCode": "IXZ",
+    "airportName": "Veer Savarkar International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Jodhpur",
+    "country": "India",
+    "airportCode": "JDH",
+    "airportName": "Jodhpur",
+    "type": "city"
+  },
+  {
+    "name": "Jamnagar",
+    "country": "India",
+    "airportCode": "JGA",
+    "airportName": "Govardhanpur",
+    "type": "city"
+  },
+  {
+    "name": "Jagdalpur",
+    "country": "India",
+    "airportCode": "JGB",
+    "airportName": "Jagdalpur",
+    "type": "city"
+  },
+  {
+    "name": "Jalgaon",
+    "country": "India",
+    "airportCode": "JLG",
+    "airportName": "Jalgaon Airport",
+    "type": "city"
+  },
+  {
+    "name": "Jabalpur",
+    "country": "India",
+    "airportCode": "JLR",
+    "airportName": "Jabalpur",
+    "type": "city"
+  },
+  {
+    "name": "Jharsuguda",
+    "country": "India",
+    "airportCode": "JRG",
+    "airportName": "Jharsuguda Airport",
+    "type": "city"
+  },
+  {
+    "name": "Jorhat",
+    "country": "India",
+    "airportCode": "JRH",
+    "airportName": "Rowriah",
+    "type": "city"
+  },
+  {
+    "name": "Jaisalmer",
+    "country": "India",
+    "airportCode": "JSA",
+    "airportName": "Jaisalmer",
+    "type": "city"
+  },
+  {
+    "name": "Kushinagar",
+    "country": "India",
+    "airportCode": "KBK",
+    "airportName": "Kushinagar",
+    "type": "city"
+  },
+  {
+    "name": "Kurnool",
+    "country": "India",
+    "airportCode": "KJB",
+    "airportName": "Kurnool",
+    "type": "city"
+  },
+  {
+    "name": "Kolhapur",
+    "country": "India",
+    "airportCode": "KLH",
+    "airportName": "Kolhapur",
+    "type": "city"
+  },
+  {
+    "name": "Kanpur",
+    "country": "India",
+    "airportCode": "KNU",
+    "airportName": "Kanpur",
+    "type": "city"
+  },
+  {
+    "name": "KISHANGARH",
+    "country": "India",
+    "airportCode": "KQH",
+    "airportName": "Kishangarh Airport",
+    "type": "city"
+  },
+  {
+    "name": "Kota",
+    "country": "India",
+    "airportCode": "KTU",
+    "airportName": "Kota",
+    "type": "city"
+  },
+  {
+    "name": "Kulu",
+    "country": "India",
+    "airportCode": "KUU",
+    "airportName": "Bhuntar",
+    "type": "city"
+  },
+  {
+    "name": "Malda",
+    "country": "India",
+    "airportCode": "LDA",
+    "airportName": "Malda",
+    "type": "city"
+  },
+  {
+    "name": "latur",
+    "country": "India",
+    "airportCode": "ltu",
+    "airportName": "LATUR",
+    "type": "city"
+  },
+  {
+    "name": "Ludhiana",
+    "country": "India",
+    "airportCode": "LUH",
+    "airportName": "Sahnewal Airport",
+    "type": "city"
+  },
+  {
+    "name": "Mysore",
+    "country": "India",
+    "airportCode": "MYQ",
+    "airportName": "Mysore",
+    "type": "city"
+  },
+  {
+    "name": "Moradabad",
+    "country": "India",
+    "airportCode": "MZS",
+    "airportName": "Moradabad Airport India",
+    "type": "city"
+  },
+  {
+    "name": "Nagpur",
+    "country": "India",
+    "airportCode": "NAG",
+    "airportName": "Sonegaon",
+    "type": "city"
+  },
+  {
+    "name": "Nanded",
+    "country": "India",
+    "airportCode": "NDC",
+    "airportName": "Nanded",
+    "type": "city"
+  },
+  {
+    "name": "Daman",
+    "country": "India",
+    "airportCode": "NMB",
+    "airportName": "Daman",
+    "type": "city"
+  },
+  {
+    "name": "Pithoragarh",
+    "country": "India",
+    "airportCode": "NNS",
+    "airportName": "Naini Saini Airport",
+    "type": "city"
+  },
+  {
+    "name": "Neyveli",
+    "country": "India",
+    "airportCode": "NVY",
+    "airportName": "Neyveli",
+    "type": "city"
+  },
+  {
+    "name": "Bilaspur",
+    "country": "India",
+    "airportCode": "PAB",
+    "airportName": "Bilaspur",
+    "type": "city"
+  },
+  {
+    "name": "Patna",
+    "country": "India",
+    "airportCode": "PAT",
+    "airportName": "Patna",
+    "type": "city"
+  },
+  {
+    "name": "Porbandar",
+    "country": "India",
+    "airportCode": "PBD",
+    "airportName": "Porbandar",
+    "type": "city"
+  },
+  {
+    "name": "Pantnagar",
+    "country": "India",
+    "airportCode": "PGH",
+    "airportName": "Pantnagar",
+    "type": "city"
+  },
+  {
+    "name": "Pondicherry",
+    "country": "India",
+    "airportCode": "PNY",
+    "airportName": "PONDICHERRY ",
+    "type": "city"
+  },
+  {
+    "name": "Puttaparthi",
+    "country": "India",
+    "airportCode": "PUT",
+    "airportName": "Puttiparthi",
+    "type": "city"
+  },
+  {
+    "name": "Pakyong",
+    "country": "India",
+    "airportCode": "PYG",
+    "airportName": "Pakyong airport",
+    "type": "city"
+  },
+  {
+    "name": "Rajkot",
+    "country": "India",
+    "airportCode": "RAJ",
+    "airportName": "Rajkot Civil",
+    "type": "city"
+  },
+  {
+    "name": "Durgapur",
+    "country": "India",
+    "airportCode": "RDP",
+    "airportName": "Durgapur",
+    "type": "city"
+  },
+  {
+    "name": "Rewa",
+    "country": "India",
+    "airportCode": "REW",
+    "airportName": "Rewa",
+    "type": "city"
+  },
+  {
+    "name": "Rajahmundry",
+    "country": "India",
+    "airportCode": "RJA",
+    "airportName": "Rajahmundry",
+    "type": "city"
+  },
+  {
+    "name": "Rajouri",
+    "country": "India",
+    "airportCode": "RJI",
+    "airportName": "Rajouri",
+    "type": "city"
+  },
+  {
+    "name": "SURFACE",
+    "country": "India",
+    "airportCode": "RNK",
+    "airportName": "RNK Airport",
+    "type": "city"
+  },
+  {
+    "name": "Raipur",
+    "country": "India",
+    "airportCode": "RPR",
+    "airportName": "Swami Vivekananda Airport",
+    "type": "city"
+  },
+  {
+    "name": "shivmogga",
+    "country": "India",
+    "airportCode": "RQY",
+    "airportName": "shivmogga Airport",
+    "type": "city"
+  },
+  {
+    "name": "Rourkela",
+    "country": "India",
+    "airportCode": "RRK",
+    "airportName": "Rourkela",
+    "type": "city"
+  },
+  {
+    "name": "Rupsi",
+    "country": "India",
+    "airportCode": "RUP",
+    "airportName": "Rupsi",
+    "type": "city"
+  },
+  {
+    "name": "Sindhudurg",
+    "country": "India",
+    "airportCode": "SDW",
+    "airportName": "Sindhudurg Airport",
+    "type": "city"
+  },
+  {
+    "name": "Shillong",
+    "country": "India",
+    "airportCode": "SHL",
+    "airportName": "Shillong",
+    "type": "city"
+  },
+  {
+    "name": "Shimla",
+    "country": "India",
+    "airportCode": "SLV",
+    "airportName": "Simla",
+    "type": "city"
+  },
+  {
+    "name": "Sholapur",
+    "country": "India",
+    "airportCode": "SSE",
+    "airportName": "Sholapur",
+    "type": "city"
+  },
+  {
+    "name": "Surat",
+    "country": "India",
+    "airportCode": "STV",
+    "airportName": "Surat",
+    "type": "city"
+  },
+  {
+    "name": "Salem",
+    "country": "India",
+    "airportCode": "SXV",
+    "airportName": "Salem",
+    "type": "city"
+  },
+  {
+    "name": "Tuticorin",
+    "country": "India",
+    "airportCode": "TCR",
+    "airportName": "Tuticorin",
+    "type": "city"
+  },
+  {
+    "name": "Tezu",
+    "country": "India",
+    "airportCode": "TEI",
+    "airportName": "Tezu",
+    "type": "city"
+  },
+  {
+    "name": "Tezpur",
+    "country": "India",
+    "airportCode": "TEZ",
+    "airportName": "Salonibari",
+    "type": "city"
+  },
+  {
+    "name": "Tirupati",
+    "country": "India",
+    "airportCode": "TIR",
+    "airportName": "Tirupati",
+    "type": "city"
+  },
+  {
+    "name": "Satna",
+    "country": "India",
+    "airportCode": "TNI",
+    "airportName": "Satna",
+    "type": "city"
+  },
+  {
+    "name": "Trivandrum",
+    "country": "India",
+    "airportCode": "TRV",
+    "airportName": "Trivandrum Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Tiruchirapally",
+    "country": "India",
+    "airportCode": "TRZ",
+    "airportName": "Tiruchirapalli International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Vidyanagar",
+    "country": "India",
+    "airportCode": "VDY",
+    "airportName": "Jindal Vijaynagar Airport",
+    "type": "city"
+  },
+  {
+    "name": "Vijayawada",
+    "country": "India",
+    "airportCode": "VGA",
+    "airportName": "Vijayawada",
+    "type": "city"
+  },
+  {
+    "name": "Shravasti",
+    "country": "India",
+    "airportCode": "VSV",
+    "airportName": "Shravasti Airport",
+    "type": "city"
+  },
+  {
+    "name": "Vishakhapatnam",
+    "country": "India",
+    "airportCode": "VTZ",
+    "airportName": "Vishakhapatnam",
+    "type": "city"
+  },
+  {
+    "name": "Zero",
+    "country": "India",
+    "airportCode": "ZER",
+    "airportName": "Zero Airport",
+    "type": "city"
+  },
+  {
+    "name": "Anaa",
+    "country": "French Polynesia",
+    "airportCode": "AAA",
+    "airportName": "Anaa",
+    "type": "city"
+  },
+  {
+    "name": "Annaba",
+    "country": "Algeria",
+    "airportCode": "AAE",
+    "airportName": "Les Salines",
+    "type": "city"
+  },
+  {
+    "name": "Aalborg",
+    "country": "Denmark",
+    "airportCode": "AAL",
+    "airportName": "Aalborg",
+    "type": "city"
+  },
+  {
+    "name": "Al Ain",
+    "country": "United Arab Emirates",
+    "airportCode": "AAN",
+    "airportName": "Al Ain",
+    "type": "city"
+  },
+  {
+    "name": "Anaco",
+    "country": "Venezuela",
+    "airportCode": "AAO",
+    "airportName": "Anaco",
+    "type": "city"
+  },
+  {
+    "name": "Houston",
+    "country": "United States",
+    "airportCode": "AAP",
+    "airportName": "ANDRAU AIRPARK",
+    "type": "city"
+  },
+  {
+    "name": "Anapa",
+    "country": "Russian Federation",
+    "airportCode": "AAQ",
+    "airportName": "Anapa",
+    "type": "city"
+  },
+  {
+    "name": "Aarhus",
+    "country": "Denmark",
+    "airportCode": "AAR",
+    "airportName": "Tirstrup",
+    "type": "city"
+  },
+  {
+    "name": "Araxa",
+    "country": "Brazil",
+    "airportCode": "AAX",
+    "airportName": "Araxa Airport",
+    "type": "city"
+  },
+  {
+    "name": "Al Ghaydah",
+    "country": "Yemen",
+    "airportCode": "AAY",
+    "airportName": "Al Ghaydah",
+    "type": "city"
+  },
+  {
+    "name": "Abakan",
+    "country": "Russian Federation",
+    "airportCode": "ABA",
+    "airportName": "Abakan",
+    "type": "city"
+  },
+  {
+    "name": "Abadan",
+    "country": "Iran",
+    "airportCode": "ABD",
+    "airportName": "Abadan Airport",
+    "type": "city"
+  },
+  {
+    "name": "Allentown",
+    "country": "United States",
+    "airportCode": "ABE",
+    "airportName": "Allentown",
+    "type": "city"
+  },
+  {
+    "name": "Abaiang",
+    "country": "Kiribati",
+    "airportCode": "ABF",
+    "airportName": "Abaiang",
+    "type": "city"
+  },
+  {
+    "name": "Alpha",
+    "country": "Australia",
+    "airportCode": "ABH",
+    "airportName": "Alpha Airport",
+    "type": "city"
+  },
+  {
+    "name": "Abilene",
+    "country": "United States",
+    "airportCode": "ABI",
+    "airportName": "Abilene Municipal",
+    "type": "city"
+  },
+  {
+    "name": "Abidjan",
+    "country": "Ivory Coast",
+    "airportCode": "ABJ",
+    "airportName": "F Houphouet Boig",
+    "type": "city"
+  },
+  {
+    "name": "Kabri Dar",
+    "country": "Ethiopia",
+    "airportCode": "ABK",
+    "airportName": "Kabri Dar",
+    "type": "city"
+  },
+  {
+    "name": "Ambler",
+    "country": "United States",
+    "airportCode": "ABL",
+    "airportName": "Ambler",
+    "type": "city"
+  },
+  {
+    "name": "Bamaga",
+    "country": "Australia",
+    "airportCode": "ABM",
+    "airportName": "Bamaga",
+    "type": "city"
+  },
+  {
+    "name": "Albuquerque",
+    "country": "United States",
+    "airportCode": "ABQ",
+    "airportName": "Albuquerque Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Aberdeen",
+    "country": "United States",
+    "airportCode": "ABR",
+    "airportName": "Aberdeen Municipal",
+    "type": "city"
+  },
+  {
+    "name": "Abu Simbel",
+    "country": "Egypt",
+    "airportCode": "ABS",
+    "airportName": "Abu Simbel",
+    "type": "city"
+  },
+  {
+    "name": "Al Baha",
+    "country": "Saudi Arabia",
+    "airportCode": "ABT",
+    "airportName": "Al Baha",
+    "type": "city"
+  },
+  {
+    "name": "Atambua",
+    "country": "Indonesia",
+    "airportCode": "ABU",
+    "airportName": "Atambua",
+    "type": "city"
+  },
+  {
+    "name": "Abuja",
+    "country": "Nigeria",
+    "airportCode": "ABV",
+    "airportName": "Abuja Airport",
+    "type": "city"
+  },
+  {
+    "name": "Albury",
+    "country": "Australia",
+    "airportCode": "ABX",
+    "airportName": "Albury",
+    "type": "city"
+  },
+  {
+    "name": "Albany",
+    "country": "United States",
+    "airportCode": "ABY",
+    "airportName": "Dougherty Coun",
+    "type": "city"
+  },
+  {
+    "name": "Aberdeen",
+    "country": "United Kingdom",
+    "airportCode": "ABZ",
+    "airportName": "Dyce",
+    "type": "city"
+  },
+  {
+    "name": "Acapulco",
+    "country": "Mexico",
+    "airportCode": "ACA",
+    "airportName": "Alvarez Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Bellaire",
+    "country": "United States",
+    "airportCode": "ACB",
+    "airportName": "Bellaire - Antrim County",
+    "type": "city"
+  },
+  {
+    "name": "Accra",
+    "country": "Ghana",
+    "airportCode": "ACC",
+    "airportName": "Kotoka",
+    "type": "city"
+  },
+  {
+    "name": "Acandi",
+    "country": "Colombia",
+    "airportCode": "ACD",
+    "airportName": "Acandi",
+    "type": "city"
+  },
+  {
+    "name": "Lanzarote",
+    "country": "Spain",
+    "airportCode": "ACE",
+    "airportName": "Lanzarote",
+    "type": "city"
+  },
+  {
+    "name": "Altenrhein",
+    "country": "Switzerland",
+    "airportCode": "ACH",
+    "airportName": "Altenrhein",
+    "type": "city"
+  },
+  {
+    "name": "Alderney",
+    "country": "United Kingdom",
+    "airportCode": "ACI",
+    "airportName": "The Blaye",
+    "type": "city"
+  },
+  {
+    "name": "Nantucket",
+    "country": "United States",
+    "airportCode": "ACK",
+    "airportName": "Memorial",
+    "type": "city"
+  },
+  {
+    "name": "Araracuara",
+    "country": "Colombia",
+    "airportCode": "ACR",
+    "airportName": "Araracuara",
+    "type": "city"
+  },
+  {
+    "name": "Waco",
+    "country": "United States",
+    "airportCode": "ACT",
+    "airportName": "Waco Municipal",
+    "type": "city"
+  },
+  {
+    "name": "Arcata",
+    "country": "United States",
+    "airportCode": "ACV",
+    "airportName": "Arcata Eureka",
+    "type": "city"
+  },
+  {
+    "name": "Adana",
+    "country": "Turkey",
+    "airportCode": "ADA",
+    "airportName": "Adana",
+    "type": "city"
+  },
+  {
+    "name": "Addis Ababa",
+    "country": "Ethiopia",
+    "airportCode": "ADD",
+    "airportName": "Bole",
+    "type": "city"
+  },
+  {
+    "name": "Aden",
+    "country": "Yemen",
+    "airportCode": "ADE",
+    "airportName": "Aden Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Adiyaman",
+    "country": "Turkey",
+    "airportCode": "ADF",
+    "airportName": "Adiyaman Airport",
+    "type": "city"
+  },
+  {
+    "name": "Arandis",
+    "country": "Namibia",
+    "airportCode": "ADI",
+    "airportName": "Arandis",
+    "type": "city"
+  },
+  {
+    "name": "Adak Island",
+    "country": "United States",
+    "airportCode": "ADK",
+    "airportName": "Adak Island",
+    "type": "city"
+  },
+  {
+    "name": "Adelaide",
+    "country": "Australia",
+    "airportCode": "ADL",
+    "airportName": "Adelaide",
+    "type": "city"
+  },
+  {
+    "name": "Kodiak",
+    "country": "United States",
+    "airportCode": "ADQ",
+    "airportName": "Kodiak",
+    "type": "city"
+  },
+  {
+    "name": "San Andres Island",
+    "country": "Colombia",
+    "airportCode": "ADZ",
+    "airportName": "San Andres Island",
+    "type": "city"
+  },
+  {
+    "name": "Abemama Atoll",
+    "country": "Kiribati",
+    "airportCode": "AEA",
+    "airportName": "Abemama Atoll",
+    "type": "city"
+  },
+  {
+    "name": "Aek Godang",
+    "country": "Indonesia",
+    "airportCode": "AEG",
+    "airportName": "Aek Godang",
+    "type": "city"
+  },
+  {
+    "name": "Abecher",
+    "country": "Chad",
+    "airportCode": "AEH",
+    "airportName": "Abecher",
+    "type": "city"
+  },
+  {
+    "name": "Aioun El Atrouss",
+    "country": "Mauritania",
+    "airportCode": "AEO",
+    "airportName": "Aioun El Atrouss",
+    "type": "city"
+  },
+  {
+    "name": "Adler Sochi",
+    "country": "Russian Federation",
+    "airportCode": "AER",
+    "airportName": "Adler Sochi",
+    "type": "city"
+  },
+  {
+    "name": "Aalesund",
+    "country": "Norway",
+    "airportCode": "AES",
+    "airportName": "Vigra",
+    "type": "city"
+  },
+  {
+    "name": "Alexandria",
+    "country": "United States",
+    "airportCode": "ESF",
+    "airportName": "Esler Field",
+    "type": "city"
+  },
+  {
+    "name": "Akureyri",
+    "country": "Iceland",
+    "airportCode": "AEY",
+    "airportName": "Akureyri",
+    "type": "city"
+  },
+  {
+    "name": "San Rafael",
+    "country": "Argentina",
+    "airportCode": "AFA",
+    "airportName": "San Rafael",
+    "type": "city"
+  },
+  {
+    "name": "Alta Floresta",
+    "country": "Brazil",
+    "airportCode": "AFL",
+    "airportName": "Alta Floresta Mato Grosso",
+    "type": "city"
+  },
+  {
+    "name": "Agadir",
+    "country": "Morocco",
+    "airportCode": "AGA",
+    "airportName": "Agadir Almassira",
+    "type": "city"
+  },
+  {
+    "name": "Wangerooge",
+    "country": "Germany",
+    "airportCode": "AGE",
+    "airportName": "Wangerooge Flugplatz",
+    "type": "city"
+  },
+  {
+    "name": "Agen",
+    "country": "France",
+    "airportCode": "AGF",
+    "airportName": "La Garenne",
+    "type": "city"
+  },
+  {
+    "name": "Helsingborg",
+    "country": "Sweden",
+    "airportCode": "AGH",
+    "airportName": "Angelholm",
+    "type": "city"
+  },
+  {
+    "name": "Aguni",
+    "country": "Japan",
+    "airportCode": "AGJ",
+    "airportName": "Aguni",
+    "type": "city"
+  },
+  {
+    "name": "Malaga",
+    "country": "Spain",
+    "airportCode": "AGP",
+    "airportName": "Malaga",
+    "type": "city"
+  },
+  {
+    "name": " Spain",
+    "country": "AGP",
+    "airportCode": " Malaga",
+    "airportName": "Malaga Airport ",
+    "type": "city"
+  },
+  {
+    "name": "Augusta",
+    "country": "United States",
+    "airportCode": "AGS",
+    "airportName": "Augusta Bush Field",
+    "type": "city"
+  },
+  {
+    "name": "Ciudad Del Este",
+    "country": "Paraguay",
+    "airportCode": "AGT",
+    "airportName": "Guarani Intl Airport",
+    "type": "city"
+  },
+  {
+    "name": "Aguascalientes",
+    "country": "Mexico",
+    "airportCode": "AGU",
+    "airportName": "Aguascalientes",
+    "type": "city"
+  },
+  {
+    "name": "Acarigua",
+    "country": "Venezuela",
+    "airportCode": "AGV",
+    "airportName": "Acarigua",
+    "type": "city"
+  },
+  {
+    "name": "Argyle Downs",
+    "country": "Australia",
+    "airportCode": "AGY",
+    "airportName": "Argyle Downs Airport",
+    "type": "city"
+  },
+  {
+    "name": "Aggeneys",
+    "country": "South Africa",
+    "airportCode": "AGZ",
+    "airportName": "Aggeneys",
+    "type": "city"
+  },
+  {
+    "name": "Abha",
+    "country": "Saudi Arabia",
+    "airportCode": "AHB",
+    "airportName": "Abha",
+    "type": "city"
+  },
+  {
+    "name": "Alghero",
+    "country": "Italy",
+    "airportCode": "AHO",
+    "airportName": "Fertilia",
+    "type": "city"
+  },
+  {
+    "name": "Al Hoceima",
+    "country": "Morocco",
+    "airportCode": "AHU",
+    "airportName": "Charif Al Idrissi",
+    "type": "city"
+  },
+  {
+    "name": "Alliance",
+    "country": "United States",
+    "airportCode": "AIA",
+    "airportName": "Alliance",
+    "type": "city"
+  },
+  {
+    "name": "Airok",
+    "country": "Marshall Islands",
+    "airportCode": "AIC",
+    "airportName": "Airok",
+    "type": "city"
+  },
+  {
+    "name": "Yalinga",
+    "country": "Central African Republic",
+    "airportCode": "AIG",
+    "airportName": "Yalinga",
+    "type": "city"
+  },
+  {
+    "name": "Ailuk Island",
+    "country": "Marshall Islands",
+    "airportCode": "AIM",
+    "airportName": "Ailuk Island",
+    "type": "city"
+  },
+  {
+    "name": "Wainwright",
+    "country": "United States",
+    "airportCode": "AIN",
+    "airportName": "Wainwright",
+    "type": "city"
+  },
+  {
+    "name": "Arorae Island",
+    "country": "Kiribati",
+    "airportCode": "AIS",
+    "airportName": "Arorae Island",
+    "type": "city"
+  },
+  {
+    "name": "Aitutaki",
+    "country": "Cook Islands",
+    "airportCode": "AIT",
+    "airportName": "Aitutaki",
+    "type": "city"
+  },
+  {
+    "name": "Atiu Island",
+    "country": "Cook Islands",
+    "airportCode": "AIU",
+    "airportName": "Atiu Island",
+    "type": "city"
+  },
+  {
+    "name": "Atlantic Cty",
+    "country": "United States",
+    "airportCode": "ACY",
+    "airportName": "Atlantic city International ",
+    "type": "city"
+  },
+  {
+    "name": "Ajaccio",
+    "country": "France",
+    "airportCode": "AJA",
+    "airportName": "Campo Dell Oro",
+    "type": "city"
+  },
+  {
+    "name": "Jouf",
+    "country": "Saudi Arabia",
+    "airportCode": "AJF",
+    "airportName": " JOUF",
+    "type": "city"
+  },
+  {
+    "name": "Agri",
+    "country": "Turkey",
+    "airportCode": "AJI",
+    "airportName": "Agri Airport",
+    "type": "city"
+  },
+  {
+    "name": "Akjoujt",
+    "country": "Mauritania",
+    "airportCode": "AJJ",
+    "airportName": "Akjoujt",
+    "type": "city"
+  },
+  {
+    "name": "Anjouan",
+    "country": "Comoros",
+    "airportCode": "AJN",
+    "airportName": "Ouani",
+    "type": "city"
+  },
+  {
+    "name": "Arvidsjaur",
+    "country": "Sweden",
+    "airportCode": "AJR",
+    "airportName": "Arvidsjaur",
+    "type": "city"
+  },
+  {
+    "name": "Aracaju",
+    "country": "Brazil",
+    "airportCode": "AJU",
+    "airportName": "Aracaju",
+    "type": "city"
+  },
+  {
+    "name": "Agades",
+    "country": "Niger",
+    "airportCode": "AJY",
+    "airportName": "Agades",
+    "type": "city"
+  },
+  {
+    "name": "Kufrah",
+    "country": "Libyan Arab Jamahiriya",
+    "airportCode": "AKF",
+    "airportName": "Kufrah",
+    "type": "city"
+  },
+  {
+    "name": "Asahikawa",
+    "country": "Japan",
+    "airportCode": "AKJ",
+    "airportName": "Asahikawa",
+    "type": "city"
+  },
+  {
+    "name": "Auckland",
+    "country": "New Zealand",
+    "airportCode": "AKL",
+    "airportName": "Auckland Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Zakouma",
+    "country": "Chad",
+    "airportCode": "AKM",
+    "airportName": "Zakouma",
+    "type": "city"
+  },
+  {
+    "name": "King Salmon",
+    "country": "United States",
+    "airportCode": "AKN",
+    "airportName": "King Salmon",
+    "type": "city"
+  },
+  {
+    "name": "Akure",
+    "country": "Nigeria",
+    "airportCode": "AKR",
+    "airportName": "Akure",
+    "type": "city"
+  },
+  {
+    "name": "Aksu",
+    "country": "China",
+    "airportCode": "AKU",
+    "airportName": "Aksu Airport",
+    "type": "city"
+  },
+  {
+    "name": "Aktyubinsk",
+    "country": "Kazakhstan",
+    "airportCode": "AKX",
+    "airportName": "Aktyubinsk",
+    "type": "city"
+  },
+  {
+    "name": "Sittwe",
+    "country": "Myanmar",
+    "airportCode": "AKY",
+    "airportName": "Sittwe Civil",
+    "type": "city"
+  },
+  {
+    "name": "Almaty",
+    "country": "Kazakhstan",
+    "airportCode": "ALA",
+    "airportName": "Almaty",
+    "type": "city"
+  },
+  {
+    "name": "Alicante",
+    "country": "Spain",
+    "airportCode": "ALC",
+    "airportName": "Alicante",
+    "type": "city"
+  },
+  {
+    "name": "Alta",
+    "country": "Norway",
+    "airportCode": "ALF",
+    "airportName": "Alta Airport",
+    "type": "city"
+  },
+  {
+    "name": "Algiers",
+    "country": "Algeria",
+    "airportCode": "ALG",
+    "airportName": "Houari Boumediene",
+    "type": "city"
+  },
+  {
+    "name": "Albany",
+    "country": "Australia",
+    "airportCode": "ALH",
+    "airportName": "Albany",
+    "type": "city"
+  },
+  {
+    "name": "Albenga",
+    "country": "Italy",
+    "airportCode": "ALL",
+    "airportName": "ALBENGA",
+    "type": "city"
+  },
+  {
+    "name": "Alamogordo",
+    "country": "United States",
+    "airportCode": "ALM",
+    "airportName": "Alamogordo Municipal",
+    "type": "city"
+  },
+  {
+    "name": "Waterloo",
+    "country": "United States",
+    "airportCode": "ALO",
+    "airportName": "Waterloo",
+    "type": "city"
+  },
+  {
+    "name": "Aleppo",
+    "country": "Syrian Arab Republic",
+    "airportCode": "ALP",
+    "airportName": "Nejrab",
+    "type": "city"
+  },
+  {
+    "name": "Alexandra",
+    "country": "New Zealand",
+    "airportCode": "ALR",
+    "airportName": "Alexandra",
+    "type": "city"
+  },
+  {
+    "name": "Alamosa",
+    "country": "United States",
+    "airportCode": "ALS",
+    "airportName": "Alamosa Municipal",
+    "type": "city"
+  },
+  {
+    "name": "Alula",
+    "country": "Somalia",
+    "airportCode": "ALU",
+    "airportName": "Alula",
+    "type": "city"
+  },
+  {
+    "name": "Walla Walla",
+    "country": "United States",
+    "airportCode": "ALW",
+    "airportName": "Walla Walla",
+    "type": "city"
+  },
+  {
+    "name": "Alexandria",
+    "country": "Egypt",
+    "airportCode": "ALY",
+    "airportName": "Alexandria",
+    "type": "city"
+  },
+  {
+    "name": "Amarillo",
+    "country": "United States",
+    "airportCode": "AMA",
+    "airportName": "Amarillo Internationa",
+    "type": "city"
+  },
+  {
+    "name": "Ambilobe",
+    "country": "Madagascar",
+    "airportCode": "AMB",
+    "airportName": "Ambilobe",
+    "type": "city"
+  },
+  {
+    "name": "Am Timan",
+    "country": "Chad",
+    "airportCode": "AMC",
+    "airportName": "Am Timan",
+    "type": "city"
+  },
+  {
+    "name": "Arba Mintch",
+    "country": "Ethiopia",
+    "airportCode": "AMH",
+    "airportName": "Arba Mintch",
+    "type": "city"
+  },
+  {
+    "name": "Mataram",
+    "country": "Indonesia",
+    "airportCode": "AMI",
+    "airportName": "Selaparang",
+    "type": "city"
+  },
+  {
+    "name": "Amman",
+    "country": "Jordan",
+    "airportCode": "ADJ",
+    "airportName": "Marka",
+    "type": "city"
+  },
+  {
+    "name": "Mao",
+    "country": "Chad",
+    "airportCode": "AMO",
+    "airportName": "Mao",
+    "type": "city"
+  },
+  {
+    "name": "Ampanihy",
+    "country": "Madagascar",
+    "airportCode": "AMP",
+    "airportName": "Ampanihy",
+    "type": "city"
+  },
+  {
+    "name": "Ambon",
+    "country": "Indonesia",
+    "airportCode": "AMQ",
+    "airportName": "Pattimura",
+    "type": "city"
+  },
+  {
+    "name": "Amanab",
+    "country": "Papua New Guinea",
+    "airportCode": "AMU",
+    "airportName": "Amanab",
+    "type": "city"
+  },
+  {
+    "name": "Ambatomainty",
+    "country": "Madagascar",
+    "airportCode": "AMY",
+    "airportName": "Ambatomainty",
+    "type": "city"
+  },
+  {
+    "name": "Anniston",
+    "country": "United States",
+    "airportCode": "ANB",
+    "airportName": "Anniston County",
+    "type": "city"
+  },
+  {
+    "name": "Anchorage",
+    "country": "United States",
+    "airportCode": "ANC",
+    "airportName": "Anchorage Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Angers",
+    "country": "France",
+    "airportCode": "ANE",
+    "airportName": "Angers - Marce Airport",
+    "type": "city"
+  },
+  {
+    "name": "Antofagasta",
+    "country": "Chile",
+    "airportCode": "ANF",
+    "airportName": "Cerro Moreno",
+    "type": "city"
+  },
+  {
+    "name": "Angouleme",
+    "country": "France",
+    "airportCode": "ANG",
+    "airportName": "Brie-Champnier",
+    "type": "city"
+  },
+  {
+    "name": "Aniak",
+    "country": "United States",
+    "airportCode": "ANI",
+    "airportName": "Aniak",
+    "type": "city"
+  },
+  {
+    "name": "Ankara",
+    "country": "Turkey",
+    "airportCode": "ANK",
+    "airportName": "Ankara - Etimesgut",
+    "type": "city"
+  },
+  {
+    "name": "Antalaha",
+    "country": "Madagascar",
+    "airportCode": "ANM",
+    "airportName": "Antsirabato",
+    "type": "city"
+  },
+  {
+    "name": "Angoche",
+    "country": "Mozambique",
+    "airportCode": "ANO",
+    "airportName": "Angoche",
+    "type": "city"
+  },
+  {
+    "name": "Antwerp",
+    "country": "Belgium",
+    "airportCode": "ANR",
+    "airportName": "Deurne",
+    "type": "city"
+  },
+  {
+    "name": "Andahuaylas",
+    "country": "Peru",
+    "airportCode": "ANS",
+    "airportName": "Andahuaylas",
+    "type": "city"
+  },
+  {
+    "name": "Antigua",
+    "country": "Antigua & Barbuda",
+    "airportCode": "ANU",
+    "airportName": "Vc Bird Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Anvik",
+    "country": "United States",
+    "airportCode": "ANV",
+    "airportName": "Anvik",
+    "type": "city"
+  },
+  {
+    "name": "Andenes",
+    "country": "Norway",
+    "airportCode": "ANX",
+    "airportName": "Andenes",
+    "type": "city"
+  },
+  {
+    "name": "Altenburg",
+    "country": "Germany",
+    "airportCode": "AOC",
+    "airportName": "Altenburg - Nobitz Airport",
+    "type": "city"
+  },
+  {
+    "name": "Abou Deia",
+    "country": "Chad",
+    "airportCode": "AOD",
+    "airportName": "Abou Deia",
+    "type": "city"
+  },
+  {
+    "name": "Eskisehir",
+    "country": "Turkey",
+    "airportCode": "AOE",
+    "airportName": "Eskisehir Anadolu",
+    "type": "city"
+  },
+  {
+    "name": "Ancona",
+    "country": "Italy",
+    "airportCode": "AOI",
+    "airportName": "Falconara",
+    "type": "city"
+  },
+  {
+    "name": "Aomori",
+    "country": "Japan",
+    "airportCode": "AOJ",
+    "airportName": "Aomori",
+    "type": "city"
+  },
+  {
+    "name": "Karpathos",
+    "country": "Greece",
+    "airportCode": "AOK",
+    "airportName": "Karpathos",
+    "type": "city"
+  },
+  {
+    "name": "Paso De Los Libres",
+    "country": "Argentina",
+    "airportCode": "AOL",
+    "airportName": "Paso De Los Libres",
+    "type": "city"
+  },
+  {
+    "name": "Altoona",
+    "country": "United States",
+    "airportCode": "AOO",
+    "airportName": "Altoona",
+    "type": "city"
+  },
+  {
+    "name": "Alor Setar",
+    "country": "Malaysia",
+    "airportCode": "AOR",
+    "airportName": "Alor Setar",
+    "type": "city"
+  },
+  {
+    "name": "Amook",
+    "country": "United States",
+    "airportCode": "AOS",
+    "airportName": "Amook",
+    "type": "city"
+  },
+  {
+    "name": "Napa",
+    "country": "United States",
+    "airportCode": "APC",
+    "airportName": "Napa County",
+    "type": "city"
+  },
+  {
+    "name": "Naples",
+    "country": "United States",
+    "airportCode": "APF",
+    "airportName": "Naples",
+    "type": "city"
+  },
+  {
+    "name": "Apataki",
+    "country": "French Polynesia",
+    "airportCode": "APK",
+    "airportName": "Apataki",
+    "type": "city"
+  },
+  {
+    "name": "Nampula",
+    "country": "Mozambique",
+    "airportCode": "APL",
+    "airportName": "Nampula",
+    "type": "city"
+  },
+  {
+    "name": "Alpena",
+    "country": "United States",
+    "airportCode": "APN",
+    "airportName": "Alpena County Regional",
+    "type": "city"
+  },
+  {
+    "name": "Apartado",
+    "country": "Colombia",
+    "airportCode": "APO",
+    "airportName": "Apartado",
+    "type": "city"
+  },
+  {
+    "name": "Asapa",
+    "country": "Papua New Guinea",
+    "airportCode": "APP",
+    "airportName": "Asapa",
+    "type": "city"
+  },
+  {
+    "name": "Arapiraca",
+    "country": "Brazil",
+    "airportCode": "APQ",
+    "airportName": "Arapiraca",
+    "type": "city"
+  },
+  {
+    "name": "Apia",
+    "country": "Samoa",
+    "airportCode": "APW",
+    "airportName": "Faleolo",
+    "type": "city"
+  },
+  {
+    "name": "Zapala",
+    "country": "Argentina",
+    "airportCode": "APZ",
+    "airportName": "Zapala",
+    "type": "city"
+  },
+  {
+    "name": "Araraquara",
+    "country": "Brazil",
+    "airportCode": "AQA",
+    "airportName": "Araraquara Airport",
+    "type": "city"
+  },
+  {
+    "name": "Qaisumah",
+    "country": "Saudi Arabia",
+    "airportCode": "AQI",
+    "airportName": "HAFAR AL BATIN",
+    "type": "city"
+  },
+  {
+    "name": "Aqaba",
+    "country": "Jordan",
+    "airportCode": "AQJ",
+    "airportName": "King Hussein Intl Airport",
+    "type": "city"
+  },
+  {
+    "name": "Arequipa",
+    "country": "Peru",
+    "airportCode": "AQP",
+    "airportName": "Rodriguez Ballon",
+    "type": "city"
+  },
+  {
+    "name": "New Iberia",
+    "country": "United States",
+    "airportCode": "LFT",
+    "airportName": "Lafayette Regional",
+    "type": "city"
+  },
+  {
+    "name": "Arctic Village",
+    "country": "United States",
+    "airportCode": "ARC",
+    "airportName": "Arctic Village",
+    "type": "city"
+  },
+  {
+    "name": "Alor Island",
+    "country": "Indonesia",
+    "airportCode": "ARD",
+    "airportName": "Alor Island",
+    "type": "city"
+  },
+  {
+    "name": "Arecibo",
+    "country": "Puerto Rico",
+    "airportCode": "ARE",
+    "airportName": "Antonio Juarbe Pol",
+    "type": "city"
+  },
+  {
+    "name": "Arkhangelsk",
+    "country": "Russian Federation",
+    "airportCode": "ARH",
+    "airportName": "Arkhangelsk",
+    "type": "city"
+  },
+  {
+    "name": "Arica",
+    "country": "Chile",
+    "airportCode": "ARI",
+    "airportName": "Chacalluta",
+    "type": "city"
+  },
+  {
+    "name": "Arusha",
+    "country": "Tanzania",
+    "airportCode": "ARK",
+    "airportName": "Arusha Airport",
+    "type": "city"
+  },
+  {
+    "name": "Armidale",
+    "country": "Australia",
+    "airportCode": "ARM",
+    "airportName": "Armidale",
+    "type": "city"
+  },
+  {
+    "name": "Aragip",
+    "country": "Papua New Guinea",
+    "airportCode": "ARP",
+    "airportName": "Aragip",
+    "type": "city"
+  },
+  {
+    "name": "Alto Rio Senguerr",
+    "country": "Argentina",
+    "airportCode": "ARR",
+    "airportName": "Alto Rio Senguerr",
+    "type": "city"
+  },
+  {
+    "name": "Watertown",
+    "country": "United States",
+    "airportCode": "ART",
+    "airportName": "Watertown",
+    "type": "city"
+  },
+  {
+    "name": "Aractuba",
+    "country": "Brazil",
+    "airportCode": "ARU",
+    "airportName": "Aractuba",
+    "type": "city"
+  },
+  {
+    "name": "Minocqua",
+    "country": "United States",
+    "airportCode": "ARV",
+    "airportName": "Noble F Lee",
+    "type": "city"
+  },
+  {
+    "name": "Arad",
+    "country": "Romania",
+    "airportCode": "ARW",
+    "airportName": "Arad",
+    "type": "city"
+  },
+  {
+    "name": "N'Zeto",
+    "country": "Angola",
+    "airportCode": "ARZ",
+    "airportName": "N'Zeto",
+    "type": "city"
+  },
+  {
+    "name": "Assab",
+    "country": "Eritrea",
+    "airportCode": "ASA",
+    "airportName": "Assab",
+    "type": "city"
+  },
+  {
+    "name": "Ashgabad",
+    "country": "Turkmenistan",
+    "airportCode": "ASB",
+    "airportName": "Ashgabad",
+    "type": "city"
+  },
+  {
+    "name": "Andros Town",
+    "country": "Bahamas",
+    "airportCode": "ASD",
+    "airportName": "Andros Town",
+    "type": "city"
+  },
+  {
+    "name": "Aspen",
+    "country": "United States",
+    "airportCode": "ASE",
+    "airportName": "Aspen",
+    "type": "city"
+  },
+  {
+    "name": "Astrakhan",
+    "country": "Russian Federation",
+    "airportCode": "ASF",
+    "airportName": "Astrakhan",
+    "type": "city"
+  },
+  {
+    "name": "Amami O Shima",
+    "country": "Japan",
+    "airportCode": "ASJ",
+    "airportName": "Amami O Shima",
+    "type": "city"
+  },
+  {
+    "name": "Yamoussoukro",
+    "country": "Ivory Coast",
+    "airportCode": "ASK",
+    "airportName": "Yamoussoukro",
+    "type": "city"
+  },
+  {
+    "name": "Asmara",
+    "country": "Eritrea",
+    "airportCode": "ASM",
+    "airportName": "Asmara Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Asosa",
+    "country": "Ethiopia",
+    "airportCode": "ASO",
+    "airportName": "Asosa",
+    "type": "city"
+  },
+  {
+    "name": "Alice Springs",
+    "country": "Australia",
+    "airportCode": "ASP",
+    "airportName": "Alice Springs",
+    "type": "city"
+  },
+  {
+    "name": "Kayseri",
+    "country": "Turkey",
+    "airportCode": "ASR",
+    "airportName": "Kayseri",
+    "type": "city"
+  },
+  {
+    "name": "Asuncion",
+    "country": "Paraguay",
+    "airportCode": "ASU",
+    "airportName": "Silvio Pettirossi",
+    "type": "city"
+  },
+  {
+    "name": "Amboseli",
+    "country": "Kenya",
+    "airportCode": "ASV",
+    "airportName": "Amboseli",
+    "type": "city"
+  },
+  {
+    "name": "Aswan",
+    "country": "Egypt",
+    "airportCode": "ASW",
+    "airportName": "Aswan",
+    "type": "city"
+  },
+  {
+    "name": "Atbara",
+    "country": "Sudan",
+    "airportCode": "ATB",
+    "airportName": "Atbara",
+    "type": "city"
+  },
+  {
+    "name": "Arthur's Town",
+    "country": "Bahamas",
+    "airportCode": "ATC",
+    "airportName": "Arthur's Town",
+    "type": "city"
+  },
+  {
+    "name": "Athens",
+    "country": "Greece",
+    "airportCode": "ATH",
+    "airportName": "Athinai",
+    "type": "city"
+  },
+  {
+    "name": "Artigas",
+    "country": "Uruguay",
+    "airportCode": "ATI",
+    "airportName": "Artigas",
+    "type": "city"
+  },
+  {
+    "name": "Antsirabe",
+    "country": "Madagascar",
+    "airportCode": "ATJ",
+    "airportName": "Antsirabe",
+    "type": "city"
+  },
+  {
+    "name": "Atqasuk",
+    "country": "United States",
+    "airportCode": "ATK",
+    "airportName": "Atqasuk",
+    "type": "city"
+  },
+  {
+    "name": "Atlanta",
+    "country": "United States",
+    "airportCode": "ATL",
+    "airportName": "William B Hartsfield",
+    "type": "city"
+  },
+  {
+    "name": "Altamira",
+    "country": "Brazil",
+    "airportCode": "ATM",
+    "airportName": "Altamira",
+    "type": "city"
+  },
+  {
+    "name": "Aitape",
+    "country": "Papua New Guinea",
+    "airportCode": "ATP",
+    "airportName": "Aitape Airstrip",
+    "type": "city"
+  },
+  {
+    "name": "Atar",
+    "country": "Mauritania",
+    "airportCode": "ATR",
+    "airportName": "Mouakchott",
+    "type": "city"
+  },
+  {
+    "name": "Atmautluak",
+    "country": "United States",
+    "airportCode": "ATT",
+    "airportName": "Atmautluak",
+    "type": "city"
+  },
+  {
+    "name": "Ati",
+    "country": "Chad",
+    "airportCode": "ATV",
+    "airportName": "Ati",
+    "type": "city"
+  },
+  {
+    "name": "Appleton",
+    "country": "United States",
+    "airportCode": "ATW",
+    "airportName": "Outagamie County",
+    "type": "city"
+  },
+  {
+    "name": "Assiut",
+    "country": "Egypt",
+    "airportCode": "ATZ",
+    "airportName": "Assiut",
+    "type": "city"
+  },
+  {
+    "name": "Aruba",
+    "country": "Aruba",
+    "airportCode": "AUA",
+    "airportName": "Reina Beatrix",
+    "type": "city"
+  },
+  {
+    "name": "Arauca",
+    "country": "Colombia",
+    "airportCode": "AUC",
+    "airportName": "Arauca",
+    "type": "city"
+  },
+  {
+    "name": "Abu Dhabi",
+    "country": "United Arab Emirates",
+    "airportCode": "AUH",
+    "airportName": "Abu Dhabi Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Ambunti",
+    "country": "Papua New Guinea",
+    "airportCode": "AUJ",
+    "airportName": "Ambunti",
+    "type": "city"
+  },
+  {
+    "name": "Alakanuk",
+    "country": "United States",
+    "airportCode": "AUK",
+    "airportName": "Alakanuk",
+    "type": "city"
+  },
+  {
+    "name": "Agaun",
+    "country": "Papua New Guinea",
+    "airportCode": "AUP",
+    "airportName": "Agaun",
+    "type": "city"
+  },
+  {
+    "name": "Atuona",
+    "country": "French Polynesia",
+    "airportCode": "AUQ",
+    "airportName": "Atuona",
+    "type": "city"
+  },
+  {
+    "name": "Aurillac",
+    "country": "France",
+    "airportCode": "AUR",
+    "airportName": "Aurillac",
+    "type": "city"
+  },
+  {
+    "name": "Austin",
+    "country": "United States",
+    "airportCode": "AUS",
+    "airportName": "Bergstorm International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Aurukun Mission",
+    "country": "Australia",
+    "airportCode": "AUU",
+    "airportName": "Aurukun Mission",
+    "type": "city"
+  },
+  {
+    "name": "Wausau",
+    "country": "United States",
+    "airportCode": "CWA",
+    "airportName": "Central Wisonsin",
+    "type": "city"
+  },
+  {
+    "name": "Araguaina",
+    "country": "Brazil",
+    "airportCode": "AUX",
+    "airportName": "Araguaina",
+    "type": "city"
+  },
+  {
+    "name": "Aneityum",
+    "country": "Vanuatu",
+    "airportCode": "AUY",
+    "airportName": "Aneityum",
+    "type": "city"
+  },
+  {
+    "name": "Ciego De Avila",
+    "country": "Cuba",
+    "airportCode": "AVI",
+    "airportName": "Ciego De Avila",
+    "type": "city"
+  },
+  {
+    "name": "Asheville",
+    "country": "United States",
+    "airportCode": "AVL",
+    "airportName": "Asheville Municipal",
+    "type": "city"
+  },
+  {
+    "name": "Avignon",
+    "country": "France",
+    "airportCode": "AVN",
+    "airportName": "Avignon",
+    "type": "city"
+  },
+  {
+    "name": "Scranton",
+    "country": "United States",
+    "airportCode": "AVP",
+    "airportName": "Scranton Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Avu Avu",
+    "country": "Solomon Islands",
+    "airportCode": "AVU",
+    "airportName": "Avu Avu",
+    "type": "city"
+  },
+  {
+    "name": "Catalina Island",
+    "country": "United States",
+    "airportCode": "AVX",
+    "airportName": "Avalon Bay",
+    "type": "city"
+  },
+  {
+    "name": "Awassa",
+    "country": "Ethiopia",
+    "airportCode": "AWA",
+    "airportName": "Awassa",
+    "type": "city"
+  },
+  {
+    "name": "Awaba",
+    "country": "Papua New Guinea",
+    "airportCode": "AWB",
+    "airportName": "AWABA",
+    "type": "city"
+  },
+  {
+    "name": "Aniwa",
+    "country": "Vanuatu",
+    "airportCode": "AWD",
+    "airportName": "Aniwa",
+    "type": "city"
+  },
+  {
+    "name": "Awareh",
+    "country": "Ethiopia",
+    "airportCode": "AWH",
+    "airportName": "Awareh",
+    "type": "city"
+  },
+  {
+    "name": "Ahwaz",
+    "country": "Iran",
+    "airportCode": "AWZ",
+    "airportName": "Ahwaz",
+    "type": "city"
+  },
+  {
+    "name": "Anguilla",
+    "country": "Anguilla",
+    "airportCode": "AXA",
+    "airportName": "Wallblake",
+    "type": "city"
+  },
+  {
+    "name": "Alexandroupolis",
+    "country": "Greece",
+    "airportCode": "AXD",
+    "airportName": "Demokritos",
+    "type": "city"
+  },
+  {
+    "name": "Ataq",
+    "country": "Yemen",
+    "airportCode": "AXK",
+    "airportName": "Ataq",
+    "type": "city"
+  },
+  {
+    "name": "Armenia",
+    "country": "Colombia",
+    "airportCode": "AXM",
+    "airportName": "El Eden",
+    "type": "city"
+  },
+  {
+    "name": "Spring Point",
+    "country": "Bahamas",
+    "airportCode": "AXP",
+    "airportName": "Spring Point",
+    "type": "city"
+  },
+  {
+    "name": "Arutua",
+    "country": "French Polynesia",
+    "airportCode": "AXR",
+    "airportName": "Arutua",
+    "type": "city"
+  },
+  {
+    "name": "Akita",
+    "country": "Japan",
+    "airportCode": "AXT",
+    "airportName": "Akita",
+    "type": "city"
+  },
+  {
+    "name": "Axum",
+    "country": "Ethiopia",
+    "airportCode": "AXU",
+    "airportName": "Axum",
+    "type": "city"
+  },
+  {
+    "name": "Yaguara",
+    "country": "Colombia",
+    "airportCode": "AYG",
+    "airportName": "Yaguara",
+    "type": "city"
+  },
+  {
+    "name": "Ayacucho",
+    "country": "Peru",
+    "airportCode": "AYP",
+    "airportName": "Yanamilla",
+    "type": "city"
+  },
+  {
+    "name": "Ayers Rock",
+    "country": "Australia",
+    "airportCode": "AYQ",
+    "airportName": "Connellan",
+    "type": "city"
+  },
+  {
+    "name": "Antalya",
+    "country": "Turkey",
+    "airportCode": "AYT",
+    "airportName": "Antalya",
+    "type": "city"
+  },
+  {
+    "name": "Ayawasi",
+    "country": "Indonesia",
+    "airportCode": "AYW",
+    "airportName": "Ayawasi",
+    "type": "city"
+  },
+  {
+    "name": "Amazon Bay",
+    "country": "Papua New Guinea",
+    "airportCode": "AZB",
+    "airportName": "Amazon Bay",
+    "type": "city"
+  },
+  {
+    "name": "Yazd",
+    "country": "Iran",
+    "airportCode": "AZD",
+    "airportName": "Yazd",
+    "type": "city"
+  },
+  {
+    "name": "Andizhan",
+    "country": "Uzbekistan",
+    "airportCode": "AZN",
+    "airportName": "Andizhan",
+    "type": "city"
+  },
+  {
+    "name": "Kalamazoo",
+    "country": "United States",
+    "airportCode": "AZO",
+    "airportName": "Battle Creek Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Adrar",
+    "country": "Algeria",
+    "airportCode": "AZR",
+    "airportName": "Adrar",
+    "type": "city"
+  },
+  {
+    "name": "Samana",
+    "country": "Dominican Republic",
+    "airportCode": "AZS",
+    "airportName": "Samana El Catey Intl Airport",
+    "type": "city"
+  },
+  {
+    "name": "Ambriz",
+    "country": "Angola",
+    "airportCode": "AZZ",
+    "airportName": "Ambriz",
+    "type": "city"
+  },
+  {
+    "name": "Bialla",
+    "country": "Papua New Guinea",
+    "airportCode": "BAA",
+    "airportName": "Bialla",
+    "type": "city"
+  },
+  {
+    "name": "Baguio",
+    "country": "Philippines",
+    "airportCode": "BAG",
+    "airportName": "Loakan",
+    "type": "city"
+  },
+  {
+    "name": "Bahrain",
+    "country": "Bahrain",
+    "airportCode": "BAH",
+    "airportName": "Bahrain Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Buenos Aires",
+    "country": "Costa Rica",
+    "airportCode": "BAI",
+    "airportName": "BUENOS AIRES",
+    "type": "city"
+  },
+  {
+    "name": "Batman",
+    "country": "Turkey",
+    "airportCode": "BAL",
+    "airportName": "Batman",
+    "type": "city"
+  },
+  {
+    "name": "Ban Mak Khaen",
+    "country": "Thailand",
+    "airportCode": "BAO",
+    "airportName": "Ban Mak Khaen Airport",
+    "type": "city"
+  },
+  {
+    "name": "Barranquilla",
+    "country": "Colombia",
+    "airportCode": "BAQ",
+    "airportName": "E Cortissoz",
+    "type": "city"
+  },
+  {
+    "name": "Balalae",
+    "country": "Solomon Islands",
+    "airportCode": "BAS",
+    "airportName": "Balalae",
+    "type": "city"
+  },
+  {
+    "name": "Bauru",
+    "country": "Brazil",
+    "airportCode": "BAU",
+    "airportName": "Bauru",
+    "type": "city"
+  },
+  {
+    "name": "Baotou",
+    "country": "China",
+    "airportCode": "BAV",
+    "airportName": "Baotou",
+    "type": "city"
+  },
+  {
+    "name": "Barnaul",
+    "country": "Russian Federation",
+    "airportCode": "BAX",
+    "airportName": "Barnaul",
+    "type": "city"
+  },
+  {
+    "name": "Baia Mare",
+    "country": "Romania",
+    "airportCode": "BAY",
+    "airportName": "Baia Mare",
+    "type": "city"
+  },
+  {
+    "name": "Barbelos",
+    "country": "Brazil",
+    "airportCode": "BAZ",
+    "airportName": "Barcelos Airport",
+    "type": "city"
+  },
+  {
+    "name": "Balmaceda",
+    "country": "Chile",
+    "airportCode": "BBA",
+    "airportName": "Balmaceda Airport",
+    "type": "city"
+  },
+  {
+    "name": "Burlington",
+    "country": "United States",
+    "airportCode": "BBF",
+    "airportName": "Burlington",
+    "type": "city"
+  },
+  {
+    "name": "Butaritari",
+    "country": "Kiribati",
+    "airportCode": "BBG",
+    "airportName": "Butaritari",
+    "type": "city"
+  },
+  {
+    "name": "Barth",
+    "country": "Germany",
+    "airportCode": "BBH",
+    "airportName": "Stralsund Barth Airport",
+    "type": "city"
+  },
+  {
+    "name": "Kasane",
+    "country": "Botswana",
+    "airportCode": "BBK",
+    "airportName": "Kasane",
+    "type": "city"
+  },
+  {
+    "name": "Bario",
+    "country": "Malaysia",
+    "airportCode": "BBN",
+    "airportName": "Bario",
+    "type": "city"
+  },
+  {
+    "name": "Berbera",
+    "country": "Somalia",
+    "airportCode": "BBO",
+    "airportName": "Berbera",
+    "type": "city"
+  },
+  {
+    "name": "Barbuda",
+    "country": "Antigua & Barbuda",
+    "airportCode": "BBQ",
+    "airportName": "Barbuda",
+    "type": "city"
+  },
+  {
+    "name": "Blackbush",
+    "country": "United Kingdom",
+    "airportCode": "BBS",
+    "airportName": "Blackbush",
+    "type": "city"
+  },
+  {
+    "name": "Berberati",
+    "country": "Central African Republic",
+    "airportCode": "BBT",
+    "airportName": "Berberati",
+    "type": "city"
+  },
+  {
+    "name": "Bereby",
+    "country": "Ivory Coast",
+    "airportCode": "BBV",
+    "airportName": "Bereby",
+    "type": "city"
+  },
+  {
+    "name": "Bambari",
+    "country": "Central African Republic",
+    "airportCode": "BBY",
+    "airportName": "Bambari",
+    "type": "city"
+  },
+  {
+    "name": "Baracoa",
+    "country": "Cuba",
+    "airportCode": "BCA",
+    "airportName": "Baracoa",
+    "type": "city"
+  },
+  {
+    "name": "Bacolod",
+    "country": "Philippines",
+    "airportCode": "BCD",
+    "airportName": "Bacolod",
+    "type": "city"
+  },
+  {
+    "name": "Bryce",
+    "country": "United States",
+    "airportCode": "BCE",
+    "airportName": "Bryce",
+    "type": "city"
+  },
+  {
+    "name": "Bouca",
+    "country": "Central African Republic",
+    "airportCode": "BCF",
+    "airportName": "Bouca",
+    "type": "city"
+  },
+  {
+    "name": "Bacau",
+    "country": "Romania",
+    "airportCode": "BCM",
+    "airportName": "Bacau",
+    "type": "city"
+  },
+  {
+    "name": "Jinka",
+    "country": "Ethiopia",
+    "airportCode": "BCO",
+    "airportName": "Jinka",
+    "type": "city"
+  },
+  {
+    "name": "Boca Raton",
+    "country": "United States",
+    "airportCode": "BCT",
+    "airportName": "Public Non Commercial",
+    "type": "city"
+  },
+  {
+    "name": "Bauchi",
+    "country": "Nigeria",
+    "airportCode": "BCU",
+    "airportName": "Bauchi",
+    "type": "city"
+  },
+  {
+    "name": "Bulchi",
+    "country": "Ethiopia",
+    "airportCode": "BCY",
+    "airportName": "Bulchi",
+    "type": "city"
+  },
+  {
+    "name": "Bickerton Island",
+    "country": "Australia",
+    "airportCode": "BCZ",
+    "airportName": "Bickerton Island",
+    "type": "city"
+  },
+  {
+    "name": "Bermuda",
+    "country": "Bermuda",
+    "airportCode": "BDA",
+    "airportName": "Bermuda Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Bundaberg",
+    "country": "Australia",
+    "airportCode": "BDB",
+    "airportName": "Bundaberg",
+    "type": "city"
+  },
+  {
+    "name": "Badu Island",
+    "country": "Australia",
+    "airportCode": "BDD",
+    "airportName": "Badu Island",
+    "type": "city"
+  },
+  {
+    "name": "Bandar Lengeh",
+    "country": "Iran",
+    "airportCode": "BDH",
+    "airportName": "Bandar Lengeh",
+    "type": "city"
+  },
+  {
+    "name": "Bird Island",
+    "country": "Seychelles",
+    "airportCode": "BDI",
+    "airportName": "Bird Island",
+    "type": "city"
+  },
+  {
+    "name": "Banjarmasin",
+    "country": "Indonesia",
+    "airportCode": "BDJ",
+    "airportName": "Sjamsudin Noor",
+    "type": "city"
+  },
+  {
+    "name": "Bondoukou",
+    "country": "Ivory Coast",
+    "airportCode": "BDK",
+    "airportName": "Bondoukou",
+    "type": "city"
+  },
+  {
+    "name": "Bandung",
+    "country": "Indonesia",
+    "airportCode": "BDO",
+    "airportName": "Husein Sastranegara",
+    "type": "city"
+  },
+  {
+    "name": "Bridgeport",
+    "country": "United States",
+    "airportCode": "BDR",
+    "airportName": "Igor I. Sikorsky Memorial",
+    "type": "city"
+  },
+  {
+    "name": "Brindisi",
+    "country": "Italy",
+    "airportCode": "BDS",
+    "airportName": "Papola Casale",
+    "type": "city"
+  },
+  {
+    "name": "Gbadolite",
+    "country": "Congo (Rep. Dem.)",
+    "airportCode": "BDT",
+    "airportName": "Gbadolite",
+    "type": "city"
+  },
+  {
+    "name": "Bardufoss",
+    "country": "Norway",
+    "airportCode": "BDU",
+    "airportName": "Bardufoss",
+    "type": "city"
+  },
+  {
+    "name": "Benbecula",
+    "country": "United Kingdom",
+    "airportCode": "BEB",
+    "airportName": "Benbecula",
+    "type": "city"
+  },
+  {
+    "name": "Bedford",
+    "country": "United States",
+    "airportCode": "BED",
+    "airportName": "Hanscom Field",
+    "type": "city"
+  },
+  {
+    "name": "Bluefields",
+    "country": "Nicaragua",
+    "airportCode": "BEF",
+    "airportName": "Bluefields",
+    "type": "city"
+  },
+  {
+    "name": "Belgrade",
+    "country": "Serbia",
+    "airportCode": "BEG",
+    "airportName": "Beograd",
+    "type": "city"
+  },
+  {
+    "name": "Beica",
+    "country": "Ethiopia",
+    "airportCode": "BEI",
+    "airportName": "Beica",
+    "type": "city"
+  },
+  {
+    "name": "Berau",
+    "country": "Indonesia",
+    "airportCode": "BEJ",
+    "airportName": "Berau",
+    "type": "city"
+  },
+  {
+    "name": "Belem",
+    "country": "Brazil",
+    "airportCode": "BEL",
+    "airportName": "Val De Cans",
+    "type": "city"
+  },
+  {
+    "name": "Bossembele",
+    "country": "Central African Republic",
+    "airportCode": "BEM",
+    "airportName": "Bossembele",
+    "type": "city"
+  },
+  {
+    "name": "Benghazi",
+    "country": "Libyan Arab Jamahiriya",
+    "airportCode": "BEN",
+    "airportName": "Benina Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Berlin",
+    "country": "Germany",
+    "airportCode": "BER",
+    "airportName": "Berlin Metropolitan Area",
+    "type": "city"
+  },
+  {
+    "name": "Brest",
+    "country": "France",
+    "airportCode": "BES",
+    "airportName": "Guipavas",
+    "type": "city"
+  },
+  {
+    "name": "Bethel",
+    "country": "United States",
+    "airportCode": "BET",
+    "airportName": "Bethel",
+    "type": "city"
+  },
+  {
+    "name": "Beer Sheba",
+    "country": "Israel",
+    "airportCode": "ETM",
+    "airportName": "Ramon International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Beira",
+    "country": "Mozambique",
+    "airportCode": "BEW",
+    "airportName": "Beira",
+    "type": "city"
+  },
+  {
+    "name": "Beirut",
+    "country": "Lebanon",
+    "airportCode": "BEY",
+    "airportName": "Beirut Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Beru",
+    "country": "Kiribati",
+    "airportCode": "BEZ",
+    "airportName": "Beru",
+    "type": "city"
+  },
+  {
+    "name": "Bloomfield",
+    "country": "Australia",
+    "airportCode": "BFC",
+    "airportName": "Bloomfield",
+    "type": "city"
+  },
+  {
+    "name": "Bradford",
+    "country": "United States",
+    "airportCode": "BFD",
+    "airportName": "Bradford",
+    "type": "city"
+  },
+  {
+    "name": "Scottsbluff",
+    "country": "United States",
+    "airportCode": "BFF",
+    "airportName": "Scotts Bluff County",
+    "type": "city"
+  },
+  {
+    "name": "Georgetown",
+    "country": "United States",
+    "airportCode": "BFI",
+    "airportName": "King County Intl Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bakersfield",
+    "country": "United States",
+    "airportCode": "BFL",
+    "airportName": "Meadows Field",
+    "type": "city"
+  },
+  {
+    "name": "Bloemfontein",
+    "country": "South Africa",
+    "airportCode": "BFN",
+    "airportName": " Bloemfontein",
+    "type": "city"
+  },
+  {
+    "name": "Buffalo Range",
+    "country": "Zimbabwe",
+    "airportCode": "BFO",
+    "airportName": "Buffalo Range",
+    "type": "city"
+  },
+  {
+    "name": "Belfast",
+    "country": "United Kingdom",
+    "airportCode": "BFS",
+    "airportName": "Belfast Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Buri Ram",
+    "country": "Thailand",
+    "airportCode": "BFV",
+    "airportName": "Buriram Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bafoussam",
+    "country": "Cameroon",
+    "airportCode": "BFX",
+    "airportName": "Bafoussam",
+    "type": "city"
+  },
+  {
+    "name": "Bucaramanga",
+    "country": "Colombia",
+    "airportCode": "BGA",
+    "airportName": "Bucaramanga",
+    "type": "city"
+  },
+  {
+    "name": "Booue",
+    "country": "Gabon",
+    "airportCode": "BGB",
+    "airportName": "Booue",
+    "type": "city"
+  },
+  {
+    "name": "Braganca",
+    "country": "Portugal",
+    "airportCode": "BGC",
+    "airportName": "Braganca",
+    "type": "city"
+  },
+  {
+    "name": "Bangui",
+    "country": "Central African Republic",
+    "airportCode": "BGF",
+    "airportName": "Bangui",
+    "type": "city"
+  },
+  {
+    "name": "Bongouanou",
+    "country": "Ivory Coast",
+    "airportCode": "BGG",
+    "airportName": "Bingol Airport",
+    "type": "city"
+  },
+  {
+    "name": "Boghe",
+    "country": "Mauritania",
+    "airportCode": "BGH",
+    "airportName": "Abbaye",
+    "type": "city"
+  },
+  {
+    "name": "Bridgetown",
+    "country": "Barbados",
+    "airportCode": "BGI",
+    "airportName": "Grantley Adams Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Borgarfjordur Eystri",
+    "country": "Iceland",
+    "airportCode": "BGJ",
+    "airportName": "Borgarfjordur Eystri",
+    "type": "city"
+  },
+  {
+    "name": "Big Creek",
+    "country": "Belize",
+    "airportCode": "BGK",
+    "airportName": "Big Creek",
+    "type": "city"
+  },
+  {
+    "name": "Binghamton",
+    "country": "United States",
+    "airportCode": "BGM",
+    "airportName": "Binghamton",
+    "type": "city"
+  },
+  {
+    "name": "Bergen",
+    "country": "Norway",
+    "airportCode": "BGO",
+    "airportName": "Flesland",
+    "type": "city"
+  },
+  {
+    "name": "Bangor",
+    "country": "United States",
+    "airportCode": "BGR",
+    "airportName": "Bangor Internationa",
+    "type": "city"
+  },
+  {
+    "name": "Bangassou",
+    "country": "Central African Republic",
+    "airportCode": "BGU",
+    "airportName": "Bangassou",
+    "type": "city"
+  },
+  {
+    "name": "Baghdad",
+    "country": "Iraq",
+    "airportCode": "BGW",
+    "airportName": "Baghdad International Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bahia De Caraquez",
+    "country": "Ecuador",
+    "airportCode": "BHA",
+    "airportName": "Bahia De Caraquez",
+    "type": "city"
+  },
+  {
+    "name": "Bar Harbour",
+    "country": "United States",
+    "airportCode": "BHB",
+    "airportName": "Bar Harbour",
+    "type": "city"
+  },
+  {
+    "name": "Bhurban",
+    "country": "Pakistan",
+    "airportCode": "BHC",
+    "airportName": "Bhurban Heliport",
+    "type": "city"
+  },
+  {
+    "name": "Blenheim",
+    "country": "New Zealand",
+    "airportCode": "BHE",
+    "airportName": "Blenheim",
+    "type": "city"
+  },
+  {
+    "name": "Brus Laguna",
+    "country": "Honduras",
+    "airportCode": "BHG",
+    "airportName": "Brus Laguna",
+    "type": "city"
+  },
+  {
+    "name": "Bisha",
+    "country": "Saudi Arabia",
+    "airportCode": "BHH",
+    "airportName": "Bisha",
+    "type": "city"
+  },
+  {
+    "name": "Bahia Blanca",
+    "country": "Argentina",
+    "airportCode": "BHI",
+    "airportName": "Comandante",
+    "type": "city"
+  },
+  {
+    "name": "Bukhara",
+    "country": "Uzbekistan",
+    "airportCode": "BHK",
+    "airportName": "Bukhara",
+    "type": "city"
+  },
+  {
+    "name": "Birmingham",
+    "country": "United States",
+    "airportCode": "BHM",
+    "airportName": "Birmingham",
+    "type": "city"
+  },
+  {
+    "name": "Beihan",
+    "country": "Yemen",
+    "airportCode": "BHN",
+    "airportName": "Beihan",
+    "type": "city"
+  },
+  {
+    "name": "Bhojpur",
+    "country": "Nepal",
+    "airportCode": "BHP",
+    "airportName": "BHOJPUR",
+    "type": "city"
+  },
+  {
+    "name": "Broken Hill",
+    "country": "Australia",
+    "airportCode": "BHQ",
+    "airportName": "Broken Hill",
+    "type": "city"
+  },
+  {
+    "name": "Bharatpur",
+    "country": "Nepal",
+    "airportCode": "BHR",
+    "airportName": "Bharatpur Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bathurst",
+    "country": "Australia",
+    "airportCode": "BHS",
+    "airportName": "Raglan",
+    "type": "city"
+  },
+  {
+    "name": "Birmingham",
+    "country": "United Kingdom",
+    "airportCode": "BHX",
+    "airportName": "Birmingham Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Beihai",
+    "country": "China",
+    "airportCode": "BHY",
+    "airportName": "Beihai",
+    "type": "city"
+  },
+  {
+    "name": "Belo Horizonte",
+    "country": "Brazil",
+    "airportCode": "CNF",
+    "airportName": "Tancredo Neves Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Bastia",
+    "country": "France",
+    "airportCode": "BIA",
+    "airportName": "Poretta",
+    "type": "city"
+  },
+  {
+    "name": "Block Island",
+    "country": "United States",
+    "airportCode": "BID",
+    "airportName": "Block Island",
+    "type": "city"
+  },
+  {
+    "name": "Bishop",
+    "country": "United States",
+    "airportCode": "BIH",
+    "airportName": "Bishop",
+    "type": "city"
+  },
+  {
+    "name": "Bikini Atoll",
+    "country": "Marshall Islands",
+    "airportCode": "BII",
+    "airportName": "Enyu Airfield",
+    "type": "city"
+  },
+  {
+    "name": "Biak",
+    "country": "Indonesia",
+    "airportCode": "BIK",
+    "airportName": "Mokmer",
+    "type": "city"
+  },
+  {
+    "name": "Billings",
+    "country": "United States",
+    "airportCode": "BIL",
+    "airportName": "Billings",
+    "type": "city"
+  },
+  {
+    "name": "Bimini",
+    "country": "Bahamas",
+    "airportCode": "BIM",
+    "airportName": "Bimini Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Bilbao",
+    "country": "Spain",
+    "airportCode": "BIO",
+    "airportName": "Bilbao",
+    "type": "city"
+  },
+  {
+    "name": "Biarritz",
+    "country": "France",
+    "airportCode": "BIQ",
+    "airportName": "Bayonne Anglet",
+    "type": "city"
+  },
+  {
+    "name": "Biratnagar",
+    "country": "Nepal",
+    "airportCode": "BIR",
+    "airportName": "Biratnagar",
+    "type": "city"
+  },
+  {
+    "name": "Bismarck",
+    "country": "United States",
+    "airportCode": "BIS",
+    "airportName": "Bismarck",
+    "type": "city"
+  },
+  {
+    "name": "Bria",
+    "country": "Central African Republic",
+    "airportCode": "BIV",
+    "airportName": "Bria",
+    "type": "city"
+  },
+  {
+    "name": "Bisho",
+    "country": "South Africa",
+    "airportCode": "BIY",
+    "airportName": "Bisho",
+    "type": "city"
+  },
+  {
+    "name": "Bejaia",
+    "country": "Algeria",
+    "airportCode": "BJA",
+    "airportName": "Bejaia",
+    "type": "city"
+  },
+  {
+    "name": "Bakkafjordur",
+    "country": "Iceland",
+    "airportCode": "BJD",
+    "airportName": "Bakkafjordur",
+    "type": "city"
+  },
+  {
+    "name": "Batsfjord",
+    "country": "Norway",
+    "airportCode": "BJF",
+    "airportName": "Batsfjord",
+    "type": "city"
+  },
+  {
+    "name": "Bemidji",
+    "country": "United States",
+    "airportCode": "BJI",
+    "airportName": "Bemidji",
+    "type": "city"
+  },
+  {
+    "name": "Banjul",
+    "country": "Gambia",
+    "airportCode": "BJL",
+    "airportName": "Yundum Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Bujumbura",
+    "country": "Burundi",
+    "airportCode": "BJM",
+    "airportName": "Bujumbura Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Bermejo",
+    "country": "Bolivia",
+    "airportCode": "BJO",
+    "airportName": "Bermejo",
+    "type": "city"
+  },
+  {
+    "name": "Bahar Dar",
+    "country": "Ethiopia",
+    "airportCode": "BJR",
+    "airportName": "Bahar Dar",
+    "type": "city"
+  },
+  {
+    "name": "Beijing",
+    "country": "China",
+    "airportCode": "PEK",
+    "airportName": "Beijing Capital",
+    "type": "city"
+  },
+  {
+    "name": "Bajawa",
+    "country": "Indonesia",
+    "airportCode": "BJW",
+    "airportName": "Bajawa",
+    "type": "city"
+  },
+  {
+    "name": "Leon",
+    "country": "Mexico",
+    "airportCode": "BJX",
+    "airportName": "Guanajuato del Bajio",
+    "type": "city"
+  },
+  {
+    "name": "Badajoz",
+    "country": "Spain",
+    "airportCode": "BJZ",
+    "airportName": "Badajoz Airport",
+    "type": "city"
+  },
+  {
+    "name": "Buckland",
+    "country": "United States",
+    "airportCode": "BKC",
+    "airportName": "Buckland",
+    "type": "city"
+  },
+  {
+    "name": "Branson",
+    "country": "United States",
+    "airportCode": "BKG",
+    "airportName": "Branson Airport",
+    "type": "city"
+  },
+  {
+    "name": "Kota Kinabalu",
+    "country": "Malaysia",
+    "airportCode": "BKI",
+    "airportName": "Kota Kinabalu",
+    "type": "city"
+  },
+  {
+    "name": "Boke",
+    "country": "Guinea",
+    "airportCode": "BKJ",
+    "airportName": "Boke",
+    "type": "city"
+  },
+  {
+    "name": "Bakalalan",
+    "country": "Malaysia",
+    "airportCode": "BKM",
+    "airportName": "Bakalalan",
+    "type": "city"
+  },
+  {
+    "name": "Birni Nkoni",
+    "country": "Niger",
+    "airportCode": "BKN",
+    "airportName": "BKN",
+    "type": "city"
+  },
+  {
+    "name": "Bamako",
+    "country": "Mali",
+    "airportCode": "BKO",
+    "airportName": "Bamako",
+    "type": "city"
+  },
+  {
+    "name": "Blackall",
+    "country": "Australia",
+    "airportCode": "BKQ",
+    "airportName": "Blackall",
+    "type": "city"
+  },
+  {
+    "name": "Bokoro",
+    "country": "Chad",
+    "airportCode": "BKR",
+    "airportName": "Bokoro",
+    "type": "city"
+  },
+  {
+    "name": "Bengkulu",
+    "country": "Indonesia",
+    "airportCode": "BKS",
+    "airportName": "Padangkemiling",
+    "type": "city"
+  },
+  {
+    "name": "Betioky",
+    "country": "Madagascar",
+    "airportCode": "BKU",
+    "airportName": "Betioky",
+    "type": "city"
+  },
+  {
+    "name": "Beckley",
+    "country": "United States",
+    "airportCode": "BKW",
+    "airportName": "Beckley",
+    "type": "city"
+  },
+  {
+    "name": "Brookings",
+    "country": "United States",
+    "airportCode": "BKX",
+    "airportName": "Brookings",
+    "type": "city"
+  },
+  {
+    "name": "Bukavu",
+    "country": "Congo (Rep. Dem.)",
+    "airportCode": "BKY",
+    "airportName": "Kamenbe",
+    "type": "city"
+  },
+  {
+    "name": "Bukoba",
+    "country": "Tanzania",
+    "airportCode": "BKZ",
+    "airportName": "Bukoba",
+    "type": "city"
+  },
+  {
+    "name": "Balboa",
+    "country": "Panama",
+    "airportCode": "BLB",
+    "airportName": "Panama Pacifico",
+    "type": "city"
+  },
+  {
+    "name": "Borlange",
+    "country": "Sweden",
+    "airportCode": "BLE",
+    "airportName": "Dala",
+    "type": "city"
+  },
+  {
+    "name": "Bluefield",
+    "country": "United States",
+    "airportCode": "BLF",
+    "airportName": "Mercer County",
+    "type": "city"
+  },
+  {
+    "name": "Belaga",
+    "country": "Malaysia",
+    "airportCode": "BLG",
+    "airportName": "Belaga",
+    "type": "city"
+  },
+  {
+    "name": "Bellingham",
+    "country": "United States",
+    "airportCode": "BLI",
+    "airportName": "Bellingham",
+    "type": "city"
+  },
+  {
+    "name": "Batna",
+    "country": "Algeria",
+    "airportCode": "BLJ",
+    "airportName": "Batna Airport",
+    "type": "city"
+  },
+  {
+    "name": "Blackpool",
+    "country": "United Kingdom",
+    "airportCode": "BLK",
+    "airportName": "Blackpool",
+    "type": "city"
+  },
+  {
+    "name": "Billund",
+    "country": "Denmark",
+    "airportCode": "BLL",
+    "airportName": "Billund",
+    "type": "city"
+  },
+  {
+    "name": "Bologna",
+    "country": "Italy",
+    "airportCode": "BLQ",
+    "airportName": "Guglielmo Marconi",
+    "type": "city"
+  },
+  {
+    "name": "Blackwater",
+    "country": "Australia",
+    "airportCode": "BLT",
+    "airportName": "Blackwater",
+    "type": "city"
+  },
+  {
+    "name": "Blantyre",
+    "country": "Malawi",
+    "airportCode": "BLZ",
+    "airportName": "Chileka",
+    "type": "city"
+  },
+  {
+    "name": "Bumba",
+    "country": "Congo (Rep. Dem.)",
+    "airportCode": "BMB",
+    "airportName": "Bumba",
+    "type": "city"
+  },
+  {
+    "name": "Belo",
+    "country": "Madagascar",
+    "airportCode": "BMD",
+    "airportName": "Belo",
+    "type": "city"
+  },
+  {
+    "name": "Broome",
+    "country": "Australia",
+    "airportCode": "BME",
+    "airportName": "Broome",
+    "type": "city"
+  },
+  {
+    "name": "Bakouma",
+    "country": "Central African Republic",
+    "airportCode": "BMF",
+    "airportName": "Bakouma",
+    "type": "city"
+  },
+  {
+    "name": "Bloomington",
+    "country": "United States",
+    "airportCode": "BMG",
+    "airportName": "Bloomington",
+    "type": "city"
+  },
+  {
+    "name": "Bloomington Normal",
+    "country": "United States",
+    "airportCode": "BMI",
+    "airportName": "Bloomington",
+    "type": "city"
+  },
+  {
+    "name": "Borkum",
+    "country": "Germany",
+    "airportCode": "BMK",
+    "airportName": "Borkum",
+    "type": "city"
+  },
+  {
+    "name": "Bitam",
+    "country": "Gabon",
+    "airportCode": "BMM",
+    "airportName": "Bitam",
+    "type": "city"
+  },
+  {
+    "name": "Bhamo",
+    "country": "Myanmar",
+    "airportCode": "BMO",
+    "airportName": "Bhamo",
+    "type": "city"
+  },
+  {
+    "name": "Brampton Island",
+    "country": "Australia",
+    "airportCode": "BMP",
+    "airportName": "Brampton Island",
+    "type": "city"
+  },
+  {
+    "name": "Bamburi",
+    "country": "Kenya",
+    "airportCode": "BMQ",
+    "airportName": "Bamburi",
+    "type": "city"
+  },
+  {
+    "name": "Bima",
+    "country": "Indonesia",
+    "airportCode": "BMU",
+    "airportName": "Bima",
+    "type": "city"
+  },
+  {
+    "name": "Banmethuot",
+    "country": "Vietnam",
+    "airportCode": "BMV",
+    "airportName": "Phung - Duc",
+    "type": "city"
+  },
+  {
+    "name": "Bordj Badji Mokht",
+    "country": "Algeria",
+    "airportCode": "BMW",
+    "airportName": "Bordj Badji Mokht",
+    "type": "city"
+  },
+  {
+    "name": "Belep Island",
+    "country": "New Caledonia",
+    "airportCode": "BMY",
+    "airportName": "Belep Island",
+    "type": "city"
+  },
+  {
+    "name": "Nashville",
+    "country": "United States",
+    "airportCode": "BNA",
+    "airportName": "Nashville",
+    "type": "city"
+  },
+  {
+    "name": "Boende",
+    "country": "Congo (Rep. Dem.)",
+    "airportCode": "BNB",
+    "airportName": "Boende",
+    "type": "city"
+  },
+  {
+    "name": "Beni",
+    "country": "Congo (Rep. Dem.)",
+    "airportCode": "BNC",
+    "airportName": "Beni",
+    "type": "city"
+  },
+  {
+    "name": "Bandar Abbas",
+    "country": "Iran",
+    "airportCode": "BND",
+    "airportName": "Bandar Abbas",
+    "type": "city"
+  },
+  {
+    "name": "Brisbane",
+    "country": "Australia",
+    "airportCode": "BNE",
+    "airportName": "Brisbane Airport",
+    "type": "city"
+  },
+  {
+    "name": "Benin City",
+    "country": "Nigeria",
+    "airportCode": "BNI",
+    "airportName": "Benin City",
+    "type": "city"
+  },
+  {
+    "name": "Ballina",
+    "country": "Australia",
+    "airportCode": "BNK",
+    "airportName": "Ballina",
+    "type": "city"
+  },
+  {
+    "name": "Bronnoysund",
+    "country": "Norway",
+    "airportCode": "BNN",
+    "airportName": "Bronnoy",
+    "type": "city"
+  },
+  {
+    "name": "Banfora",
+    "country": "Burkina Faso",
+    "airportCode": "BNR",
+    "airportName": "Banfora",
+    "type": "city"
+  },
+  {
+    "name": "Barinas",
+    "country": "Venezuela",
+    "airportCode": "BNS",
+    "airportName": "Barinas",
+    "type": "city"
+  },
+  {
+    "name": "Boone",
+    "country": "United States",
+    "airportCode": "BNW",
+    "airportName": "Boone Municipal Airport",
+    "type": "city"
+  },
+  {
+    "name": "Banja Luka",
+    "country": "Bosnia and Herzegowina",
+    "airportCode": "BNX",
+    "airportName": "Banja Luka Intl Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bellona",
+    "country": "Solomon Islands",
+    "airportCode": "BNY",
+    "airportName": "Bellona",
+    "type": "city"
+  },
+  {
+    "name": "Boma",
+    "country": "Congo (Rep. Dem.)",
+    "airportCode": "BOA",
+    "airportName": "BOMA",
+    "type": "city"
+  },
+  {
+    "name": "Bora Bora",
+    "country": "French Polynesia",
+    "airportCode": "BOB",
+    "airportName": "Motu-Mute",
+    "type": "city"
+  },
+  {
+    "name": "Bocas Del Toro",
+    "country": "Panama",
+    "airportCode": "BOC",
+    "airportName": "Bocas Del Toro",
+    "type": "city"
+  },
+  {
+    "name": "Bordeaux",
+    "country": "France",
+    "airportCode": "BOD",
+    "airportName": "Merignac",
+    "type": "city"
+  },
+  {
+    "name": "Boundji",
+    "country": "Congo",
+    "airportCode": "BOE",
+    "airportName": "Boundji",
+    "type": "city"
+  },
+  {
+    "name": "Bogota",
+    "country": "Colombia",
+    "airportCode": "BOG",
+    "airportName": "Eldorado",
+    "type": "city"
+  },
+  {
+    "name": "Bournemouth",
+    "country": "United Kingdom",
+    "airportCode": "BOH",
+    "airportName": "Bournemouth Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Boise",
+    "country": "United States",
+    "airportCode": "BOI",
+    "airportName": "Boise Air Term. (Gowen Field)",
+    "type": "city"
+  },
+  {
+    "name": "Bourgas",
+    "country": "Bulgaria",
+    "airportCode": "BOJ",
+    "airportName": "Bourgas",
+    "type": "city"
+  },
+  {
+    "name": "Bonaire",
+    "country": "Netherlands Antilles",
+    "airportCode": "BON",
+    "airportName": "Flamingo Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Bodo",
+    "country": "Norway",
+    "airportCode": "BOO",
+    "airportName": "Bodo",
+    "type": "city"
+  },
+  {
+    "name": "Bouar",
+    "country": "Central African Republic",
+    "airportCode": "BOP",
+    "airportName": "Bouar",
+    "type": "city"
+  },
+  {
+    "name": "Belfort",
+    "country": "France",
+    "airportCode": "BOR",
+    "airportName": "Fontaine",
+    "type": "city"
+  },
+  {
+    "name": "Boston",
+    "country": "United States",
+    "airportCode": "BOS",
+    "airportName": "Logan Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Borroloola",
+    "country": "Australia",
+    "airportCode": "BOX",
+    "airportName": "Borroloola",
+    "type": "city"
+  },
+  {
+    "name": "Bobo Dioulasso",
+    "country": "Burkina Faso",
+    "airportCode": "BOY",
+    "airportName": "Borgo",
+    "type": "city"
+  },
+  {
+    "name": "Bozoum",
+    "country": "Central African Republic",
+    "airportCode": "BOZ",
+    "airportName": "Bozoum",
+    "type": "city"
+  },
+  {
+    "name": "Bamenda",
+    "country": "Cameroon",
+    "airportCode": "BPC",
+    "airportName": "Bamenda",
+    "type": "city"
+  },
+  {
+    "name": "Barra Do Garcas",
+    "country": "Brazil",
+    "airportCode": "BPG",
+    "airportName": "Barra Do Garcas",
+    "type": "city"
+  },
+  {
+    "name": "Balikpapan",
+    "country": "Indonesia",
+    "airportCode": "BPN",
+    "airportName": "Sepingan",
+    "type": "city"
+  },
+  {
+    "name": "Borongan",
+    "country": "Philippines",
+    "airportCode": "BPR",
+    "airportName": "Borongan Airport",
+    "type": "city"
+  },
+  {
+    "name": "Porto Seguro",
+    "country": "Brazil",
+    "airportCode": "BPS",
+    "airportName": "Porto Seguro",
+    "type": "city"
+  },
+  {
+    "name": "Beaumont",
+    "country": "United States",
+    "airportCode": "BPT",
+    "airportName": "Jefferson County",
+    "type": "city"
+  },
+  {
+    "name": "Besalampy",
+    "country": "Madagascar",
+    "airportCode": "BPY",
+    "airportName": "Besalampy",
+    "type": "city"
+  },
+  {
+    "name": "Busselton",
+    "country": "Australia",
+    "airportCode": "BQB",
+    "airportName": "Busselton",
+    "type": "city"
+  },
+  {
+    "name": "Boulia",
+    "country": "Australia",
+    "airportCode": "BQL",
+    "airportName": "Boulia",
+    "type": "city"
+  },
+  {
+    "name": "Aguadilla",
+    "country": "Puerto Rico",
+    "airportCode": "BQN",
+    "airportName": "Borinquen",
+    "type": "city"
+  },
+  {
+    "name": "Bouna",
+    "country": "Ivory Coast",
+    "airportCode": "BQO",
+    "airportName": "Bouna",
+    "type": "city"
+  },
+  {
+    "name": "Brest",
+    "country": "Belarus (Belorussia)",
+    "airportCode": "BQT",
+    "airportName": "Brest",
+    "type": "city"
+  },
+  {
+    "name": "Barreiras",
+    "country": "Brazil",
+    "airportCode": "BRA",
+    "airportName": "Barreiras",
+    "type": "city"
+  },
+  {
+    "name": "Bariloche",
+    "country": "Argentina",
+    "airportCode": "BRC",
+    "airportName": "Bariloche Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Brainerd",
+    "country": "United States",
+    "airportCode": "BRD",
+    "airportName": "Crow Wing County",
+    "type": "city"
+  },
+  {
+    "name": "Bremen",
+    "country": "Germany",
+    "airportCode": "BRE",
+    "airportName": "Bremen",
+    "type": "city"
+  },
+  {
+    "name": "Whitesburg",
+    "country": "United States",
+    "airportCode": "BRG",
+    "airportName": "Whitesburg Municipal Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bari",
+    "country": "Italy",
+    "airportCode": "BRI",
+    "airportName": "Palese",
+    "type": "city"
+  },
+  {
+    "name": "Bourke",
+    "country": "Australia",
+    "airportCode": "BRK",
+    "airportName": "Bourke",
+    "type": "city"
+  },
+  {
+    "name": "Barquisimeto",
+    "country": "Venezuela",
+    "airportCode": "BRM",
+    "airportName": "Barquisimeto",
+    "type": "city"
+  },
+  {
+    "name": "Berne",
+    "country": "Switzerland",
+    "airportCode": "BRN",
+    "airportName": "Belp",
+    "type": "city"
+  },
+  {
+    "name": "Brownsville",
+    "country": "United States",
+    "airportCode": "BRO",
+    "airportName": "Bouth Padre Is. Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Brno",
+    "country": "Czech Republic",
+    "airportCode": "BRQ",
+    "airportName": "Turany",
+    "type": "city"
+  },
+  {
+    "name": "Barra",
+    "country": "United Kingdom",
+    "airportCode": "BRR",
+    "airportName": "North Bay",
+    "type": "city"
+  },
+  {
+    "name": "Bristol",
+    "country": "United Kingdom",
+    "airportCode": "BRS",
+    "airportName": "Bristol",
+    "type": "city"
+  },
+  {
+    "name": "Bathurst Island",
+    "country": "Australia",
+    "airportCode": "BRT",
+    "airportName": "Bathurst Island",
+    "type": "city"
+  },
+  {
+    "name": "Brussels",
+    "country": "Belgium",
+    "airportCode": "BRU",
+    "airportName": "Brussels National",
+    "type": "city"
+  },
+  {
+    "name": "Bremerhaven",
+    "country": "Germany",
+    "airportCode": "BRV",
+    "airportName": "Bremerhaven",
+    "type": "city"
+  },
+  {
+    "name": "Barrow",
+    "country": "United States",
+    "airportCode": "BRW",
+    "airportName": "Will Rogers Memorial",
+    "type": "city"
+  },
+  {
+    "name": "Bossaso",
+    "country": "Somalia",
+    "airportCode": "BSA",
+    "airportName": "Bossaso",
+    "type": "city"
+  },
+  {
+    "name": "Brasilia",
+    "country": "Brazil",
+    "airportCode": "BSB",
+    "airportName": "Brasilia Int'l",
+    "type": "city"
+  },
+  {
+    "name": "Bahia Solano",
+    "country": "Colombia",
+    "airportCode": "BSC",
+    "airportName": "Bahia Solano",
+    "type": "city"
+  },
+  {
+    "name": "Bata",
+    "country": "Equatorial Guinea",
+    "airportCode": "BSG",
+    "airportName": "Bata",
+    "type": "city"
+  },
+  {
+    "name": "Brighton",
+    "country": "United Kingdom",
+    "airportCode": "BSH",
+    "airportName": "Brighton Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bairnsdale",
+    "country": "Australia",
+    "airportCode": "BSJ",
+    "airportName": "Bairnsdale",
+    "type": "city"
+  },
+  {
+    "name": "Biskra",
+    "country": "Algeria",
+    "airportCode": "BSK",
+    "airportName": "Biskra",
+    "type": "city"
+  },
+  {
+    "name": "Bossangoa",
+    "country": "Central African Republic",
+    "airportCode": "BSN",
+    "airportName": "Bossangoa",
+    "type": "city"
+  },
+  {
+    "name": "Basco",
+    "country": "Philippines",
+    "airportCode": "BSO",
+    "airportName": "Basco Airport",
+    "type": "city"
+  },
+  {
+    "name": "Bensbach",
+    "country": "Papua New Guinea",
+    "airportCode": "BSP",
+    "airportName": "Bensbach",
+    "type": "city"
+  },
+  {
+    "name": "Basra",
+    "country": "Iraq",
+    "airportCode": "BSR",
+    "airportName": " BASRAH INTERNATIONAL",
+    "type": "city"
+  },
+  {
+    "name": "Bost",
+    "country": "Afghanistan",
+    "airportCode": "BST",
+    "airportName": "Bost",
+    "type": "city"
+  },
+  {
+    "name": "Basankusu",
+    "country": "Congo (Rep. Dem.)",
+    "airportCode": "BSU",
+    "airportName": "Basankusu",
+    "type": "city"
+  },
+  {
+    "name": "Besakoa",
+    "country": "Madagascar",
+    "airportCode": "BSV",
+    "airportName": "Besakoa",
+    "type": "city"
+  },
+  {
+    "name": "Bertoua",
+    "country": "Cameroon",
+    "airportCode": "BTA",
+    "airportName": "Bertoua",
+    "type": "city"
+  },
+  {
+    "name": "Betou",
+    "country": "Congo",
+    "airportCode": "BTB",
+    "airportName": "Betou",
+    "type": "city"
+  },
+  {
+    "name": "Bonthe",
+    "country": "Sierra Leone",
+    "airportCode": "BTE",
+    "airportName": "Bonthe",
+    "type": "city"
+  },
+  {
+    "name": "Batangafo",
+    "country": "Central African Republic",
+    "airportCode": "BTG",
+    "airportName": "Batangafo",
+    "type": "city"
+  },
+  {
+    "name": "Batu Besar",
+    "country": "Indonesia",
+    "airportCode": "BTH",
+    "airportName": "Hang Nadim",
+    "type": "city"
+  },
+  {
+    "name": "Barter Island",
+    "country": "United States",
+    "airportCode": "BTI",
+    "airportName": "Barter Island",
+    "type": "city"
+  }
+]

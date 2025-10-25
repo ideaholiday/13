@@ -1,0 +1,162 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                 🎙️  VOICE SEARCH - QUICK REFERENCE                ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🚀 QUICK START                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+  1. cd ih-frontend
+  2. ./test-voice-search.sh
+  3. Click floating mic button (bottom-right)
+  4. Speak: "Find flights from Delhi to Dubai next week"
+  5. Done! ✨
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 📍 WHERE IS IT?                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+  • Floating Button: Bottom-right corner (all pages)
+  • Flight Form: Microphone icon next to "Search Flights"
+  • Keyboard: Ctrl+K to open global search (coming soon)
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🎯 EXAMPLE QUERIES                                              │
+└─────────────────────────────────────────────────────────────────┘
+
+  FLIGHTS
+  → "Find flights from Delhi to Dubai next week"
+  → "Round trip from Mumbai to London in business class"
+  → "One-way flight from Bangalore to Singapore tomorrow"
+
+  HOTELS
+  → "Show me hotels in Paris for next weekend"
+  → "5-star hotels in Dubai for Christmas"
+  → "Budget hotels near Times Square New York"
+
+  PACKAGES
+  → "Dubai holiday packages for 5 days"
+  → "Europe tour packages"
+  → "Maldives honeymoon packages"
+
+  GENERAL
+  → "What are your cancellation policies?"
+  → "Show my bookings"
+  → "How do I change my reservation?"
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ⚙️  CONFIGURATION                                               │
+└─────────────────────────────────────────────────────────────────┘
+
+  MOCK MODE (default - works immediately)
+  ✓ No setup needed
+  ✓ Returns sample data
+  ✓ Perfect for testing
+  ✓ Zero cost
+
+  PRODUCTION MODE (OpenAI)
+  1. Get key: https://platform.openai.com/api-keys
+  2. Edit .env.local:
+     OPENAI_API_KEY=sk-your-key-here
+  3. Restart: npm run dev
+  ✓ Real AI understanding
+  ✓ Multi-language support
+  ✓ Cost: ~$0.01/query
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🎨 HOW IT WORKS                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+  User Speaks
+      ↓
+  Browser Records Audio (MediaRecorder)
+      ↓
+  API Transcribes (Whisper - supports Hindi/English/Hinglish)
+      ↓
+  GPT Extracts Intent & Entities
+      ↓
+  Routes to Correct Page (flights/hotels/packages)
+      ↓
+  Auto-fills Form & Triggers Search
+      ↓
+  Speaks Result Back to User ✨
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🐛 TROUBLESHOOTING                                              │
+└─────────────────────────────────────────────────────────────────┘
+
+  "Mic not working"
+  → Grant browser permission (click lock icon in URL bar)
+  → Use HTTPS or localhost
+  → Try different browser (Chrome/Edge recommended)
+
+  "Voice processing failed"
+  → Check API key in .env.local
+  → Verify OpenAI account has credits
+  → System will fallback to mock mode automatically
+
+  "Search not triggered"
+  → Check browser console for errors
+  → Be more specific: "Find flights from X to Y on [date]"
+  → Try clicking "Yes, search" button if shown
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 📋 FILES YOU NEED TO KNOW                                       │
+└─────────────────────────────────────────────────────────────────┘
+
+  API Endpoint
+  → /src/app/api/voice-search/route.ts
+
+  Global Widget (floating button)
+  → /src/components/shared/GlobalVoiceSearch.tsx
+
+  Form Button (flights, hotels, etc.)
+  → /src/components/shared/VoiceSearchButton.tsx
+
+  Configuration
+  → .env.local (OPENAI_API_KEY)
+
+  Documentation
+  → VOICE_SEARCH_COMPLETE.md (quick start)
+  → VOICE_SEARCH_SETUP.md (detailed guide)
+  → IMPLEMENTATION_SUMMARY.md (full overview)
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ✨ FEATURES                                                      │
+└─────────────────────────────────────────────────────────────────┘
+
+  ✓ Multi-language (English, Hindi, Hinglish)
+  ✓ Smart intent detection
+  ✓ Auto-routing to correct pages
+  ✓ Voice feedback (speaks responses)
+  ✓ Form auto-fill
+  ✓ Beautiful animations
+  ✓ Works without API key (mock mode)
+  ✓ Production-ready with OpenAI
+  ✓ Comprehensive error handling
+  ✓ Mobile & desktop support
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 💰 PRICING (OpenAI Mode)                                        │
+└─────────────────────────────────────────────────────────────────┘
+
+  Per Query: ~$0.01
+  1,000 queries/month: ~$10
+  10,000 queries/month: ~$100
+
+  Mock mode: FREE (unlimited)
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🎊 STATUS                                                        │
+└─────────────────────────────────────────────────────────────────┘
+
+  ✅ Implementation: COMPLETE
+  ✅ Testing: READY
+  ✅ Documentation: COMPLETE
+  ✅ Deployment: READY
+
+  You can start using it RIGHT NOW! 🚀
+
+╔═══════════════════════════════════════════════════════════════════╗
+║  Need help? Check VOICE_SEARCH_SETUP.md for detailed docs        ║
+╚═══════════════════════════════════════════════════════════════════╝

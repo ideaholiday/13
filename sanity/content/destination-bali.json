@@ -1,0 +1,67 @@
+{
+  "_type": "destination",
+  "_id": "bali-destination",
+  "title": "Bali",
+  "slug": {
+    "current": "bali",
+    "_type": "slug"
+  },
+  "country": "Indonesia",
+  "description": "Discover beautiful beaches, ancient temples, lush rice terraces, and vibrant culture. Bali offers a perfect blend of spirituality, adventure, and relaxation.",
+  "image": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-bali-destination"
+    }
+  },
+  "gallery": [
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-bali-gallery-1"
+      }
+    },
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-bali-gallery-2"
+      }
+    },
+    {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-bali-gallery-3"
+      }
+    }
+  ],
+  "isPopular": true,
+  "averagePrice": 19500,
+  "bestTime": "April to October",
+  "highlights": [
+    "Tanah Lot temple sunset",
+    "Ubud rice terraces",
+    "Traditional Balinese cooking",
+    "Sacred monkey forest",
+    "Cultural dance performance",
+    "Mount Batur sunrise trek",
+    "Seminyak beach relaxation",
+    "Nusa Penida island hopping"
+  ],
+  "climate": "Bali has a tropical climate with two seasons: dry season (April-October) and wet season (November-March). The best time to visit is during the dry season when the weather is sunny and perfect for beach activities and outdoor adventures.",
+  "seo": {
+    "_type": "seo",
+    "title": "Bali Travel Guide 2024 | Temples, Beaches & Cultural Experiences",
+    "description": "Complete Bali travel guide covering temples, beaches, rice terraces, and cultural experiences. Plan your Bali adventure with Idea Holiday.",
+    "image": {
+      "_type": "image",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-bali-seo"
+      }
+    }
+  }
+}

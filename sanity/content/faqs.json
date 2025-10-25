@@ -1,0 +1,50 @@
+[
+  {
+    "_type": "faq",
+    "_id": "faq-flight-booking",
+    "question": "How do I book flights with Idea Holiday?",
+    "answer": "Booking flights with Idea Holiday is simple and secure. Visit our website, enter your travel details (origin, destination, dates, passengers), compare available flights, and complete your booking with secure payment. You'll receive instant confirmation via email and SMS."
+  },
+  {
+    "_type": "faq",
+    "_id": "faq-hotel-booking",
+    "question": "What types of hotels do you offer?",
+    "answer": "We offer a wide range of accommodations from budget hotels to luxury resorts. Our inventory includes over 10 lakh+ verified properties worldwide, including boutique hotels, beach resorts, city hotels, and vacation rentals. All properties are verified for quality and comfort."
+  },
+  {
+    "_type": "faq",
+    "_id": "faq-package-customization",
+    "question": "Can I customize my holiday package?",
+    "answer": "Yes! We offer both fixed departure packages and fully customizable holiday packages. You can modify itineraries, change accommodations, add or remove activities, and adjust the duration to match your preferences and budget. Our travel experts will help create your perfect trip."
+  },
+  {
+    "_type": "faq",
+    "_id": "faq-visa-assistance",
+    "question": "Do you provide visa assistance?",
+    "answer": "Absolutely! We provide comprehensive visa assistance for multiple countries. Our expert team handles document verification, application forms, and processing. We offer express services and have a 95% success rate. Contact us for visa requirements for your destination."
+  },
+  {
+    "_type": "faq",
+    "_id": "faq-payment-methods",
+    "question": "What payment methods do you accept?",
+    "answer": "We accept all major credit/debit cards, net banking, UPI, digital wallets, and EMI options. Our payment gateway is secured with bank-level encryption. We also offer flexible payment plans for holiday packages. All transactions are processed securely through Razorpay."
+  },
+  {
+    "_type": "faq",
+    "_id": "faq-cancellation-policy",
+    "question": "What is your cancellation policy?",
+    "answer": "Our cancellation policy varies by service type. Flights typically follow airline policies, hotels offer free cancellation up to 24-48 hours before check-in, and packages have flexible cancellation terms. We recommend checking specific terms during booking. Travel insurance is available for additional protection."
+  },
+  {
+    "_type": "faq",
+    "_id": "faq-customer-support",
+    "question": "How can I contact customer support?",
+    "answer": "Our customer support is available 24/7 through multiple channels: Phone (+91-9696777391), WhatsApp, email (support@ideaholiday.com), and live chat on our website. We respond to queries within 24 hours and provide instant support for urgent travel issues."
+  },
+  {
+    "_type": "faq",
+    "_id": "faq-best-price-guarantee",
+    "question": "Do you offer best price guarantee?",
+    "answer": "Yes! We guarantee the best prices for flights, hotels, and packages. If you find a lower price for the same service elsewhere, we'll match it or provide additional benefits. Our partnerships with airlines and hotels ensure competitive pricing and exclusive deals."
+  }
+]
