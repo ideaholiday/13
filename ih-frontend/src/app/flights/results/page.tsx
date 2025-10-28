@@ -14,11 +14,25 @@ export default function ResultsPage() {
 
   const payload = useMemo(() => {
     const get = (key: string) => sp?.get(key) ?? ''
+    
+    // Helper to convert date to proper format
+    const formatDate = (dateStr: string) => {
+      if (!dateStr) return ''
+      // If date doesn't have time component, add it
+      if (dateStr.length === 10) {
+        return `${dateStr}T00:00:00`
+      }
+      return dateStr
+    }
+    
+    const departDate = get("depart") || ''
+    const returnDate = get("return") || ''
+    
     return {
       origin: get("from") || '',
       destination: get("to") || '',
-      departDate: get("depart") || '',
-      returnDate: get("return") || undefined,
+      departDate: formatDate(departDate),
+      returnDate: returnDate ? formatDate(returnDate) : undefined,
       tripType: get("trip") || "O",
       adults: Number(get("adults") || get("adt") || 1),
       children: Number(get("children") || get("chd") || 0),
@@ -38,6 +52,8 @@ export default function ResultsPage() {
       setProviderError(null);
       
       try {
+        console.log("Search payload:", payload);
+        
         const res = await fetch("/api/air/search", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -45,11 +61,18 @@ export default function ResultsPage() {
         });
         
         const json = await res.json();
+        console.log("Search response:", json);
         
         if (!mounted) return;
         
         if (!res.ok) {
-          setError(json.message || "Failed to search flights");
+          console.error("API error:", json);
+          // Show validation errors if present
+          if (json.errors && Array.isArray(json.errors)) {
+            setError(json.errors.join("; "));
+          } else {
+            setError(json.message || "Failed to search flights");
+          }
           set({ results: [], lastSearchPayload: payload });
           return;
         }
@@ -163,19 +186,20 @@ export default function ResultsPage() {
   if (error) {
     return (
       <div className="container mx-auto py-10 max-w-2xl">
-        <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded-lg shadow-sm">
+        <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded-lg shadow-sm mb-6">
           <div className="flex items-start">
             <AlertCircle className="h-6 w-6 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
             <div>
               <h3 className="text-lg font-semibold text-red-900 mb-2">
                 Search Error
               </h3>
-              <p className="text-red-800">{error}</p>
+              <p className="text-red-800 mb-3">Request failed with status code 400.</p>
+              <p className="text-red-800 font-medium">{error}</p>
             </div>
           </div>
         </div>
         
-        <div className="text-center mt-6">
+        <div className="text-center">
           <button
             onClick={() => router.back()}
             className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"

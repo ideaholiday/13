@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Services\TBO\AirService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class FlightController extends Controller
 {
@@ -21,17 +24,27 @@ class FlightController extends Controller
     public function search(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'segments' => 'required|array|min:1',
-            'segments.*.origin' => 'required|string|size:3',
-            'segments.*.destination' => 'required|string|size:3',
-            'segments.*.departureDate' => 'required|date|after_or_equal:today',
-            'tripType' => 'nullable|string',
+            'segments' => 'required_without:origin|array|min:1',
+            'segments.*.origin' => 'required_with:segments|string|size:3',
+            'segments.*.destination' => 'required_with:segments|string|size:3',
+            'segments.*.departureDate' => 'required_with:segments|date|after_or_equal:today',
+            'origin' => 'required_without:segments|string|size:3',
+            'destination' => 'required_with:origin|string|size:3',
+            'departDate' => 'required_with:origin|date|after_or_equal:today',
+            'returnDate' => 'nullable|date|after:departDate',
+            'tripType' => 'nullable|string|in:O,R,M',
             'adults' => 'nullable|integer|min:1|max:9',
             'children' => 'nullable|integer|min:0|max:8',
             'infants' => 'nullable|integer|min:0|max:8',
             'cabinClass' => 'nullable|string',
+            'preferredAirlines' => 'nullable|array',
+            'preferredAirlines.*' => 'string|max:3',
+            'direct' => 'nullable|boolean',
+            'oneStop' => 'nullable|boolean',
             'mock' => 'sometimes|boolean',
             'fresh' => 'sometimes|boolean',
+        ], [
+            'segments.required_without' => 'Provide either segments array or origin/destination/departDate fields.',
         ]);
 
         if ($validator->fails()) {
@@ -42,93 +55,68 @@ class FlightController extends Controller
         }
 
         try {
-            // Use segments directly from request
-            $segments = $request->input('segments', []);
-            
-            // Ensure segments have proper format
-            foreach ($segments as &$segment) {
-                $segment['origin'] = strtoupper($segment['origin']);
-                $segment['destination'] = strtoupper($segment['destination']);
-                if (!str_contains($segment['departureDate'], 'T')) {
-                    $segment['departureDate'] .= 'T00:00:00';
-                }
-            }
-            
+            $data = $validator->validated();
+            $segments = $this->prepareSegments($data);
+            $tripType = $data['tripType'] ?? 'O';
+            $cabinClass = $data['cabinClass'] ?? 'E';
+            $passengers = [
+                'adults' => (int) ($data['adults'] ?? 1),
+                'children' => (int) ($data['children'] ?? 0),
+                'infants' => (int) ($data['infants'] ?? 0),
+            ];
+
             $payload = [
                 'segments' => $segments,
-                'tripType' => $request->input('tripType', 'O'),
-                'cabinClass' => $request->input('cabinClass', 'E'),
-                'adults' => (int) $request->input('adults', 1),
-                'children' => (int) $request->input('children', 0),
-                'infants' => (int) $request->input('infants', 0),
+                'tripType' => $tripType,
+                'cabinClass' => $cabinClass,
+                ...$passengers,
             ];
-            
-            // Log request for debugging
-            Log::info('Flight search request', ['payload' => $payload]);
-            
-            $result = $this->airService->search($payload);
-            
-            // Check if we have valid results
-            if (!$result || !isset($result['Response'])) {
-                Log::warning('No flight results found', [
-                    'origin' => $payload['origin'],
-                    'destination' => $payload['destination'],
-                    'departDate' => $payload['departDate']
-                ]);
-                
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No flights found for your search criteria',
-                    'suggestions' => [
-                        'Try different dates',
-                        'Check nearby airports',
-                        'Adjust passenger count',
-                        'Try different cabin class'
-                    ],
-                    'searchCriteria' => [
-                        'origin' => $payload['origin'],
-                        'destination' => $payload['destination'],
-                        'departDate' => $payload['departDate'],
-                        'returnDate' => $payload['returnDate'],
-                        'adults' => $payload['adults'],
-                        'children' => $payload['children'],
-                        'infants' => $payload['infants'],
-                        'cabinClass' => $payload['cabinClass']
-                    ]
-                ], 200);
+
+            if (!empty($data['preferredAirlines'])) {
+                $payload['preferredAirlines'] = array_map(fn ($airline) => Str::upper($airline), $data['preferredAirlines']);
             }
-            
-            // Check if results array is empty
-            $results = $result['Response']['Results'] ?? [];
-            $flatResults = [];
-            
-            // Flatten results if they're nested
-            if (is_array($results)) {
-                foreach ($results as $resultGroup) {
-                    if (is_array($resultGroup)) {
-                        if (isset($resultGroup[0]) && is_array($resultGroup[0])) {
-                            // Nested array structure
-                            foreach ($resultGroup as $item) {
-                                if (is_array($item)) {
-                                    $flatResults[] = $item;
-                                }
-                            }
-                        } else {
-                            // Single level array
-                            $flatResults[] = $resultGroup;
-                        }
-                    }
+
+            foreach (['direct', 'oneStop', 'mock', 'fresh'] as $flag) {
+                if (array_key_exists($flag, $data)) {
+                    $payload[$flag] = (bool) $data[$flag];
                 }
             }
-            
-            if (empty($flatResults)) {
+
+            Log::info('Flight search request', [
+                'segments' => $segments,
+                'tripType' => $tripType,
+                'passengers' => $passengers,
+                'cabinClass' => $cabinClass,
+            ]);
+
+            $result = $this->airService->search($payload);
+
+            $flattenedResults = $this->flattenResults(
+                data_get($result, 'results', data_get($result, 'Response.Results', data_get($result, 'Results', [])))
+            );
+
+            if (!empty($flattenedResults)) {
+                $result['Results'] = $flattenedResults;
+                $result['results'] = $flattenedResults;
+            }
+
+            $sessionId = data_get($result, 'SessionId')
+                ?? data_get($result, 'TraceId')
+                ?? data_get($result, 'Response.TraceId');
+
+            if ($sessionId) {
+                $result['SessionId'] = $sessionId;
+                $result['TraceId'] = $sessionId;
+            }
+
+            if (empty($flattenedResults)) {
                 Log::warning('Empty flight results', [
-                    'origin' => $payload['origin'],
-                    'destination' => $payload['destination'],
-                    'departDate' => $payload['departDate'],
-                    'traceId' => $result['Response']['TraceId'] ?? null
+                    'segments' => $segments,
+                    'traceId' => $sessionId,
+                    'responseStatus' => data_get($result, 'Response.ResponseStatus'),
+                    'error' => data_get($result, 'Response.Error') ?? data_get($result, 'Error'),
                 ]);
-                
+
                 return response()->json([
                     'success' => false,
                     'message' => 'No flights available for your selected route and dates',
@@ -139,21 +127,16 @@ class FlightController extends Controller
                         'Try flexible date search'
                     ],
                     'searchCriteria' => [
-                        'origin' => $payload['origin'],
-                        'destination' => $payload['destination'],
-                        'departDate' => $payload['departDate'],
-                        'returnDate' => $payload['returnDate'],
-                        'adults' => $payload['adults'],
-                        'children' => $payload['children'],
-                        'infants' => $payload['infants'],
-                        'cabinClass' => $payload['cabinClass']
+                        'segments' => $segments,
+                        'tripType' => $tripType,
+                        ...$passengers,
+                        'cabinClass' => $cabinClass,
                     ],
-                    'traceId' => $result['Response']['TraceId'] ?? null
+                    'traceId' => $sessionId,
                 ], 200);
             }
-            
-            return response()->json(['success' => true, 'data' => $result]);
-            
+
+            return response()->json($result);
         } catch (\Exception $e) {
             Log::error('Flight search error', [
                 'message' => $e->getMessage(),
@@ -183,6 +166,92 @@ class FlightController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    private function prepareSegments(array $data): array
+    {
+        if (!empty($data['segments'])) {
+            $segments = [];
+            foreach ($data['segments'] as $segment) {
+                $segments[] = [
+                    'origin' => Str::upper($segment['origin']),
+                    'destination' => Str::upper($segment['destination']),
+                    'departureDate' => $this->formatDepartureDate($segment['departureDate']),
+                ];
+            }
+
+            return $segments;
+        }
+
+        $segments = [[
+            'origin' => Str::upper($data['origin']),
+            'destination' => Str::upper($data['destination']),
+            'departureDate' => $this->formatDepartureDate($data['departDate']),
+        ]];
+
+        if (($data['tripType'] ?? 'O') === 'R' && !empty($data['returnDate'])) {
+            $segments[] = [
+                'origin' => Str::upper($data['destination']),
+                'destination' => Str::upper($data['origin']),
+                'departureDate' => $this->formatDepartureDate($data['returnDate']),
+            ];
+        }
+
+        return $segments;
+    }
+
+    private function formatDepartureDate(string $value): string
+    {
+        try {
+            return Carbon::parse($value)->format('Y-m-d\TH:i:s');
+        } catch (\Throwable $e) {
+            $normalized = trim($value);
+
+            return str_contains($normalized, 'T')
+                ? $normalized
+                : $normalized . 'T00:00:00';
+        }
+    }
+
+    private function flattenResults($results): array
+    {
+        if (!is_array($results) || $results === []) {
+            return [];
+        }
+
+        if (Arr::isAssoc($results) && isset($results['ResultIndex'])) {
+            return [$results];
+        }
+
+        $flattened = [];
+
+        foreach ($results as $entry) {
+            if (!is_array($entry)) {
+                continue;
+            }
+
+            if (Arr::isAssoc($entry) && isset($entry['ResultIndex'])) {
+                $flattened[] = $entry;
+                continue;
+            }
+
+            if (isset($entry[0]) && is_array($entry[0])) {
+                foreach ($entry as $nested) {
+                    if (is_array($nested)) {
+                        if (Arr::isAssoc($nested) && isset($nested['ResultIndex'])) {
+                            $flattened[] = $nested;
+                        } else {
+                            $flattened = array_merge($flattened, $this->flattenResults($nested));
+                        }
+                    }
+                }
+                continue;
+            }
+
+            $flattened[] = $entry;
+        }
+
+        return $flattened;
     }
 
     /**

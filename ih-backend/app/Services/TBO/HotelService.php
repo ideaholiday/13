@@ -70,10 +70,15 @@ class HotelService
                 return $this->tokenId;
             }
 
-            throw new RuntimeException('Authentication failed: ' . ($data['Error'] ?? 'Unknown error'));
+            $errorMsg = is_array($data['Error'] ?? null) ? json_encode($data['Error']) : ($data['Error'] ?? 'Unknown error');
+            throw new RuntimeException('Authentication failed: ' . $errorMsg);
         } catch (\Exception $e) {
-            Log::error('TBO Hotel authentication failed', ['error' => $e->getMessage()]);
-            throw new RuntimeException('Failed to authenticate with TBO: ' . $e->getMessage());
+            $errorMsg = $e->getMessage();
+            if (strpos($errorMsg, 'Array to string') !== false) {
+                $errorMsg = $errorMsg . ' (Check response structure)';
+            }
+            Log::error('TBO Hotel authentication failed', ['error' => $errorMsg]);
+            throw new RuntimeException('Failed to authenticate with TBO: ' . $errorMsg);
         }
     }
 

@@ -97,7 +97,7 @@ return [
         'end_user_ip' => env('TBO_ENDUSER_IP', '127.0.0.1'),
         
         // Configuration
-        'use_mock' => filter_var(env('USE_MOCK', false), FILTER_VALIDATE_BOOLEAN),
+        'use_mock' => filter_var(env('USE_MOCK', 'false'), FILTER_VALIDATE_BOOLEAN) === true,
         'enable_hotel_api' => filter_var(env('USE_TBO_HOTEL', true), FILTER_VALIDATE_BOOLEAN),
         'enable_flight_api' => filter_var(env('USE_TBO_FLIGHT', true), FILTER_VALIDATE_BOOLEAN),
         'log_channel' => env('TBO_LOG_CHANNEL', 'tbo'),

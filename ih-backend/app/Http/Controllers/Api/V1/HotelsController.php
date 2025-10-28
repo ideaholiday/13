@@ -13,6 +13,7 @@ use App\Models\HotelSearchSession;
 use App\Services\TBO\HotelService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -168,8 +169,7 @@ class HotelsController extends Controller
 
         try {
             $data = $validator->validated();
-            
-            // Get city and hotel codes
+
             $city = City::where('tbo_city_code', $data['cityId'])->first();
             if (!$city) {
                 return response()->json([
@@ -181,19 +181,44 @@ class HotelsController extends Controller
             $hotelCodes = Hotel::where('city_id', $city->id)
                 ->active()
                 ->pluck('tbo_hotel_code')
-                ->toArray();
+                ->filter()
+                ->values()
+                ->all();
 
-            // If no hotels in database, use mock data or get from TBO
-            $usingMockData = false;
-            if (empty($hotelCodes)) {
-                $hotelCodes = ['MOCKHOTEL1', 'MOCKHOTEL2']; // Default mock hotel codes
-                $usingMockData = true;
+            $usingMockData = empty($hotelCodes);
+            if ($usingMockData) {
+                $hotelCodes = ['MOCKHOTEL1', 'MOCKHOTEL2'];
             }
 
-            // Create search session
-            $traceId = 'HTL_' . Str::random(20);
-            $searchSession = HotelSearchSession::create([
-                'trace_id' => $traceId,
+            $paxRooms = $this->preparePaxRooms($data['rooms']);
+
+            $searchPayload = [
+                'checkIn' => $data['checkIn'],
+                'checkOut' => $data['checkOut'],
+                'hotelCodes' => $hotelCodes,
+                'guestNationality' => $data['nationality'] ?? 'IN',
+                'rooms' => $paxRooms,
+                'filters' => $data['filters'] ?? [],
+            ];
+
+            if (!empty($data['currency'])) {
+                $searchPayload['currency'] = $data['currency'];
+            }
+
+            $rawResults = $this->hotelService->search($searchPayload);
+            $normalized = $this->normalizeHotelSearchResponse($rawResults);
+
+            $sessionId = $normalized['traceId'] ?? ('HTL_' . Str::random(20));
+            $results = $normalized['results'];
+
+            $page = max(1, (int) ($data['page'] ?? $request->get('page', 1)));
+            $pageSize = max(1, min((int) ($data['pageSize'] ?? $request->get('pageSize', 25)), 100));
+            $total = count($results);
+            $offset = ($page - 1) * $pageSize;
+            $paginatedResults = array_slice($results, $offset, $pageSize);
+
+            HotelSearchSession::create([
+                'trace_id' => $sessionId,
                 'city_id' => $city->id,
                 'check_in' => $data['checkIn'],
                 'check_out' => $data['checkOut'],
@@ -201,49 +226,41 @@ class HotelsController extends Controller
                 'currency' => $data['currency'] ?? 'INR',
                 'rooms' => $data['rooms'],
                 'search_params' => $data,
+                'search_results' => $normalized['rawResponse'],
+                'status' => 'completed',
                 'expires_at' => now()->addHours(2),
             ]);
 
-            // Prepare search payload
-            $searchPayload = [
-                'checkIn' => $data['checkIn'],
-                'checkOut' => $data['checkOut'],
-                'hotelCodes' => $hotelCodes,
-                'guestNationality' => $data['nationality'] ?? 'IN',
-                'rooms' => $data['rooms'],
-                'filters' => $data['filters'] ?? [],
-            ];
-
-            // Call TBO search
-            $searchResults = $this->hotelService->search($searchPayload);
-            
-            // Apply pagination to search results
-            $page = (int) $request->get('page', 1);
-            $pageSize = (int) $request->get('pageSize', 25);
-            $pageSize = min($pageSize, 100); // Limit page size
-            
-            $hotels = $searchResults['hotels'] ?? [];
-            $total = count($hotels);
-            $offset = ($page - 1) * $pageSize;
-            $paginatedHotels = array_slice($hotels, $offset, $pageSize);
-            
-            // Update search session with results
-            $searchSession->update([
-                'search_results' => $searchResults,
-                'status' => 'completed',
-            ]);
-
-            return $this->paginatedResponse($paginatedHotels, [
-                'traceId' => $traceId,
-                'markupPct' => $this->hotelService->getMarkupPct(),
-                'usingMockData' => $usingMockData,
+            $meta = [
                 'total' => $total,
                 'page' => $page,
                 'pageSize' => $pageSize,
-                'lastPage' => (int) ceil($total / $pageSize),
-                'hasMorePages' => $page < ceil($total / $pageSize),
+                'lastPage' => $total > 0 ? (int) ceil($total / $pageSize) : 1,
+                'hasMorePages' => $offset + $pageSize < $total,
                 'from' => $total > 0 ? $offset + 1 : null,
                 'to' => $total > 0 ? min($offset + $pageSize, $total) : null,
+                'markupPct' => $this->hotelService->getMarkupPct(),
+                'usingMockData' => $usingMockData || (bool) config('services.tbo.use_mock'),
+                'cityId' => $data['cityId'],
+                'cityName' => $data['cityName'],
+                'guestNationality' => $data['nationality'] ?? 'IN',
+                'currency' => $data['currency'] ?? 'INR',
+            ];
+
+            if (empty($paginatedResults)) {
+                Log::info('Hotel search returned no results', [
+                    'cityId' => $data['cityId'],
+                    'checkIn' => $data['checkIn'],
+                    'checkOut' => $data['checkOut'],
+                    'traceId' => $sessionId,
+                ]);
+            }
+
+            return response()->json([
+                'sessionId' => $sessionId,
+                'traceId' => $sessionId,
+                'results' => $paginatedResults,
+                'meta' => $meta,
             ]);
         } catch (\Exception $e) {
             Log::error('Hotel search failed', ['error' => $e->getMessage(), 'request' => $request->all()]);
@@ -252,6 +269,151 @@ class HotelsController extends Controller
                 'message' => 'Hotel search failed: ' . $e->getMessage(),
             ], 500);
         }
+    }
+
+    private function preparePaxRooms(array $rooms): array
+    {
+        $paxRooms = [];
+
+        foreach ($rooms as $room) {
+            $adults = (int) ($room['adults'] ?? 0);
+            $children = (int) ($room['children'] ?? 0);
+            $childAges = array_map('intval', $room['childAges'] ?? []);
+
+            if ($children > count($childAges)) {
+                $childAges = array_pad($childAges, $children, 5);
+            } else {
+                $childAges = array_slice($childAges, 0, $children);
+            }
+
+            $paxRooms[] = [
+                'Adults' => $adults,
+                'Children' => $children,
+                'ChildrenAge' => $childAges,
+            ];
+        }
+
+        return $paxRooms;
+    }
+
+    private function normalizeHotelSearchResponse(array $serviceResponse): array
+    {
+        $response = $serviceResponse['Response'] ?? $serviceResponse;
+
+        $traceId = Arr::get($response, 'TraceId') ?? Arr::get($response, 'SessionId');
+
+        $resultsRaw = Arr::get($response, 'HotelSearchResult')
+            ?? Arr::get($response, 'Results')
+            ?? Arr::get($response, 'hotels', []);
+
+        if (is_array($resultsRaw) && isset($resultsRaw['HotelResults']) && is_array($resultsRaw['HotelResults'])) {
+            $resultsRaw = $resultsRaw['HotelResults'];
+        }
+
+        $formatted = [];
+        if (is_array($resultsRaw)) {
+            foreach ($resultsRaw as $index => $hotel) {
+                if (!is_array($hotel)) {
+                    continue;
+                }
+                $formattedHotel = $this->formatHotelResult($hotel, (int) $index);
+                if (!empty($formattedHotel)) {
+                    $formatted[] = $formattedHotel;
+                }
+            }
+        }
+
+        return [
+            'traceId' => $traceId,
+            'rawResponse' => $response,
+            'results' => $formatted,
+        ];
+    }
+
+    private function formatHotelResult(array $hotel, int $index): array
+    {
+        $hotelCode = Arr::get($hotel, 'HotelCode')
+            ?? Arr::get($hotel, 'HotelId')
+            ?? Arr::get($hotel, 'hotelCode');
+
+        if (!$hotelCode) {
+            return [];
+        }
+
+        $resultIndex = Arr::get($hotel, 'ResultIndex')
+            ?? Arr::get($hotel, 'resultIndex')
+            ?? ($index + 1);
+
+        $leadRate = $this->extractLeadRoomRate($hotel);
+
+        return [
+            'resultIndex' => $resultIndex,
+            'hotelCode' => $hotelCode,
+            'hotelName' => Arr::get($hotel, 'HotelName') ?? Arr::get($hotel, 'hotelName'),
+            'starRating' => Arr::get($hotel, 'StarRating') ?? Arr::get($hotel, 'starRating'),
+            'guestRating' => Arr::get($hotel, 'GuestRating') ?? Arr::get($hotel, 'guestRating'),
+            'thumbnailUrl' => Arr::get($hotel, 'HotelPicture') ?? Arr::get($hotel, 'hotelPicture'),
+            'leadRate' => $leadRate,
+        ];
+    }
+
+    private function extractLeadRoomRate(array $hotel): array
+    {
+        $rooms = Arr::get($hotel, 'HotelRooms', Arr::get($hotel, 'Rooms', []));
+
+        if (!is_array($rooms)) {
+            return [];
+        }
+
+        foreach ($rooms as $room) {
+            if (!is_array($room)) {
+                continue;
+            }
+
+            $rate = $this->resolveFirstRate(
+                Arr::get($room, 'RoomRate', Arr::get($room, 'Rates', []))
+            );
+
+            if (!$rate) {
+                continue;
+            }
+
+            $totalFare = Arr::get($rate, 'TotalFare')
+                ?? Arr::get($rate, 'OfferedFare')
+                ?? Arr::get($rate, 'TotalPrice');
+            $currency = Arr::get($rate, 'Currency') ?? Arr::get($rate, 'CurrencyCode');
+
+            return [
+                'roomIndex' => Arr::get($room, 'RoomIndex'),
+                'roomTypeCode' => Arr::get($room, 'RoomTypeCode'),
+                'roomTypeName' => Arr::get($room, 'RoomTypeName'),
+                'ratePlanCode' => Arr::get($room, 'RatePlanCode'),
+                'mealType' => Arr::get($room, 'MealType'),
+                'totalFare' => $totalFare !== null ? (float) $totalFare : null,
+                'currency' => $currency,
+            ];
+        }
+
+        return [];
+    }
+
+    private function resolveFirstRate($rates): ?array
+    {
+        if (!is_array($rates) || empty($rates)) {
+            return null;
+        }
+
+        if (Arr::isAssoc($rates)) {
+            return $rates;
+        }
+
+        foreach ($rates as $rate) {
+            if (is_array($rate)) {
+                return $rate;
+            }
+        }
+
+        return null;
     }
 
     /**

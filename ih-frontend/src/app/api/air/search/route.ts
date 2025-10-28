@@ -36,17 +36,32 @@ function mapCabin(c: string | null | undefined) {
 function validateInput(body: any) {
   const errors: string[] = [];
   
+  console.log("[API] Validating input:", body);
+  
   if (!body.origin || body.origin.length !== 3) {
-    errors.push("Invalid origin airport code");
+    errors.push(`Invalid origin airport code (got: "${body.origin}")`);
   }
   if (!body.destination || body.destination.length !== 3) {
-    errors.push("Invalid destination airport code");
+    errors.push(`Invalid destination airport code (got: "${body.destination}")`);
   }
   if (!body.departDate) {
     errors.push("Departure date is required");
+  } else {
+    // Validate date format
+    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
+    if (!dateRegex.test(body.departDate)) {
+      errors.push(`Invalid departure date format (got: "${body.departDate}")`);
+    }
   }
+  
   if (body.tripType === "R" && !body.returnDate) {
     errors.push("Return date is required for round trip");
+  } else if (body.tripType === "R" && body.returnDate) {
+    // Validate return date format
+    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
+    if (!dateRegex.test(body.returnDate)) {
+      errors.push(`Invalid return date format (got: "${body.returnDate}")`);
+    }
   }
   
   const adults = Number(body.adults ?? 1);
@@ -64,6 +79,10 @@ function validateInput(body: any) {
   }
   if (adults + children + infants > 9) {
     errors.push("Total passengers cannot exceed 9");
+  }
+  
+  if (errors.length > 0) {
+    console.log("[API] Validation errors:", errors);
   }
   
   return errors;
