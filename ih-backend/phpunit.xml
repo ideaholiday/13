@@ -30,6 +30,13 @@
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>
+        <!-- TBO API Testing Configuration -->
         <env name="USE_MOCK" value="true"/>
+        <env name="USE_TBO_FLIGHT" value="false"/>
+        <env name="USE_TBO_HOTEL" value="false"/>
+        <!-- Test Data - Update dates to future dates when running tests -->
+        <env name="TEST_DEPART_DATE" value="2025-11-20"/>
+        <env name="TEST_CHECKIN" value="2025-11-20"/>
+        <env name="TEST_CITY_ID" value="115936"/>
     </php>
 </phpunit>

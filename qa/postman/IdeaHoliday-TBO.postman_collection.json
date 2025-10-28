@@ -1,0 +1,385 @@
+{
+  "info": {
+    "name": "IdeaHoliday TBO Live QA",
+    "_postman_id": "ih-tbo-live-qa",
+    "description": "Comprehensive TBO API testing for Idea Holiday - Flights & Hotels",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authenticate",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_BASE}}/SharedServices/SharedData.svc/rest/Authenticate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ClientId\":\"{{TBO_CLIENT_ID}}\",\"UserName\":\"{{TBO_USERNAME}}\",\"Password\":\"{{TBO_PASSWORD}}\",\"EndUserIp\":\"{{END_USER_IP}}\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const json = pm.response.json();",
+              "pm.expect(json.TokenId).to.exist;",
+              "pm.collectionVariables.set('TOKEN', json.TokenId);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Air Search (DEL→BOM One-way)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const json = pm.response.json();",
+              "pm.expect(json.Response).to.exist;",
+              "pm.expect(json.Response.ResponseStatus).to.eql(1);",
+              "pm.expect(json.Response.Results && json.Response.Results.length > 0).to.be.true;",
+              "if (json.Response.Results.length > 0) {",
+              "  pm.collectionVariables.set('RESULT_INDEX', json.Response.Results[0][0].ResultIndex);",
+              "  pm.collectionVariables.set('SESSION_ID', json.SessionId);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_AIR}}/AirService.svc/rest/Search",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"AdultCount\":\"1\",\"ChildCount\":\"0\",\"InfantCount\":\"0\",\"DirectFlight\":\"false\",\"OneStopFlight\":\"false\",\"JourneyType\":\"1\",\"PreferredAirlines\":null,\"Segments\":[{\"Origin\":\"DEL\",\"Destination\":\"BOM\",\"FlightCabinClass\":\"1\",\"PreferredDepartureTime\":\"{{DEPART_DATE}}T00:00:00\",\"PreferredArrivalTime\":\"{{DEPART_DATE}}T00:00:00\"}],\"Sources\":null}"
+        }
+      }
+    },
+    {
+      "name": "Fare Quote",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const json = pm.response.json();",
+              "pm.expect(json.Response).to.exist;",
+              "pm.expect(json.Response.ResponseStatus).to.eql(1);",
+              "pm.expect(json.Response.Results).to.exist;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_AIR}}/AirService.svc/rest/FareQuote",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"SessionId\":\"{{SESSION_ID}}\",\"ResultIndex\":\"{{RESULT_INDEX}}\"}"
+        }
+      }
+    },
+    {
+      "name": "Fare Rules",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const json = pm.response.json();",
+              "pm.expect(json.Response).to.exist;",
+              "pm.expect(json.Response.ResponseStatus).to.eql(1);",
+              "pm.expect(json.Response.FareRules).to.exist;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_AIR}}/AirService.svc/rest/FareRule",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"SessionId\":\"{{SESSION_ID}}\",\"ResultIndex\":\"{{RESULT_INDEX}}\"}"
+        }
+      }
+    },
+    {
+      "name": "SSR (Baggage & Meals)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const json = pm.response.json();",
+              "pm.expect(json.Response).to.exist;",
+              "pm.expect(json.Response.ResponseStatus).to.eql(1);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_AIR}}/AirService.svc/rest/SSR",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"SessionId\":\"{{SESSION_ID}}\",\"ResultIndex\":\"{{RESULT_INDEX}}\"}"
+        }
+      }
+    },
+    {
+      "name": "Seat Map",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const json = pm.response.json();"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_AIR}}/AirService.svc/rest/GetSeatMap",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"SessionId\":\"{{SESSION_ID}}\",\"ResultIndex\":\"{{RESULT_INDEX}}\"}"
+        }
+      }
+    },
+    {
+      "name": "Calendar Fare",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_AIR}}/AirService.svc/rest/GetCalendarFare",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"AdultCount\":\"1\",\"ChildCount\":\"0\",\"InfantCount\":\"0\",\"JourneyType\":\"1\",\"Segments\":[{\"Origin\":\"DEL\",\"Destination\":\"BOM\",\"FlightCabinClass\":\"1\",\"PreferredDepartureTime\":\"{{DEPART_DATE}}T00:00:00\"}]}"
+        }
+      }
+    },
+    {
+      "name": "Hotel Search (Bangalore)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const j = pm.response.json();",
+              "pm.expect(j.HotelResult || j.HotelSearchResult || j.Results).to.exist;",
+              "if (j.HotelResult && j.HotelResult.length > 0) {",
+              "  pm.collectionVariables.set('HOTEL_CODE', j.HotelResult[0].HotelCode);",
+              "  pm.collectionVariables.set('HOTEL_RESULT_INDEX', j.HotelResult[0].ResultIndex);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_HOTEL}}/HotelService.svc/rest/Search",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"CheckInDate\":\"{{CHECKIN}}\",\"NoOfNights\":\"1\",\"CountryCode\":\"IN\",\"CityId\":\"{{BANGALORE_ID}}\",\"NoOfRooms\":\"1\",\"PreferredHotel\":null,\"GuestNationality\":\"IN\",\"RoomGuests\":[{\"NoOfAdults\":\"2\",\"NoOfChild\":\"0\",\"ChildAge\":[]}],\"ResultCount\":null,\"Filters\":null}"
+        }
+      }
+    },
+    {
+      "name": "Hotel Room Details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const json = pm.response.json();",
+              "pm.expect(json.HotelRoomsDetails || json.HotelRooms).to.exist;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_HOTEL}}/HotelService.svc/rest/GetHotelRoom",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"ResultIndex\":\"{{HOTEL_RESULT_INDEX}}\",\"HotelCode\":\"{{HOTEL_CODE}}\",\"TraceId\":\"\"}"
+        }
+      }
+    },
+    {
+      "name": "Hotel Info",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', () => pm.response.code === 200);",
+              "const json = pm.response.json();",
+              "pm.expect(json.HotelDetails || json.HotelInfoResult).to.exist;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{TBO_HOTEL}}/HotelService.svc/rest/GetHotelInfo",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"EndUserIp\":\"{{END_USER_IP}}\",\"TokenId\":\"{{TOKEN}}\",\"HotelCode\":\"{{HOTEL_CODE}}\"}"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "TBO_BASE",
+      "value": "https://api.tektravels.com"
+    },
+    {
+      "key": "TBO_AIR",
+      "value": "https://api.tektravels.com/BookingEngineService_Air"
+    },
+    {
+      "key": "TBO_HOTEL",
+      "value": "https://api.tektravels.com/HotelAPI_V10"
+    },
+    {
+      "key": "TBO_CLIENT_ID",
+      "value": "tboprod"
+    },
+    {
+      "key": "TBO_USERNAME",
+      "value": "Multi.1"
+    },
+    {
+      "key": "TBO_PASSWORD",
+      "value": "Multi@1234"
+    },
+    {
+      "key": "END_USER_IP",
+      "value": "216.225.197.7"
+    },
+    {
+      "key": "DEPART_DATE",
+      "value": "2025-11-20"
+    },
+    {
+      "key": "CHECKIN",
+      "value": "2025-11-20"
+    },
+    {
+      "key": "BANGALORE_ID",
+      "value": "115936"
+    },
+    {
+      "key": "TOKEN",
+      "value": ""
+    },
+    {
+      "key": "SESSION_ID",
+      "value": ""
+    },
+    {
+      "key": "RESULT_INDEX",
+      "value": ""
+    },
+    {
+      "key": "HOTEL_CODE",
+      "value": ""
+    },
+    {
+      "key": "HOTEL_RESULT_INDEX",
+      "value": ""
+    }
+  ]
+}
