@@ -2,7 +2,12 @@
 
 This file contains cURL commands to test all major TBO API endpoints after the update.
 
-**Note**: Replace `YOUR_CLIENT_ID`, `YOUR_USERNAME`, `YOUR_PASSWORD`, and `YOUR_TOKEN` with actual credentials from TBO.
+**⚠️ SECURITY WARNING**: 
+- Replace `YOUR_CLIENT_ID`, `YOUR_USERNAME`, `YOUR_PASSWORD`, and `YOUR_TOKEN` with actual credentials from TBO
+- **NEVER** commit real credentials to version control
+- Use test/sandbox credentials when available
+- Do not log or expose real credentials in production environments
+- Rotate credentials immediately if accidentally exposed
 
 ## Flight API Tests
 

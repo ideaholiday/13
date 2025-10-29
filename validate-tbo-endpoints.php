@@ -5,6 +5,9 @@
  * 
  * This script validates that all TBO API endpoints are configured correctly
  * and can be accessed (without requiring actual API credentials).
+ * 
+ * SECURITY NOTE: This script only validates endpoint URLs and does not
+ * expose or require actual API credentials.
  */
 
 require __DIR__ . '/ih-backend/vendor/autoload.php';
@@ -63,8 +66,11 @@ foreach ($flightEndpoints as $key => $expected) {
     } else {
         $flightFail++;
         echo sprintf("%-45s %s\n", $key, $status);
-        echo "  Expected: $expected\n";
-        echo "  Actual:   $actual\n";
+        // Sanitize output to avoid exposing any sensitive information
+        $sanitizedExpected = preg_replace('/\/\/[^\/]+@/', '//***@', $expected);
+        $sanitizedActual = preg_replace('/\/\/[^\/]+@/', '//***@', $actual ?? 'NULL');
+        echo "  Expected: $sanitizedExpected\n";
+        echo "  Actual:   $sanitizedActual\n";
     }
 }
 
@@ -87,8 +93,11 @@ foreach ($hotelEndpoints as $key => $expected) {
     } else {
         $hotelFail++;
         echo sprintf("%-45s %s\n", $key, $status);
-        echo "  Expected: $expected\n";
-        echo "  Actual:   $actual\n";
+        // Sanitize output to avoid exposing any sensitive information
+        $sanitizedExpected = preg_replace('/\/\/[^\/]+@/', '//***@', $expected);
+        $sanitizedActual = preg_replace('/\/\/[^\/]+@/', '//***@', $actual ?? 'NULL');
+        echo "  Expected: $sanitizedExpected\n";
+        echo "  Actual:   $sanitizedActual\n";
     }
 }
 
@@ -100,10 +109,12 @@ echo str_repeat("-", 80) . "\n";
 
 $httpCount = 0;
 foreach ($config as $key => $value) {
-    if (is_string($value) && str_starts_with($value, 'http://')) {
+    if (is_string($value) && strpos($value, 'http://') === 0) {
         $httpCount++;
         echo "❌ FAIL: $key uses HTTP instead of HTTPS\n";
-        echo "  Value: $value\n";
+        // Sanitize output to avoid exposing sensitive information
+        $sanitized = preg_replace('/\/\/[^\/]+@/', '//***@', $value);
+        echo "  Value: $sanitized\n";
     }
 }
 
@@ -137,8 +148,11 @@ foreach ($baseUrls as $key => $expected) {
     } else {
         $baseFail++;
         echo sprintf("%-45s %s\n", $key, $status);
-        echo "  Expected: $expected\n";
-        echo "  Actual:   $actual\n";
+        // Sanitize output to avoid exposing any sensitive information
+        $sanitizedExpected = preg_replace('/\/\/[^\/]+@/', '//***@', $expected);
+        $sanitizedActual = preg_replace('/\/\/[^\/]+@/', '//***@', $actual ?? 'NULL');
+        echo "  Expected: $sanitizedExpected\n";
+        echo "  Actual:   $sanitizedActual\n";
     }
 }
 
