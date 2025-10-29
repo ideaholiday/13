@@ -40,10 +40,16 @@ return [
     ],
 
     'tbo' => [
-        // Mode: soap | rest
-        'flight_mode' => env('TBO_FLIGHT_MODE', 'soap'),
+        // Mode: soap | rest (REST recommended)
+        'flight_mode' => env('TBO_FLIGHT_MODE', 'rest'),
 
-        // SOAP-style base endpoints (legacy)
+        // Base URLs (recommended configuration - can be used to construct full endpoint URLs)
+        'flight_base_url' => env('TBO_FLIGHT_BASE', 'https://tboapi.travelboutiqueonline.com/AirAPI_V10/AirService.svc/rest'),
+        'booking_base_url' => env('TBO_BOOK_BASE', 'https://booking.travelboutiqueonline.com/AirAPI_V10/AirService.svc/rest'),
+        'shared_base_url' => env('TBO_SHARED_BASE', 'https://api.travelboutiqueonline.com/SharedAPI/SharedData.svc/rest'),
+        'hotel_base_url' => env('TBO_HOTEL_BASE', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest'),
+
+        // SOAP-style base endpoints (legacy - for backward compatibility)
         'flight_auth_url' => env('TBO_SHARED_AUTH', env('TBO_FLIGHT_AUTH')),
         'flight_search_url' => env('TBO_AIR_API', env('TBO_FLIGHT_SEARCH')),
         'flight_book_url' => env('TBO_AIR_BOOK', env('TBO_FLIGHT_BOOK')),
@@ -65,25 +71,25 @@ return [
         'flight_releasepnrrequest_rest_url' => env('TBO_FLIGHT_RELEASEPNRREQUEST_REST', 'https://booking.travelboutiqueonline.com/AirAPI_V10/AirService.svc/rest/ReleasePNRRequest'),
         'flight_getcancellationcharges_rest_url' => env('TBO_FLIGHT_GETCANCELLATIONCHARGES_REST', 'https://tboapi.travelboutiqueonline.com/AirAPI_V10/AirService.svc/rest/GetCancellationCharges'),
 
-        // Hotel API endpoints (TBO Universal Hotel API)
-        'hotel_auth_rest_url' => env('TBO_HOTEL_AUTH_REST', 'http://Sharedapi.tektravels.com/SharedData.svc/rest/Authenticate'),
-        'hotel_country_list_url' => env('TBO_HOTEL_COUNTRY_LIST', 'http://api.tbotechnology.in/TBOHolidays_HotelAPI/CountryList'),
-        'hotel_city_list_url' => env('TBO_HOTEL_CITY_LIST', 'http://api.tbotechnology.in/TBOHolidays_HotelAPI/CityList'),
-        'hotel_codes_url' => env('TBO_HOTEL_CODES', 'http://api.tbotechnology.in/TBOHolidays_HotelAPI/TBOHotelCodeList'),
-        'hotel_details_url' => env('TBO_HOTEL_DETAILS', 'http://api.tbotechnology.in/TBOHolidays_HotelAPI/HotelDetails'),
-        'hotel_search_url' => env('TBO_HOTEL_SEARCH', 'https://affiliate.tektravels.com/HotelAPI/Search'),
-        'hotel_prebook_url' => env('TBO_HOTEL_PREBOOK', 'https://affiliate.tektravels.com/HotelAPI/PreBook'),
-        'hotel_book_url' => env('TBO_HOTEL_BOOK', 'https://HotelBE.tektravels.com/hotelservice.svc/rest/book/'),
-        'hotel_generate_voucher_url' => env('TBO_HOTEL_GENERATE_VOUCHER', 'https://HotelBE.tektravels.com/hotelservice.svc/rest/GenerateVoucher'),
-        'hotel_booking_details_url' => env('TBO_HOTEL_BOOKING_DETAILS', 'https://hotelbe.tektravels.com/hotelservice.svc/rest/Getbookingdetail'),
-        'hotel_send_change_request_url' => env('TBO_HOTEL_SEND_CHANGE_REQUEST', 'https://HotelBE.tektravels.com/hotelservice.svc/rest/SendChangeRequest'),
-        'hotel_get_change_request_status_url' => env('TBO_HOTEL_GET_CHANGE_REQUEST_STATUS', 'https://HotelBE.tektravels.com/hotelservice.svc/rest/GetChangeRequestStatus'),
+        // Hotel API endpoints (TBO HotelAPI_V10 - Updated to official spec)
+        'hotel_auth_rest_url' => env('TBO_HOTEL_AUTH_REST', 'https://api.travelboutiqueonline.com/SharedAPI/SharedData.svc/rest/Authenticate'),
+        'hotel_country_list_url' => env('TBO_HOTEL_COUNTRY_LIST', 'https://api.tektravels.com/SharedServices/SharedData.svc/rest/CountryList'),
+        'hotel_city_list_url' => env('TBO_HOTEL_CITY_LIST', 'https://api.tektravels.com/SharedServices/SharedData.svc/rest/CityList'),
+        'hotel_codes_url' => env('TBO_HOTEL_CODES', 'https://api.tektravels.com/SharedServices/SharedData.svc/rest/Hoteldetails'),
+        'hotel_details_url' => env('TBO_HOTEL_DETAILS', 'https://api.tektravels.com/SharedServices/SharedData.svc/rest/Hoteldetails'),
+        'hotel_search_url' => env('TBO_HOTEL_SEARCH', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelResult'),
+        'hotel_prebook_url' => env('TBO_HOTEL_PREBOOK', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelRoom'),
+        'hotel_book_url' => env('TBO_HOTEL_BOOK', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/Book'),
+        'hotel_generate_voucher_url' => env('TBO_HOTEL_GENERATE_VOUCHER', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GenerateVoucher'),
+        'hotel_booking_details_url' => env('TBO_HOTEL_BOOKING_DETAILS', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetBookingDetail'),
+        'hotel_send_change_request_url' => env('TBO_HOTEL_SEND_CHANGE_REQUEST', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/SendChangeRequest'),
+        'hotel_get_change_request_status_url' => env('TBO_HOTEL_GET_CHANGE_REQUEST_STATUS', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetChangeRequestStatus'),
 
         // Legacy endpoints for backward compatibility
-        'hotel_search_rest_url' => env('TBO_HOTEL_SEARCH_REST', 'https://api.travelboutiqueonline.com/HotelAPI_V10/HotelService.svc/rest/GetHotelResult'),
-        'hotel_book_rest_url' => env('TBO_HOTEL_BOOK_REST', 'https://hotelbooking.travelboutiqueonline.com/HotelAPI_V10/HotelService.svc/rest/Book'),
-        'hotel_booking_details_rest_url' => env('TBO_HOTEL_BOOKING_DETAILS_REST', 'https://hotelbooking.travelboutiqueonline.com/HotelAPI_V10/HotelService.svc/rest/GetBookingDetail'),
-        'hotel_cancel_rest_url' => env('TBO_HOTEL_CANCEL_REST', 'https://hotelbooking.travelboutiqueonline.com/HotelAPI_V10/HotelService.svc/rest/CancelBooking'),
+        'hotel_search_rest_url' => env('TBO_HOTEL_SEARCH_REST', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelResult'),
+        'hotel_book_rest_url' => env('TBO_HOTEL_BOOK_REST', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/Book'),
+        'hotel_booking_details_rest_url' => env('TBO_HOTEL_BOOKING_DETAILS_REST', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetBookingDetail'),
+        'hotel_cancel_rest_url' => env('TBO_HOTEL_CANCEL_REST', 'https://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/CancelBooking'),
 
         // Static API endpoints
         'static_base' => env('TBO_STATIC_BASE', 'https://api.tbotechnology.in/TBOHolidays_HotelAPI'),
