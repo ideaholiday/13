@@ -47,6 +47,14 @@ class Hotel extends Model
     }
 
     /**
+     * Scope for active hotels.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
      * Scope for searching hotels by name prefix.
      */
     public function scopeSearchByName($query, string $search)

@@ -1,42 +1,69 @@
 ## Quick orientation for AI coding agents
 
-This repository contains two main services: `ih-backend` (Laravel, PHP 8.2+) and `ih-frontend` (Next.js / React, Next 15). Aim for small, focused changes and prefer editing existing files rather than large rewrites.
+This repository contains a complete travel booking platform: `ih-backend` (Laravel 12, PHP 8.2+), `ih-frontend` (Next.js 15/React), and `sanity/` (CMS). Aim for small, focused changes and prefer editing existing files rather than large rewrites.
 
-Key locations
-- Backend: `ih-backend/` — Laravel app (routes in `ih-backend/routes/*.php`, controllers under `ih-backend/app/Http/Controllers`). Composer config: `ih-backend/composer.json`.
-- Frontend: `ih-frontend/` — Next.js app (app directory under `ih-frontend/ih-frontend/` or `ih-frontend/src/` depending on component). Frontend API callers live in `ih-frontend/src/lib/*` (`flightApi.ts`, `api.ts`).
-- Deployment helpers: `ecosystem.config.js` files in both root and service folders (used with PM2), `nginx.conf` in repo root.
-- Scripts: `do_all.sh`, `ih_mvp_frontend_quickstart.sh` contain environment and external integration defaults (TBO credentials, proxy). Use them as canonical env var names.
+### Key locations
+- **Backend:** `ih-backend/` — Laravel API with TBO integration. Routes in `routes/api.php` (all under `/api/v1/*`), controllers in `app/Http/Controllers/Api/V1/`, services in `app/Services/`. Uses SQLite (`database/database.sqlite`) in dev.
+- **Frontend:** `ih-frontend/` — Next.js app with `src/` structure. API clients in `src/lib/*` (`api.ts`, `flight-api.ts`), types in `src/types/`, Zustand stores in `src/lib/stores/`.
+- **CMS:** `sanity/` — Sanity CMS for content management (destinations, packages, deals).
+- **Deployment:** `ecosystem.config.js` (PM2), `nginx.conf` (proxy config), `sanity-quickstart.sh` (CMS setup).
 
-Architecture & dataflow (short)
-- Frontend talks to Backend over REST under `/api/v1/*` (see `ih-backend/routes/api.php`). Typical endpoints: flights (search, book), hotels (search, rooms, pricing, book), cms, blog, payment webhooks.
-- Backend delegates to provider services under `app/Services` and `src/lib/` for external APIs (TBO and similar). Check `do_all.sh` for TBO defaults and proxy hints.
+### Architecture & data flow
+- Frontend → Backend REST API (`/api/v1/*`) → TBO (Travel Boutique Online) external APIs
+- Key endpoints: flights (search/book), hotels (search/book), auth, CMS content, payments
+- TBO integration: Live flight API, mock hotels (structure ready). Services in `app/Services/TBO/` and `app/Services/TboHotelService.php`
+- Environment flags: `USE_MOCK=false`, `USE_TBO_FLIGHT=true`, `USE_TBO_HOTEL=false`
 
-Developer workflows (explicit commands)
-- Backend dev: from `ih-backend/` use `composer install` then `npm run dev` (see `composer.json` scripts: `composer run dev` runs `php artisan serve`, queue listener, pail and frontend vite concurrently). Common artisan commands: `php artisan migrate`, `php artisan test`.
-- Frontend dev: from `ih-frontend/` run `npm run dev` (Next.js dev server). Build with `npm run build` and start with `npm run start` per `package.json`.
-- PM2 locally: `ecosystem.config.js` files show how PM2 is used to run both services; the backend serves on 127.0.0.1:5000 and frontend uses PORT 3010.
+### Developer workflows
+- **Backend dev:** `cd ih-backend && composer install && composer run dev` (runs Laravel serve, queue listener, pail, and frontend vite concurrently)
+- **Frontend dev:** `cd ih-frontend && npm install && npm run dev`
+- **Full stack:** Backend on :8000, frontend on :3000, PM2 production on :3010
+- **Sanity CMS:** `./sanity-quickstart.sh` for setup, then `cd sanity && npx sanity dev`
+- **Testing:** `php artisan test` (backend), `npm run test` (frontend)
 
-Project-specific conventions and gotchas
-- API versioning: routes are namespaced under `v1` — prefer adding new endpoints under `v1/*` unless intentionally bumping the API.
-- Storage: nginx expects backend storage at `/var/www/iholiday/backend/storage/app/public`. Local development uses `storage/` within the repo and a sqlite `database/database.sqlite` created by composer post-create-project script.
-- CORS & headers: `nginx.conf` shows the expected CORS headers and allowed request headers (including `X-API-Key`). Requests may rely on `X-API-Key` middleware (`App\Http\Middleware\ApiKeyMiddleware`).
-- Secrets: `do_all.sh` documents default credentials (TBO_*). Treat them as placeholders; real secrets live in environment variables or `.env` files and are not in the repo.
+### Project-specific conventions
+- **API versioning:** All routes under `v1/*` namespace in `routes/api.php`
+- **TBO integration:** Controlled by env flags. Check `TBO_INTEGRATION_GUIDE.md` for credentials and endpoints
+- **Type safety:** Frontend uses TypeScript strictly. Update `src/types/` when adding new API contracts
+- **State management:** Zustand stores in `src/lib/stores/` (flight, hotel, booking states)
+- **Styling:** Tailwind CSS with Radix UI components, consistent with travel UI patterns
+- **Error handling:** Backend uses Laravel's exception handling, frontend has error boundaries
 
-How to make changes (best practices for AI edits)
-- Keep PRs small and focused: change one endpoint, one component, or one service at a time.
-- When editing API behavior, update `ih-backend/routes/api.php` and the matching controller in `app/Http/Controllers/Api` and update any related `src/lib/*` client files in the frontend.
-- When adding env variables, add defaults to `do_all.sh` if they represent sane local dev defaults and document them in this file.
-- For frontend changes that touch API contracts, update TypeScript types under `ih-frontend/src/types` and adjust `ih-frontend/src/lib/*` API wrappers.
+### Critical integrations
+- **TBO API:** Flight search/booking live, hotel integration ready. Credentials in `.env` (TBO_CLIENT_ID, TBO_USERNAME, etc.)
+- **Sanity CMS:** Content management with webhook revalidation. Project ID in `sanity.config.ts`, frontend env vars in `.env.local`
+- **Payment:** Razorpay integration structure exists (deferred implementation)
+- **Storage:** File uploads to `storage/app/public`, served via nginx at `/storage`
 
-Examples (concrete pointers)
-- To add a new hotels endpoint: modify `ih-backend/routes/api.php` (under `v1/hotels`) -> create `app/Http/Controllers/Api/V1/HotelsController.php` method -> update `ih-frontend/src/lib/hotelApi.ts` to add client call and `ih-frontend/src/types/*` for types.
-- To run the full dev environment locally: set env vars (see `do_all.sh`), run `composer install` in backend, `npm install` in frontend, then `cd ih-backend && php artisan serve --host=127.0.0.1 --port=8000` and `cd ih-frontend && npm run dev`.
+### Common edit patterns
+- **New API endpoint:** Add route in `routes/api.php` → create controller method in `app/Http/Controllers/Api/V1/` → add service logic in `app/Services/` → update frontend client in `src/lib/*` → add TypeScript types
+- **Frontend feature:** Add component in `src/components/` → update page in `src/app/` → add API calls in `src/lib/*` → manage state in `src/lib/stores/`
+- **TBO integration:** Modify service in `app/Services/TBO/` → update controller → test with environment flags
 
-When you are unsure
-- Look for similar implementations in `app/Http/Controllers/Api/V1` or `ih-frontend/src/lib/*` and mirror style and error handling.
-- Use `do_all.sh` and `ecosystem.config.js` to infer ports, env var names, and runtimes.
+### Examples (concrete)
+- **Flight search flow:** `routes/api.php` → `FlightController@search` → `FlightService` → `TBO/FlightSearchService` → `src/lib/flight-api.ts` → flight search components
+- **Environment setup:** Copy `.env.example` → set TBO credentials → run `composer run dev` → check `TBO_INTEGRATION_GUIDE.md` for API status
+- **Content management:** Run `./sanity-quickstart.sh` → add content in Studio → frontend fetches via `src/lib/sanity-api.ts`
 
-If you update this file: preserve the short examples and the explicit commands. Ask maintainers for missing runtime secrets or CI details.
+### When debugging
+- Backend logs: `php artisan pail` or check `storage/logs/`
+- Frontend: Browser dev tools, Next.js error overlay
+- TBO API: Test scripts in `ih-backend/` (`test_live_api.php`, `test_tbo_no_proxy.php`)
+- Check environment flags: `USE_MOCK`, `USE_TBO_FLIGHT`, `USE_TBO_HOTEL` in `.env`
+
+### Deployment & Production
+- **Production server:** Droplet IP `157.245.100.148` (whitelisted with TBO)
+- **Direct API access:** No proxy needed on production droplet
+- **Environment files:** `.env.local` overrides `.env` - ensure both are consistent
+- **Config caching:** Always run `php artisan config:clear` before `php artisan config:cache`
+- **Health checks:** `/api/v1/health` endpoint for service monitoring
+- **Live API testing:** Use `test_tbo_no_proxy.php` for direct TBO authentication tests
+
+### Production deployment workflow
+1. Deploy code → `composer install` → set environment variables
+2. Clear cache: `php artisan config:clear`  
+3. Test TBO auth: `php test_tbo_no_proxy.php`
+4. Start services: Laravel server (:8000), Next.js (:3000), queue worker
+5. Verify APIs: Test `/api/v1/health` and flight search endpoints
 
 -- End of instructions

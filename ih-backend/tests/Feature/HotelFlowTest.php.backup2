@@ -1,0 +1,182 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\Booking;
+use App\Models\City;
+use App\Models\Country;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class HotelFlowTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private array $headers;
+    private City $testCity;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        config(['services.tbo.use_mock' => true]);
+
+        $this->headers = [
+            'X-Api-Key' => env('IH_API_KEY', 'IH_API_2025_DEMO_KEY'),
+        ];
+        
+        // Create test data
+        $country = Country::create([
+            'name' => 'India',
+            'iso2' => 'IN',
+            'iso3' => 'IND',
+        ]);
+        
+        $this->testCity = City::create([
+            'name' => 'Goa',
+            'country_id' => $country->id,
+            'tbo_city_code' => 'GOI',
+            'latitude' => 15.2993,
+            'longitude' => 74.1240,
+        ]);
+    }
+
+    public function test_complete_hotel_booking_flow(): void
+    {
+        $searchPayload = [
+            'cityId' => 'GOI',
+            'cityName' => 'Goa',
+            'countryName' => 'India',
+            'checkIn' => now()->addWeeks(2)->format('Y-m-d'),
+            'checkOut' => now()->addWeeks(2)->addDays(2)->format('Y-m-d'),
+            'currency' => 'INR',
+            'nationality' => 'IN',
+            'rooms' => [[
+                'adults' => 2,
+                'children' => 0,
+                'childAges' => [],
+            ]],
+        ];
+
+        $searchResponse = $this->withHeaders($this->headers)
+            ->postJson('/api/v1/hotels/search', $searchPayload);
+            
+        // Debug: show the actual response
+        if ($searchResponse->status() !== 200) {
+            dump($searchResponse->status());
+            dump($searchResponse->json());
+        }
+        
+        $searchResponse->assertOk();
+        $searchResponseData = $searchResponse->json();
+
+        $sessionId = $searchResponse['sessionId'];
+        $firstHotel = $searchResponse['results'][0];
+        $resultIndex = $firstHotel['resultIndex'];
+        $hotelCode = $firstHotel['hotelCode'];
+
+        $roomsResponse = $this->withHeaders($this->headers)
+            ->postJson('/api/v1/hotels/rooms', [
+                'sessionId' => $sessionId,
+                'resultIndex' => $resultIndex,
+                'hotelCode' => $hotelCode,
+            ])
+            ->assertOk()
+            ->json();
+
+        $roomOption = $roomsResponse['rooms'][0];
+        $totalFare = (float) ($roomOption['totalFare'] ?? $roomOption['roomFare'] ?? 0);
+        $currency = $roomOption['currency'] ?? 'INR';
+
+        $pricingResponse = $this->withHeaders($this->headers)
+            ->postJson('/api/v1/hotels/pricing', [
+                'sessionId' => $sessionId,
+                'resultIndex' => $resultIndex,
+                'hotelCode' => $hotelCode,
+                'option' => ['combinations' => [[$roomOption['roomIndex']]]],
+            ])
+            ->assertOk()
+            ->json();
+
+        $finalPrice = (float) ($pricingResponse['priceVerification']['finalPrice'] ?? $totalFare);
+        $finalCurrency = $pricingResponse['priceVerification']['currency'] ?? $currency;
+
+        $bookResponse = $this->withHeaders($this->headers)
+            ->postJson('/api/v1/hotels/book', [
+                'sessionId' => $sessionId,
+                'resultIndex' => $resultIndex,
+                'hotelCode' => $hotelCode,
+                'guestNationality' => 'IN',
+                'rooms' => [[
+                    'roomIndex' => $roomOption['roomIndex'],
+                    'roomTypeName' => $roomOption['roomTypeName'],
+                    'roomTypeCode' => $roomOption['roomTypeCode'],
+                    'ratePlanCode' => $roomOption['ratePlanCode'],
+                    'roomFare' => $roomOption['roomFare'],
+                    'roomTax' => $roomOption['roomTax'],
+                    'totalFare' => $roomOption['totalFare'] ?? $roomOption['roomFare'],
+                    'currency' => $currency,
+                ]],
+                'guests' => [[
+                    'title' => 'Mr',
+                    'firstName' => 'Hotel',
+                    'lastName' => 'Guest',
+                    'paxType' => 'Adult',
+                ]],
+                'contact' => [
+                    'email' => 'hotel.guest@example.test',
+                    'phone' => '+911234567890',
+                    'address' => 'Test Street, Goa',
+                ],
+            ])
+            ->assertOk()
+            ->json();
+
+        $bookingId = $bookResponse['bookingId'];
+        $booking = Booking::findOrFail($bookingId);
+        $this->assertSame(Booking::STATUS_ON_HOLD, $booking->status);
+
+        $createOrder = $this->withHeaders($this->headers)
+            ->postJson('/api/v1/payment/order', [
+                'bookingId' => $bookingId,
+                'amount' => $finalPrice,
+                'currency' => $finalCurrency,
+            ])
+            ->assertOk()
+            ->json();
+
+        $orderId = $createOrder['order_id'];
+
+        $this->withHeaders($this->headers)
+            ->postJson('/api/v1/payment/webhook', [
+                'event' => 'payment.captured',
+                'order_id' => $orderId,
+                'payment_id' => 'pay_test_456',
+                'payload' => [
+                    'payment' => [
+                        'entity' => [
+                            'order_id' => $orderId,
+                            'id' => 'pay_test_456',
+                        ],
+                    ],
+                ],
+            ])
+            ->assertOk()
+            ->assertJson(['status' => 'paid']);
+
+        $booking->refresh();
+        $this->assertSame(Booking::STATUS_CONFIRMED, $booking->status);
+        $this->assertNotNull($booking->pnr);
+
+        $voucherResponse = $this->withHeaders($this->headers)
+            ->postJson('/api/v1/hotels/voucher', [
+                'bookingId' => $bookingId,
+                'confirmationNo' => $booking->pnr,
+            ])
+            ->assertOk()
+            ->json();
+
+        $this->assertSame(Booking::STATUS_CONFIRMED, $voucherResponse['status']);
+        $this->assertArrayHasKey('invoice', $voucherResponse);
+    }
+}

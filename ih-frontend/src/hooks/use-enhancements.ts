@@ -114,7 +114,7 @@ export function useReviews(itemId: string, type: 'hotel' | 'package') {
   return useQuery({
     queryKey: ['reviews', type, itemId],
     queryFn: async () => {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
       const res = await fetch(`${apiUrl}/api/v1/reviews?type=${type}&id=${itemId}`);
       if (!res.ok) throw new Error('Failed to fetch reviews');
       const data = await res.json();
@@ -128,7 +128,7 @@ export function useSubmitReview() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (review: Partial<Review>) => {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
       const res = await fetch(`${apiUrl}/api/v1/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -1,18 +1,245 @@
+nohup: ignoring input
 
 > idea-holiday-frontend@0.1.0 dev
-> next dev
+> next dev --port 3000
 
   ▲ Next.js 14.2.33
   - Local:        http://localhost:3000
   - Environments: .env.local
 
  ✓ Starting...
+> [PWA] Compile server
+> [PWA] Compile server
+> [PWA] Compile client (static)
+> [PWA] Auto register service worker with: /var/www/iholiday/backend/ih-frontend/node_modules/next-pwa/register.js
+> [PWA] Service worker: /var/www/iholiday/backend/ih-frontend/public/sw.js
+> [PWA]   url: /sw.js
+> [PWA]   scope: /
+> [PWA] Build in develop mode, cache and precache are mostly disabled. This means offline support is disabled, but you can continue developing other functions in service worker.
    automatically enabled Fast Refresh for 1 custom loader
- ✓ Ready in 1754ms
+ ✓ Ready in 6.7s
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
  ○ Compiling / ...
- ✓ Compiled / in 2.7s (2344 modules)
- GET /?id=56a385d3-1212-4f46-bb3d-808102d92e7a&vscodeBrowserReqId=1760882247616 200 in 3073ms
- GET /?id=56a385d3-1212-4f46-bb3d-808102d92e7a&vscodeBrowserReqId=1760882249182 200 in 1308ms
- ✓ Compiled in 517ms (1058 modules)
- ○ Compiling /flights/search ...
- ✓ Compiled /flights/search in 679ms (2455 modules)
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[ENV] Configuration loaded: {
+  nodeEnv: 'development',
+  apiBaseUrl: 'http://127.0.0.1:8000',
+  useMockData: false,
+  features: []
+}
+ HEAD / 200 in 279062ms
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+ GET / 200 in 120ms
+ GET / 200 in 580ms
+ GET / 200 in 169ms
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+ ⚠ Cross origin request detected from ideaholiday.in to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+Warning: You're using `next/head` inside the `app` directory, please migrate to the Metadata API. See https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#step-3-migrating-nexthead for more details.
+ ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[ENV] Configuration loaded: {
+  nodeEnv: 'development',
+  apiBaseUrl: 'http://127.0.0.1:8000',
+  useMockData: false,
+  features: []
+}
+[ENV] Configuration loaded: {
+  nodeEnv: 'development',
+  apiBaseUrl: 'http://127.0.0.1:8000',
+  useMockData: false,
+  features: []
+}
+ ⨯ Error: Dataset not found - Dataset "production" not found for project ID "demo-project-id"
+    at onResponse (webpack-internal:///(rsc)/./node_modules/next-sanity/node_modules/@sanity/client/dist/index.browser.js:128:13)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:751)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:968)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:1077)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:2787)
+    at c.onreadystatechange (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:2990)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:1586)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  type: 'ClientError',
+  response: {
+    body: {
+      statusCode: 404,
+      message: 'Dataset "production" not found for project ID "demo-project-id"',
+      error: 'Dataset not found'
+    },
+    url: 'https://demo-project-id.apicdn.sanity.io/v2025-10-30/data/query/production?query=*%5B_type+%3D%3D+%22page%22+%26%26+defined%28slug.current%29%5D%7B+%22slug%22%3A+slug.current+%7D&returnQuery=false',
+    method: 'GET',
+    headers: {
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+      'apicdn-cache-control': '',
+      'content-length': '126',
+      'content-type': 'application/json; charset=utf-8',
+      date: 'Sat, 01 Nov 2025 10:08:53 GMT',
+      'sanity-gateway': 'k8s-gcp-as-s1-prod-ing-01',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload',
+      vary: 'origin',
+      via: '1.1 google',
+      'x-sanity-age': '0'
+    },
+    statusCode: 404,
+    statusMessage: 'Not Found'
+  },
+  statusCode: 404,
+  responseBody: '{\n' +
+    '  "statusCode": 404,\n' +
+    '  "message": "Dataset \\"production\\" not found for project ID \\"demo-project-id\\"",\n' +
+    '  "error": "Dataset not found"\n' +
+    '}',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 19091ms
+ GET / 200 in 15548ms
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+ GET /_next/webpack-hmr 404 in 97ms
+[ENV] Configuration loaded: {
+  nodeEnv: 'development',
+  apiBaseUrl: 'http://127.0.0.1:8000',
+  useMockData: false,
+  features: []
+}
+ ⨯ Error: Dataset not found - Dataset "production" not found for project ID "demo-project-id"
+    at onResponse (webpack-internal:///(rsc)/./node_modules/next-sanity/node_modules/@sanity/client/dist/index.browser.js:128:13)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:751)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:968)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:1077)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:2787)
+    at c.onreadystatechange (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:2990)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:1586)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  type: 'ClientError',
+  response: {
+    body: {
+      statusCode: 404,
+      error: 'Dataset not found',
+      message: 'Dataset "production" not found for project ID "demo-project-id"'
+    },
+    url: 'https://demo-project-id.apicdn.sanity.io/v2025-10-30/data/query/production?query=*%5B_type+%3D%3D+%22page%22+%26%26+defined%28slug.current%29%5D%7B+%22slug%22%3A+slug.current+%7D&returnQuery=false',
+    method: 'GET',
+    headers: {
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+      'apicdn-cache-control': '',
+      'content-length': '126',
+      'content-type': 'application/json; charset=utf-8',
+      date: 'Sat, 01 Nov 2025 10:08:56 GMT',
+      'sanity-gateway': 'k8s-gcp-as-s1-prod-ing-01',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload',
+      vary: 'origin',
+      via: '1.1 google',
+      'x-sanity-age': '0'
+    },
+    statusCode: 404,
+    statusMessage: 'Not Found'
+  },
+  statusCode: 404,
+  responseBody: '{\n' +
+    '  "statusCode": 404,\n' +
+    '  "error": "Dataset not found",\n' +
+    '  "message": "Dataset \\"production\\" not found for project ID \\"demo-project-id\\""\n' +
+    '}',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 747ms
+[ENV] Configuration loaded: {
+  nodeEnv: 'development',
+  apiBaseUrl: 'http://127.0.0.1:8000',
+  useMockData: false,
+  features: []
+}
+ ⨯ Error: Dataset not found - Dataset "production" not found for project ID "demo-project-id"
+    at onResponse (webpack-internal:///(rsc)/./node_modules/next-sanity/node_modules/@sanity/client/dist/index.browser.js:128:13)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:751)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:968)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:1077)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:2787)
+    at c.onreadystatechange (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:2990)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:1586)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  type: 'ClientError',
+  response: {
+    body: {
+      statusCode: 404,
+      error: 'Dataset not found',
+      message: 'Dataset "production" not found for project ID "demo-project-id"'
+    },
+    url: 'https://demo-project-id.apicdn.sanity.io/v2025-10-30/data/query/production?query=*%5B_type+%3D%3D+%22page%22+%26%26+defined%28slug.current%29%5D%7B+%22slug%22%3A+slug.current+%7D&returnQuery=false',
+    method: 'GET',
+    headers: {
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+      'apicdn-cache-control': '',
+      'content-length': '126',
+      'content-type': 'application/json; charset=utf-8',
+      date: 'Sat, 01 Nov 2025 10:08:56 GMT',
+      'sanity-gateway': 'k8s-gcp-as-s1-prod-ing-01',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload',
+      vary: 'origin',
+      via: '1.1 google',
+      'x-sanity-age': '1'
+    },
+    statusCode: 404,
+    statusMessage: 'Not Found'
+  },
+  statusCode: 404,
+  responseBody: '{\n' +
+    '  "statusCode": 404,\n' +
+    '  "error": "Dataset not found",\n' +
+    '  "message": "Dataset \\"production\\" not found for project ID \\"demo-project-id\\""\n' +
+    '}',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 668ms
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+ ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[ENV] Configuration loaded: {
+  nodeEnv: 'development',
+  apiBaseUrl: 'http://127.0.0.1:8000',
+  useMockData: false,
+  features: []
+}
+ ⨯ Error: Dataset not found - Dataset "production" not found for project ID "demo-project-id"
+    at onResponse (webpack-internal:///(rsc)/./node_modules/next-sanity/node_modules/@sanity/client/dist/index.browser.js:128:13)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:751)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:968)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/_chunks-es/createRequester.js:6:1077)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:2787)
+    at c.onreadystatechange (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:2990)
+    at eval (webpack-internal:///(rsc)/./node_modules/get-it/dist/index.react-server.js:9:1586)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  type: 'ClientError',
+  response: {
+    body: {
+      message: 'Dataset "production" not found for project ID "demo-project-id"',
+      error: 'Dataset not found',
+      statusCode: 404
+    },
+    url: 'https://demo-project-id.apicdn.sanity.io/v2025-10-30/data/query/production?query=*%5B_type+%3D%3D+%22page%22+%26%26+defined%28slug.current%29%5D%7B+%22slug%22%3A+slug.current+%7D&returnQuery=false',
+    method: 'GET',
+    headers: {
+      'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+      'apicdn-cache-control': '',
+      'content-length': '126',
+      'content-type': 'application/json; charset=utf-8',
+      date: 'Sat, 01 Nov 2025 10:09:12 GMT',
+      'sanity-gateway': 'k8s-gcp-as-s1-prod-ing-01',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload',
+      vary: 'origin',
+      via: '1.1 google',
+      'x-sanity-age': '0'
+    },
+    statusCode: 404,
+    statusMessage: 'Not Found'
+  },
+  statusCode: 404,
+  responseBody: '{\n' +
+    '  "message": "Dataset \\"production\\" not found for project ID \\"demo-project-id\\"",\n' +
+    '  "error": "Dataset not found",\n' +
+    '  "statusCode": 404\n' +
+    '}',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 855ms

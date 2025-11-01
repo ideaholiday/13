@@ -54,10 +54,25 @@ export default function ResultsPage() {
       try {
         console.log("Search payload:", payload);
         
-        const res = await fetch("/api/air/search", {
+        // Use Laravel backend API instead of Next.js API route
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+        const res = await fetch(`${apiBaseUrl}/flights/search`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            origin: payload.origin,
+            destination: payload.destination,
+            departDate: payload.departDate.split('T')[0], // Send as YYYY-MM-DD
+            returnDate: payload.returnDate ? payload.returnDate.split('T')[0] : undefined,
+            tripType: payload.tripType,
+            adults: payload.adults,
+            children: payload.children,
+            infants: payload.infants,
+            cabinClass: payload.cabinClass
+          }),
         });
         
         const json = await res.json();

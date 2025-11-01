@@ -45,63 +45,71 @@ class FlightFlowTest extends TestCase
         $fare = $firstResult['Fare'] ?? [];
         $totalFare = (float) ($fare['TotalFare'] ?? $fare['totalFare'] ?? $fare['TotalFAre'] ?? 0);
         $currency = $fare['Currency'] ?? $fare['currency'] ?? 'INR';
-        
-        // Debug: Check if totalFare is 0
-        if ($totalFare <= 0) {
-            $totalFare = 5000; // Use a default amount for testing
-        }
-        
-        $resultIndex = (string) $firstResult['ResultIndex']; // Convert to string
-        $traceId = $searchResponse['TraceId'] ?? $sessionId; // Use TraceId or fallback to sessionId
+        $resultIndex = $firstResult['ResultIndex'];
 
         $bookResponse = $this->withHeaders($this->headers)
             ->postJson('/api/v1/flights/book', [
                 'sessionId' => $sessionId,
                 'resultIndex' => $resultIndex,
-                'traceId' => $traceId, // Add required traceId
-                'contactInfo' => [ // Changed from 'contact' to 'contactInfo'
-                    'email' => 'guest@example.test', 
-                    'phone' => '+911234567890'
-                ],
+                'contact' => ['email' => 'guest@example.test', 'phone' => '+911234567890'],
                 'passengers' => [[
                     'type' => 'ADT',
                     'title' => 'Mr',
                     'firstName' => 'Test',
                     'lastName' => 'Traveller',
-                    'dateOfBirth' => '1985-01-15', // Add required dateOfBirth
-                    'gender' => 'M', // Use M instead of Male
                 ]],
                 'pricing' => [
                     'totalFare' => $totalFare,
                     'currency' => $currency,
                 ],
             ])
-            ->assertOk();
+            ->assertOk()
+            ->json();
 
-        $bookResponseData = $bookResponse->json();
-        
-        // Assert the booking response structure
-        $this->assertTrue($bookResponseData['success']);
-        $this->assertArrayHasKey('data', $bookResponseData);
-        $this->assertArrayHasKey('BookingId', $bookResponseData['data']);
-        $this->assertArrayHasKey('PNR', $bookResponseData['data']);
-        $this->assertEquals('Pending', $bookResponseData['data']['BookingStatus']);
-        
-        $externalBookingId = $bookResponseData['data']['BookingId'];
-        $pnr = $bookResponseData['data']['PNR'];
+        $bookingId = $bookResponse['bookingId'];
+        $booking = Booking::findOrFail($bookingId);
+        $this->assertSame(Booking::STATUS_ON_HOLD, $booking->status);
 
-        // Skip payment testing due to missing Razorpay SDK in test environment
-        // Test ticket endpoint directly
-        $ticketResponse = $this->withHeaders($this->headers)
-            ->postJson('/api/v1/flights/ticket', [
-                'bookingId' => $externalBookingId,
-                'pnr' => $pnr,
+        $createOrder = $this->withHeaders($this->headers)
+            ->postJson('/api/v1/payment/order', [
+                'bookingId' => $bookingId,
+                'amount' => $totalFare,
+                'currency' => $currency,
             ])
             ->assertOk()
             ->json();
 
-        $this->assertTrue($ticketResponse['success']);
-        $this->assertArrayHasKey('data', $ticketResponse);
-        // In mock mode, ticket endpoint should return success
+        $orderId = $createOrder['order_id'];
+
+        $this->withHeaders($this->headers)
+            ->postJson('/api/v1/payment/webhook', [
+                'event' => 'payment.captured',
+                'order_id' => $orderId,
+                'payment_id' => 'pay_test_123',
+                'payload' => [
+                    'payment' => [
+                        'entity' => [
+                            'order_id' => $orderId,
+                            'id' => 'pay_test_123',
+                        ],
+                    ],
+                ],
+            ])
+            ->assertOk()
+            ->assertJson(['status' => 'paid']);
+
+        $booking->refresh();
+        $this->assertSame(Booking::STATUS_CONFIRMED, $booking->status);
+        $this->assertNotNull($booking->pnr);
+
+        $ticketResponse = $this->withHeaders($this->headers)
+            ->postJson('/api/v1/flights/ticket', [
+                'bookingId' => $bookingId,
+            ])
+            ->assertOk()
+            ->json();
+
+        $this->assertSame($booking->pnr, $ticketResponse['pnr']);
+        $this->assertSame(Booking::STATUS_CONFIRMED, $ticketResponse['status']);
     }
 }

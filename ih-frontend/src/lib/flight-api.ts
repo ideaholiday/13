@@ -303,27 +303,21 @@ export async function searchFlights(
   const cabin = mapCabinClass(params.cabinClass)
 
   // Transform to backend contract
+  // Backend expects: origin, destination, departDate, tripType, adults, children, infants, class
   const payload: any = {
-    segments: [
-      {
-        origin,
-        destination,
-        departureDate: depart,
-      },
-    ],
+    origin,
+    destination,
+    departDate: depart,
     tripType: params.tripType,
     adults: Number(params.adults),
     children: Number(params.children ?? 0),
     infants: Number(params.infants ?? 0),
-    cabinClass: cabin,
+    class: cabin === 'E' ? 'Economy' : cabin === 'W' ? 'Premium' : cabin === 'B' ? 'Business' : 'First',
   }
 
+  // Add return date for round-trip
   if (params.tripType === 'R' && ret) {
-    payload.segments.push({
-      origin: destination,
-      destination: origin,
-      departureDate: ret,
-    })
+    payload.returnDate = ret
   }
 
   return apiPost<FlightSearchResponse>('/flights/search', payload)
