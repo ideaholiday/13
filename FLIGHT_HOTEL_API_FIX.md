@@ -93,9 +93,20 @@ The Next.js API route performs:
 ## Environment Configuration
 
 ### Frontend (.env.local)
+
+For **client-side code** (browser):
 ```bash
+# Used by browser-side code (components, pages)
 NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 ```
+
+For **server-side code** (API routes):
+```bash
+# Used by server-side API routes (not exposed to browser)
+BACKEND_API_URL=http://127.0.0.1:8000
+```
+
+**Note**: The Next.js API route will first try `BACKEND_API_URL`, then fallback to `NEXT_PUBLIC_API_BASE_URL` for backward compatibility.
 
 ### Backend (.env)
 ```bash

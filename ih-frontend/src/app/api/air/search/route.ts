@@ -9,28 +9,45 @@
 
 import { NextResponse } from "next/server";
 
-// Backend API base URL - should NOT include /api/v1 suffix
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
+// Backend API base URL - server-side only, not exposed to browser
+// Use regular env var (not NEXT_PUBLIC_) since this is server-side code
+const API_BASE_URL = process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
 
 /**
  * Helper to normalize date to YYYY-MM-DD format
+ * Handles multiple input formats while avoiding timezone issues
  */
 function toYMD(input?: string): string | undefined {
   if (!input) return undefined;
   const s = String(input).trim();
   
-  // Already YYYY-MM-DD
-  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  // Already YYYY-MM-DD - validate and return
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+    // Validate it's a real date
+    const [year, month, day] = s.split('-').map(Number);
+    const d = new Date(year, month - 1, day);
+    if (d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day) {
+      return s;
+    }
+    return undefined;
+  }
   
-  // Strip time component if present
-  if (s.includes('T')) return s.split('T')[0];
+  // Strip time component if present (ISO format)
+  if (s.includes('T')) {
+    const dateOnly = s.split('T')[0];
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateOnly)) {
+      return toYMD(dateOnly); // Recursive call to validate
+    }
+  }
   
+  // Try parsing as date - use UTC to avoid timezone issues
   const d = new Date(s);
   if (isNaN(d.getTime())) return undefined;
   
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
+  // Extract components in UTC to avoid timezone conversion
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
 }
 
@@ -91,29 +108,36 @@ export async function POST(req: Request) {
     
     console.log("[Flight Search Proxy] Sending to backend:", backendPayload);
     
-    // Call Laravel backend
+    // Call Laravel backend with timeout
     const backendUrl = `${API_BASE_URL}/api/v1/flights/search`;
-    const response = await fetch(backendUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(backendPayload),
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
     
-    const data = await response.json();
+    try {
+      const response = await fetch(backendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(backendPayload),
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
+      
+      const data = await response.json();
     
-    console.log("[Flight Search Proxy] Backend response status:", response.status);
-    
-    if (!response.ok) {
-      console.error("[Flight Search Proxy] Backend error:", data);
-      return NextResponse.json({
-        success: false,
-        message: data.message || 'Failed to search flights',
-        errors: data.errors,
-      }, { status: response.status });
-    }
+      console.log("[Flight Search Proxy] Backend response status:", response.status);
+      
+      if (!response.ok) {
+        console.error("[Flight Search Proxy] Backend error:", data);
+        return NextResponse.json({
+          success: false,
+          message: data.message || 'Failed to search flights',
+          errors: data.errors,
+        }, { status: response.status });
+      }
     
     // Transform backend response to frontend format
     // Backend returns: { results: [...], TraceId, ... }
@@ -195,6 +219,16 @@ export async function POST(req: Request) {
     
   } catch (e: any) {
     console.error("[Flight Search Proxy] Error:", e);
+    
+    // Handle timeout specifically
+    if (e.name === 'AbortError') {
+      return NextResponse.json({
+        success: false,
+        message: "Backend request timeout. Please try again.",
+        error: process.env.NODE_ENV === 'development' ? 'Request aborted after 30 seconds' : undefined,
+      }, { status: 504 }); // Gateway Timeout
+    }
+    
     return NextResponse.json({
       success: false,
       message: e.message || "Failed to connect to backend API",
