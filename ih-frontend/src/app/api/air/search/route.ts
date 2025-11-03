@@ -9,6 +9,7 @@
 
 import { NextResponse } from "next/server";
 
+// Backend API base URL - should NOT include /api/v1 suffix
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
 
 /**
