@@ -1,228 +1,66 @@
+/**
+ * Flight Search API Route - Proxy to Laravel Backend
+ * 
+ * This route proxies flight search requests from the frontend to the Laravel backend API.
+ * It transforms frontend payload format to match backend expectations.
+ * 
+ * Flow: Frontend → Next.js API Route → Laravel Backend (/api/v1/flights/search) → TBO API
+ */
+
 import { NextResponse } from "next/server";
-import axios from "axios";
-import NodeCache from "node-cache";
 
-const tokenCache = new NodeCache({ stdTTL: 540 });
+// Backend API base URL - server-side only, not exposed to browser
+// Use regular env var (not NEXT_PUBLIC_) since this is server-side code
+const API_BASE_URL = process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
 
-const AUTH = "https://api.travelboutiqueonline.com/SharedAPI/SharedData.svc/rest/Authenticate";
-const SEARCH = "https://tboapi.travelboutiqueonline.com/AirAPI_V10/AirService.svc/rest/Search";
-
-async function getToken() {
-  const cached = tokenCache.get<string>("tbo_token");
-  if (cached) return cached;
+/**
+ * Helper to normalize date to YYYY-MM-DD format
+ * Handles multiple input formats while avoiding timezone issues
+ */
+function toYMD(input?: string): string | undefined {
+  if (!input) return undefined;
+  const s = String(input).trim();
   
-  const { data } = await axios.post(AUTH, {
-    ClientId: process.env.TBO_CLIENT_ID,
-    UserName: process.env.TBO_USERNAME,
-    Password: process.env.TBO_PASSWORD,
-    EndUserIp: process.env.TBO_ENDUSER_IP,
-  }, { headers: { "Content-Type": "application/json" }});
+  // Already YYYY-MM-DD - validate and return
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+    // Validate it's a real date
+    const [year, month, day] = s.split('-').map(Number);
+    const d = new Date(year, month - 1, day);
+    if (d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day) {
+      return s;
+    }
+    return undefined;
+  }
   
-  if (!data?.TokenId) throw new Error("TBO authentication failed");
-  tokenCache.set("tbo_token", data.TokenId);
-  return data.TokenId as string;
+  // Strip time component if present (ISO format)
+  if (s.includes('T')) {
+    const dateOnly = s.split('T')[0];
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateOnly)) {
+      return toYMD(dateOnly); // Recursive call to validate
+    }
+  }
+  
+  // Try parsing as date - use UTC to avoid timezone issues
+  const d = new Date(s);
+  if (isNaN(d.getTime())) return undefined;
+  
+  // Extract components in UTC to avoid timezone conversion
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
-function mapCabin(c: string | null | undefined) {
-  // UI uses E/PE/B/F → TBO numeric (1=E,2=PE,3=B,4=F). Default 1.
-  switch ((c || "E").toUpperCase()) {
-    case "PE": case "W": return "2";
-    case "B": return "3";
-    case "F": return "4";
-    default: return "1";
-  }
-}
-
-function validateInput(body: any) {
-  const errors: string[] = [];
-  
-  console.log("[API] Validating input:", body);
-  
-  if (!body.origin || body.origin.length !== 3) {
-    errors.push(`Invalid origin airport code (got: "${body.origin}")`);
-  }
-  if (!body.destination || body.destination.length !== 3) {
-    errors.push(`Invalid destination airport code (got: "${body.destination}")`);
-  }
-  if (!body.departDate) {
-    errors.push("Departure date is required");
-  } else {
-    // Validate date format
-    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
-    if (!dateRegex.test(body.departDate)) {
-      errors.push(`Invalid departure date format (got: "${body.departDate}")`);
-    }
-  }
-  
-  if (body.tripType === "R" && !body.returnDate) {
-    errors.push("Return date is required for round trip");
-  } else if (body.tripType === "R" && body.returnDate) {
-    // Validate return date format
-    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
-    if (!dateRegex.test(body.returnDate)) {
-      errors.push(`Invalid return date format (got: "${body.returnDate}")`);
-    }
-  }
-  
-  const adults = Number(body.adults ?? 1);
-  const children = Number(body.children ?? 0);
-  const infants = Number(body.infants ?? 0);
-  
-  if (adults < 1 || adults > 9) {
-    errors.push("Adults must be between 1 and 9");
-  }
-  if (children < 0 || children > 8) {
-    errors.push("Children must be between 0 and 8");
-  }
-  if (infants < 0 || infants > adults) {
-    errors.push("Infants cannot exceed number of adults");
-  }
-  if (adults + children + infants > 9) {
-    errors.push("Total passengers cannot exceed 9");
-  }
-  
-  if (errors.length > 0) {
-    console.log("[API] Validation errors:", errors);
-  }
-  
-  return errors;
-}
-
-async function searchTBO(payload: any, retryCount = 0): Promise<any> {
-  try {
-    const { data } = await axios.post(SEARCH, payload, {
-      headers: { "Content-Type": "application/json" },
-      timeout: 30000,
-    });
-    
-    // Handle provider errors
-    const err = data?.Response?.Error;
-    if (err && err.ErrorCode && err.ErrorCode !== 0) {
-      return {
-        success: false,
-        providerError: {
-          code: err.ErrorCode,
-          message: err.ErrorMessage || "Unknown error from flight provider",
-        },
-        results: [],
-      };
-    }
-    
-    // TBO structure: Results is Array of "buckets"
-    // For one-way: [[flight1, flight2, ...]]
-    // For round-trip: [[onward flights], [return flights]]
-    const results = data?.Response?.Results;
-    
-    // Check if results exist
-    if (!results || !Array.isArray(results) || results.length === 0) {
-      // Retry once if Sources was null (try with Sources:[])
-      if (retryCount === 0 && payload.Sources === null) {
-        console.log("No results with Sources:null, retrying with Sources:[]");
-        const retryPayload = { ...payload, Sources: [] };
-        return searchTBO(retryPayload, 1);
-      }
-      
-      return {
-        success: false,
-        providerError: {
-          code: 0,
-          message: "No flights available for this route and date. Please try different dates or nearby airports.",
-        },
-        results: [],
-      };
-    }
-    
-    // Flatten all buckets - handle nested arrays properly
-    let allFlights: any[] = [];
-    
-    for (const bucket of results) {
-      if (Array.isArray(bucket)) {
-        // Each bucket is an array of flights
-        allFlights = allFlights.concat(bucket);
-      } else if (bucket && typeof bucket === 'object') {
-        // Sometimes TBO returns single objects
-        allFlights.push(bucket);
-      }
-    }
-    
-    // Filter out invalid entries
-    allFlights = allFlights.filter((flight) => {
-      return flight && 
-             flight.ResultIndex && 
-             flight.Segments && 
-             Array.isArray(flight.Segments) && 
-             flight.Segments.length > 0;
-    });
-    
-    if (allFlights.length === 0) {
-      return {
-        success: false,
-        providerError: {
-          code: 0,
-          message: "No valid flights found. Please try different search criteria.",
-        },
-        results: [],
-      };
-    }
-    
-    // Normalize all flights
-    const normalized = allFlights.map((flight) => {
-      const firstSegment = flight.Segments[0];
-      const firstLeg = Array.isArray(firstSegment) ? firstSegment[0] : firstSegment;
-      const airline = firstLeg?.Airline || {};
-      const origin = firstLeg?.Origin || {};
-      const destination = firstLeg?.Destination || {};
-      
-      return {
-        resultIndex: flight.ResultIndex,
-        isRefundable: !!flight.IsRefundable,
-        isLCC: !!flight.IsLCC,
-        fare: {
-          published: flight.Fare?.PublishedFare || 0,
-          offered: flight.Fare?.OfferedFare || flight.Fare?.PublishedFare || 0,
-          currency: flight.Fare?.Currency || "INR",
-          baseFare: flight.Fare?.BaseFare || 0,
-          tax: flight.Fare?.Tax || 0,
-        },
-        leg: {
-          depTime: origin.DepTime,
-          arrTime: destination.ArrTime,
-          duration: firstLeg?.Duration || 0,
-          from: origin.Airport?.AirportCode || origin.Airport?.CityCode,
-          to: destination.Airport?.AirportCode || destination.Airport?.CityCode,
-          fromCity: origin.Airport?.CityName,
-          toCity: destination.Airport?.CityName,
-        },
-        airline: {
-          name: airline.AirlineName,
-          code: airline.AirlineCode,
-          flightNumber: airline.FlightNumber,
-          operatingCarrier: airline.OperatingCarrier || airline.AirlineCode,
-        },
-        segments: flight.Segments,
-        provider: flight.Source || "TBO",
-        raw: flight,
-      };
-    });
-    
-    return {
-      success: true,
-      results: normalized,
-      totalResults: normalized.length,
-    };
-    
-  } catch (error: any) {
-    if (error.code === 'ECONNABORTED') {
-      return {
-        success: false,
-        providerError: {
-          code: 'TIMEOUT',
-          message: "Request timeout. Please try again.",
-        },
-        results: [],
-      };
-    }
-    throw error;
+/**
+ * Map cabin class from frontend format to backend format
+ */
+function mapCabinClass(c: string | null | undefined): 'E' | 'W' | 'B' | 'F' {
+  switch ((c || 'E').toUpperCase()) {
+    case 'PE': return 'W';  // Premium Economy
+    case 'B': return 'B';   // Business
+    case 'F': return 'F';   // First
+    case 'E': 
+    default: return 'E';    // Economy
   }
 }
 
@@ -230,56 +68,142 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     
-    // Validate input
-    const validationErrors = validateInput(body);
-    if (validationErrors.length > 0) {
-      return NextResponse.json({
-        success: false,
-        errors: validationErrors,
-        message: validationErrors.join("; "),
-      }, { status: 400 });
+    console.log("[Flight Search Proxy] Received request:", body);
+    
+    // Transform frontend payload to backend format
+    const origin = body.origin?.toUpperCase();
+    const destination = body.destination?.toUpperCase();
+    const departDate = toYMD(body.departDate);
+    const returnDate = body.returnDate ? toYMD(body.returnDate) : undefined;
+    const tripType = body.tripType || 'O';
+    const cabinClass = mapCabinClass(body.cabinClass);
+    
+    // Build segments array for backend
+    const segments = [
+      {
+        origin,
+        destination,
+        departureDate: departDate,
+      }
+    ];
+    
+    // Add return segment for round trips
+    if (tripType === 'R' && returnDate) {
+      segments.push({
+        origin: destination,
+        destination: origin,
+        departureDate: returnDate,
+      });
     }
     
-    // Get token
-    const token = await getToken();
-    
-    // Build search payload
-    const tripOneway = (body.tripType ?? "O") !== "R";
-    const seg = {
-      Origin: body.origin.toUpperCase(),
-      Destination: body.destination.toUpperCase(),
-      FlightCabinClass: mapCabin(body.cabinClass),
-      PreferredDepartureTime: body.departDate,
-      PreferredArrivalTime: body.departDate,
+    // Build backend payload
+    const backendPayload = {
+      segments,
+      tripType,
+      adults: Number(body.adults ?? 1),
+      children: Number(body.children ?? 0),
+      infants: Number(body.infants ?? 0),
+      cabinClass,
     };
     
-    const payload = {
-      EndUserIp: process.env.TBO_ENDUSER_IP || "192.168.1.1",
-      TokenId: token,
-      AdultCount: Number(body.adults ?? 1),
-      ChildCount: Number(body.children ?? 0),
-      InfantCount: Number(body.infants ?? 0),
-      JourneyType: tripOneway ? "1" : "2",
-      Segments: tripOneway
-        ? [seg]
-        : [
-            seg,
-            {
-              Origin: body.destination.toUpperCase(),
-              Destination: body.origin.toUpperCase(),
-              FlightCabinClass: mapCabin(body.cabinClass),
-              PreferredDepartureTime: body.returnDate,
-              PreferredArrivalTime: body.returnDate,
-            },
-          ],
-      Sources: null, // Will try [] as fallback if this returns empty
-    };
+    console.log("[Flight Search Proxy] Sending to backend:", backendPayload);
     
-    // Search with retry logic
-    const result = await searchTBO(payload);
+    // Call Laravel backend with timeout
+    const backendUrl = `${API_BASE_URL}/api/v1/flights/search`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+    
+    try {
+      const response = await fetch(backendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(backendPayload),
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
+      
+      const data = await response.json();
+    
+      console.log("[Flight Search Proxy] Backend response status:", response.status);
+      
+      if (!response.ok) {
+        console.error("[Flight Search Proxy] Backend error:", data);
+        return NextResponse.json({
+          success: false,
+          message: data.message || 'Failed to search flights',
+          errors: data.errors,
+        }, { status: response.status });
+      }
+    
+    // Transform backend response to frontend format
+    // Backend returns: { results: [...], TraceId, ... }
+    // Frontend expects: { success: true, results: [...] }
+    
+    const results = data.results || data.Results || [];
+    const traceId = data.TraceId || data.traceId || data.SessionId;
+    
+    console.log(`[Flight Search Proxy] Found ${results.length} results`);
+    
+    // Normalize results to frontend format
+    const normalizedResults = results.map((flight: any) => {
+      const firstSegment = flight.Segments?.[0];
+      const firstLeg = Array.isArray(firstSegment) ? firstSegment[0] : firstSegment;
+      const airline = firstLeg?.Airline || {};
+      const origin = firstLeg?.Origin || {};
+      const destination = firstLeg?.Destination || {};
+      
+      return {
+        resultIndex: flight.ResultIndex || flight.resultIndex,
+        isRefundable: !!flight.IsRefundable || !!flight.isRefundable,
+        isLCC: !!flight.IsLCC || !!flight.isLCC,
+        fare: {
+          published: flight.Fare?.PublishedFare || flight.fare?.published || 0,
+          offered: flight.Fare?.OfferedFare || flight.fare?.offered || flight.Fare?.PublishedFare || flight.fare?.published || 0,
+          currency: flight.Fare?.Currency || flight.fare?.currency || 'INR',
+          baseFare: flight.Fare?.BaseFare || flight.fare?.baseFare || 0,
+          tax: flight.Fare?.Tax || flight.fare?.tax || 0,
+        },
+        leg: {
+          depTime: origin.DepTime || firstLeg?.depTime,
+          arrTime: destination.ArrTime || firstLeg?.arrTime,
+          duration: firstLeg?.Duration || firstLeg?.duration || 0,
+          from: origin.Airport?.AirportCode || origin.Airport?.CityCode || firstLeg?.from,
+          to: destination.Airport?.AirportCode || destination.Airport?.CityCode || firstLeg?.to,
+          fromCity: origin.Airport?.CityName || firstLeg?.fromCity,
+          toCity: destination.Airport?.CityName || firstLeg?.toCity,
+        },
+        airline: {
+          name: airline.AirlineName || airline.name,
+          code: airline.AirlineCode || airline.code,
+          flightNumber: airline.FlightNumber || airline.flightNumber,
+          operatingCarrier: airline.OperatingCarrier || airline.operatingCarrier || airline.AirlineCode || airline.code,
+        },
+        segments: flight.Segments || flight.segments,
+        provider: flight.Source || flight.provider || 'TBO',
+        raw: flight,
+      };
+    });
+    
+    if (normalizedResults.length === 0) {
+      return NextResponse.json({
+        success: false,
+        providerError: {
+          code: 0,
+          message: data.message || "No flights available for this route and date. Please try different dates or nearby airports.",
+        },
+        results: [],
+      });
+    }
     
     return NextResponse.json({
-      ...result,
+      success: true,
+      results: normalizedResults,
+      totalResults: normalizedResults.length,
+      traceId,
       searchCriteria: {
         from: body.origin,
         to: body.destination,
@@ -294,10 +218,20 @@ export async function POST(req: Request) {
     });
     
   } catch (e: any) {
-    console.error("Flight search error:", e);
+    console.error("[Flight Search Proxy] Error:", e);
+    
+    // Handle timeout specifically
+    if (e.name === 'AbortError') {
+      return NextResponse.json({
+        success: false,
+        message: "Backend request timeout. Please try again.",
+        error: process.env.NODE_ENV === 'development' ? 'Request aborted after 30 seconds' : undefined,
+      }, { status: 504 }); // Gateway Timeout
+    }
+    
     return NextResponse.json({
       success: false,
-      message: e.message || "Internal server error",
+      message: e.message || "Failed to connect to backend API",
       error: process.env.NODE_ENV === 'development' ? e.stack : undefined,
     }, { status: 500 });
   }
