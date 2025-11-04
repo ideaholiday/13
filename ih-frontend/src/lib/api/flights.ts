@@ -10,21 +10,18 @@ import {
   TicketResponse,
 } from '@/lib/types/flight-booking'
 import { mockSearchResponse } from './mock-flights'
+import { buildApiUrl, getApiBaseUrl } from '@/lib/config/api'
 
-// Construct the full base URL with /api/v1 (support both env names)
-const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000'
-const BASE_URL = apiBase.endsWith('/api/v1') 
-  ? apiBase 
-  : `${apiBase}/api/v1`
+const BASE_URL = getApiBaseUrl()
 
-console.log('🔧 API Configuration:', { apiBase, BASE_URL })
+console.log('🔧 API Configuration:', { baseUrl: BASE_URL })
 
 // Helper to make authenticated requests
 async function apiFetch<T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> {
-  const url = `${BASE_URL}${endpoint}`
+  const url = buildApiUrl(endpoint)
   
   try {
     console.log('API Request:', { url, options })
@@ -176,11 +173,11 @@ export async function searchFlights(
 
 export async function getFareRules(
   traceId: string,
-  resultId: string
+  resultIndex: string
 ): Promise<FareRulesResponse> {
   return apiFetch('/flights/fare-rules', {
     method: 'POST',
-    body: JSON.stringify({ traceId, resultId }),
+    body: JSON.stringify({ traceId, resultIndex }),
   })
 }
 

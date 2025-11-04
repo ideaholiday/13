@@ -150,7 +150,7 @@ export interface FareRulesResponse {
 
 export interface RepriceRequest {
   traceId: string
-  resultId: string
+  resultIndex: string
   adults: number
   children: number
   infants: number
@@ -159,7 +159,7 @@ export interface RepriceRequest {
 export interface RepriceResponse {
   success: boolean
   data: {
-    resultId: string
+    resultIndex: string
     traceId: string
     fare: Fare
     baggage: {
@@ -215,7 +215,7 @@ export interface BaggageOption {
 
 export const BookingRequestSchema = z.object({
   traceId: z.string(),
-  resultId: z.string(),
+  resultIndex: z.string(),
   contact: ContactSchema,
   passengers: z.array(PassengerSchema).min(1),
   seatPreferences: z.array(z.any()).optional(),

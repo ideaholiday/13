@@ -12,34 +12,38 @@ export default function ResultsPage() {
   const [error, setError] = useState<string | null>(null);
   const [providerError, setProviderError] = useState<any>(null);
 
-  const payload = useMemo(() => {
-    const get = (key: string) => sp?.get(key) ?? ''
-    
-    // Helper to convert date to proper format
-    const formatDate = (dateStr: string) => {
-      if (!dateStr) return ''
-      // If date doesn't have time component, add it
-      if (dateStr.length === 10) {
-        return `${dateStr}T00:00:00`
+    const payload = useMemo(() => {
+      const get = (key: string) => sp?.get(key) ?? ''
+
+      const formatDate = (dateStr: string) => {
+        if (!dateStr) return ''
+        return dateStr.length === 10 ? `${dateStr}T00:00:00` : dateStr
       }
-      return dateStr
-    }
-    
-    const departDate = get("depart") || ''
-    const returnDate = get("return") || ''
-    
-    return {
-      origin: get("from") || '',
-      destination: get("to") || '',
-      departDate: formatDate(departDate),
-      returnDate: returnDate ? formatDate(returnDate) : undefined,
-      tripType: get("trip") || "O",
-      adults: Number(get("adults") || get("adt") || 1),
-      children: Number(get("children") || get("chd") || 0),
-      infants: Number(get("infants") || get("inf") || 0),
-      cabinClass: get("cabin") || "E",
-    }
-  }, [sp]);
+
+      const resolveTripType = () => {
+        const tripParam = get('tripType') || get('trip') || ''
+        const normalized = tripParam.trim().toLowerCase()
+        if (normalized === 'roundtrip' || normalized === 'r') return 'R'
+        if (normalized === 'multicity' || normalized === 'm') return 'M'
+        if (normalized === 'oneway' || normalized === 'o') return 'O'
+        return 'O'
+      }
+
+      const departDate = get('depart') || get('departureDate') || ''
+      const returnDate = get('return') || get('returnDate') || ''
+
+      return {
+        origin: get('from') || get('origin') || '',
+        destination: get('to') || get('destination') || '',
+        departDate: formatDate(departDate),
+        returnDate: returnDate ? formatDate(returnDate) : undefined,
+        tripType: resolveTripType(),
+        adults: Number(get('adults') || get('adt') || 1),
+        children: Number(get('children') || get('chd') || 0),
+        infants: Number(get('infants') || get('inf') || 0),
+        cabinClass: (get('cabin') || get('class') || 'E').toUpperCase(),
+      }
+    }, [sp]);
 
   useEffect(() => {
     let mounted = true;
