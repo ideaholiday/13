@@ -2,12 +2,13 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { normalizeTboResults } from '@/lib/normalizeFlights'
+import { buildApiUrl } from '@/lib/config/api'
 
 export const useFlightSearch = (params: any) =>
   useQuery({
     queryKey: ['flightSearch', params],
     queryFn: async () => {
-      const res = await fetch('http://localhost:8000/api/v1/flights/search', {
+      const res = await fetch(buildApiUrl('/flights/search'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(params),

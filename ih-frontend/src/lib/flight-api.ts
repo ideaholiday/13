@@ -10,8 +10,7 @@ import type {
   FlightDisplayOption,
   FlightDetailsDisplay,
 } from '@/types/tbo-flight-data'
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1'
+import { buildApiUrl } from '@/lib/config/api'
 
 // ============================================================================
 // Generic API Helpers
@@ -33,7 +32,7 @@ export class ApiError extends Error {
  * Generic POST request helper
  */
 export async function apiPost<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(buildApiUrl(path), {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -65,7 +64,7 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
  * Generic GET request helper
  */
 export async function apiGet<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(buildApiUrl(path), {
     method: 'GET',
     headers: { 
       'Accept': 'application/json',

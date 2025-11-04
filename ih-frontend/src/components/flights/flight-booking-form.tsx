@@ -26,6 +26,7 @@ import {
 import { z } from 'zod'
 import { ProgressIndicator } from '@/components/shared/navigation'
 import { StickyActionBar } from '@/components/shared/sticky-action-bar'
+import { buildApiUrl } from '@/lib/config/api'
 
 // Validation schemas
 const PassengerSchema = z.object({
@@ -227,35 +228,34 @@ export function FlightBookingForm({ flightDetails, returnFlightDetails, multiCit
     // Show loading toast
     const loadingToast = showLoading('Processing your flight booking...')
     
-    try {
-      // Optional: Pre-validate fare with backend fare-quote to ensure price consistency
       try {
-        const traceId = typeof window !== 'undefined' ? localStorage.getItem('flightTraceId') : null
-        // Derive a ResultIndex placeholder from flight id if available (backend expects TBO ResultIndex string)
-        const resultIndex = (flightDetails?.id || '').toString()
-        if (traceId && resultIndex) {
-          const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
-          const res = await fetch(`${baseUrl}/api/v1/flights/fare-quote`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ traceId, resultIndex })
-          })
-          if (res.ok) {
-            const json = await res.json()
-            if (json?.success && json?.data) {
-              // If backend returned recalculated price, update local price context
-              const price = json.data?.Price || json.data?.Response?.Price
-              if (price?.TotalFare) {
-                // Update displayed total if structure matches
-                // Note: UI shows per-person fare; keep it for consistency
+        // Optional: Pre-validate fare with backend fare-quote to ensure price consistency
+        try {
+          const traceId = typeof window !== 'undefined' ? localStorage.getItem('flightTraceId') : null
+          // Derive a ResultIndex placeholder from flight id if available (backend expects TBO ResultIndex string)
+          const resultIndex = (flightDetails?.id || '').toString()
+          if (traceId && resultIndex) {
+            const res = await fetch(buildApiUrl('/flights/fare-quote'), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({ traceId, resultIndex })
+            })
+            if (res.ok) {
+              const json = await res.json()
+              if (json?.success && json?.data) {
+                // If backend returned recalculated price, update local price context
+                const price = json.data?.Price || json.data?.Response?.Price
+                if (price?.TotalFare) {
+                  // Update displayed total if structure matches
+                  // Note: UI shows per-person fare; keep it for consistency
+                }
               }
             }
           }
+        } catch (e) {
+          // Non-blocking: continue with booking flow even if fare-quote fails
+          console.warn('Fare-quote precheck skipped/failed:', e)
         }
-      } catch (e) {
-        // Non-blocking: continue with booking flow even if fare-quote fails
-        console.warn('Fare-quote precheck skipped/failed:', e)
-      }
 
       // Simulate booking API call (placeholder until real booking integration)
       await new Promise(resolve => setTimeout(resolve, 1200))

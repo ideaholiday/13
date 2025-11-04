@@ -1,6 +1,5 @@
 import { HotelSearchParams, HotelSearchResponse } from '../stores/hotel-search-store'
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1'
+import { buildApiUrl } from '@/lib/config/api'
 
 export interface Country {
   id: number
@@ -116,7 +115,7 @@ class HotelApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${API_BASE_URL}${endpoint}`
+    const url = buildApiUrl(endpoint)
     
     const defaultOptions: RequestInit = {
       headers: {
