@@ -100,7 +100,7 @@ export interface Fare {
 }
 
 export interface FlightResult {
-  resultId: string
+  resultIndex: string
   traceId: string
   carrier: string
   flightNumber: string
