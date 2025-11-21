@@ -54,7 +54,8 @@ export default function ResultsPage() {
       try {
         console.log("Search payload:", payload);
         
-        const res = await fetch("/api/air/search", {
+        // Call the Laravel backend through Next.js proxy
+        const res = await fetch("/api/flights/search", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -87,8 +88,14 @@ export default function ResultsPage() {
           set({ results: [], lastSearchPayload: payload });
         } else {
           // Success - store results
+          // Backend returns {success: true, data: {results: [...]}}
+          const results = json.data?.results || [];
+          if (results.length === 0) {
+            console.warn("No results found in response");
+          }
+          console.log("Parsed results:", results.length, "flights");
           set({ 
-            results: json.results || [], 
+            results: results, 
             lastSearchPayload: payload 
           });
         }

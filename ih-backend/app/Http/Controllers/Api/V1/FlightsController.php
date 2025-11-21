@@ -82,26 +82,52 @@ class FlightsController extends Controller
 
         if (! $useMock) {
             // Real provider path with caching
-            $result = $this->respond(function () use ($data) {
+            try {
+                Log::info('FlightsController: About to call airService->search');
                 $result = $this->airService->search($data);
+                Log::info('FlightsController: Got result from airService', ['keys' => array_keys($result)]);
                 $result['markupPct'] ??= $this->airService->getMarkupPct();
-                return $result;
-            });
-            
-            // Get the TBO response data
-            $originalData = $result->getData(true);
-            
-            // Return TBO response format directly for frontend compatibility
-            $response = [
-                'success' => true,
-                'data' => $originalData
-            ];
-            
-            // Cache the result for 300 seconds (5 minutes)
-            Cache::put($cacheKey, $response, 300);
-            Log::info('Flight search cached', ['key' => $cacheKey, 'ttl' => 300]);
-            
-            return response()->json($response);
+                
+                // Return TBO response format wrapped for frontend compatibility
+                $response = [
+                    'success' => true,
+                    'data' => $result
+                ];
+                Log::info('FlightsController: Created wrapped response', ['has_success' => isset($response['success'])]);
+                
+                // Cache the result for 300 seconds (5 minutes)
+                Cache::put($cacheKey, $response, 300);
+                Log::info('Flight search cached', ['key' => $cacheKey, 'ttl' => 300]);
+                
+                return response()->json($response);
+            } catch (TboException $exception) {
+                Log::warning('TBO flight search failed', [
+                    'message' => $exception->getMessage(),
+                    'context' => $exception->context(),
+                ]);
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode(),
+                    'context' => $exception->context(),
+                ], 422);
+            } catch (Throwable $exception) {
+                Log::error('Flight search error', [
+                    'message' => $exception->getMessage(),
+                    'trace' => $exception->getTraceAsString(),
+                ]);
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unable to search flights at this time',
+                    'suggestions' => [
+                        'Please try again later',
+                        'Contact support if the issue persists'
+                    ],
+                    'error' => $exception->getMessage(),
+                ], 500);
+            }
         }
 
         // --- MOCKED RESPONSE (for local/dev & stability) ---

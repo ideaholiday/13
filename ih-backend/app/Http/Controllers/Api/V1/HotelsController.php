@@ -257,9 +257,16 @@ class HotelsController extends Controller
             }
 
             return response()->json([
-                'sessionId' => $sessionId,
-                'traceId' => $sessionId,
-                'results' => $paginatedResults,
+                'success' => true,
+                'data' => [
+                    'traceId' => $sessionId,
+                    'searchResults' => [
+                        'Response' => [
+                            'HotelSearchResult' => $paginatedResults,
+                        ]
+                    ],
+                    'markupPct' => $meta['markupPct'],
+                ],
                 'meta' => $meta,
             ]);
         } catch (\Exception $e) {
