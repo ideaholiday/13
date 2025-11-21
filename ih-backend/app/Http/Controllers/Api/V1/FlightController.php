@@ -136,7 +136,11 @@ class FlightController extends Controller
                 ], 200);
             }
 
-            return response()->json($result);
+            // Wrap response for frontend consistency
+            return response()->json([
+                'success' => true,
+                'data' => $result
+            ]);
         } catch (\Exception $e) {
             Log::error('Flight search error', [
                 'message' => $e->getMessage(),
