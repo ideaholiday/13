@@ -83,9 +83,9 @@ class FlightsController extends Controller
         if (! $useMock) {
             // Real provider path with caching
             try {
-                \Log::info('FlightsController: About to call airService->search');
+                Log::info('FlightsController: About to call airService->search');
                 $result = $this->airService->search($data);
-                \Log::info('FlightsController: Got result from airService', ['keys' => array_keys($result)]);
+                Log::info('FlightsController: Got result from airService', ['keys' => array_keys($result)]);
                 $result['markupPct'] ??= $this->airService->getMarkupPct();
                 
                 // Return TBO response format wrapped for frontend compatibility
@@ -93,7 +93,7 @@ class FlightsController extends Controller
                     'success' => true,
                     'data' => $result
                 ];
-                \Log::info('FlightsController: Created wrapped response', ['has_success' => isset($response['success'])]);
+                Log::info('FlightsController: Created wrapped response', ['has_success' => isset($response['success'])]);
                 
                 // Cache the result for 300 seconds (5 minutes)
                 Cache::put($cacheKey, $response, 300);

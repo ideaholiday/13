@@ -262,7 +262,6 @@ class HotelsController extends Controller
                     'traceId' => $sessionId,
                     'searchResults' => [
                         'Response' => [
-                            'TraceId' => $sessionId,
                             'HotelSearchResult' => $paginatedResults,
                         ]
                     ],

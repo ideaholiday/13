@@ -88,8 +88,11 @@ export default function ResultsPage() {
           set({ results: [], lastSearchPayload: payload });
         } else {
           // Success - store results
-          // Backend now returns {success: true, data: {results: [...], Response: {...}}}
-          const results = json.data?.results || json.data?.Results || json.results || [];
+          // Backend returns {success: true, data: {results: [...]}}
+          const results = json.data?.results || [];
+          if (results.length === 0) {
+            console.warn("No results found in response");
+          }
           console.log("Parsed results:", results.length, "flights");
           set({ 
             results: results, 
