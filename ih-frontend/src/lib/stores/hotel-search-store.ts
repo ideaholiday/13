@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 
 export interface HotelSearchParams {
   cityId: string
+  cityCode?: string
   cityName: string
   countryName: string
   checkIn: string

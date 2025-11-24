@@ -1,6 +1,40 @@
 import { HotelSearchParams, HotelSearchResponse } from '../stores/hotel-search-store'
+import { resolveApiBase } from '@/lib/api-base'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1'
+const API_BASE_URL = resolveApiBase('/api/v1')
+
+export class HttpError extends Error {
+  status: number
+  payload?: any
+
+  constructor(status: number, message: string, payload?: any) {
+    super(message)
+    this.name = 'HttpError'
+    this.status = status
+    this.payload = payload
+  }
+}
+
+const normalizeHotelDate = (value: string) => {
+  if (!value) return ''
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${date.getFullYear()}-${month}-${day}`
+}
+
+const normalizeRooms = (
+  rooms: HotelSearchParams['rooms']
+) => rooms.map(room => ({
+  adults: room.adults,
+  children: room.children,
+  childAges:
+    room.children && room.children > 0
+      ? (room.childAges?.length ? room.childAges : Array(room.children).fill(8))
+      : [],
+}))
 
 export interface Country {
   id: number
@@ -134,12 +168,30 @@ class HotelApiClient {
       },
     })
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    const raw = await response.text()
+    let data: any = null
+
+    if (raw) {
+      try {
+        data = JSON.parse(raw)
+      } catch {
+        // leave data as null if parsing fails
+      }
     }
 
-    return response.json()
+    if (!response.ok) {
+      const message =
+        data?.message ||
+        (data?.errors ? 'Validation failed. Please review your inputs.' : `HTTP error! status: ${response.status}`)
+
+      throw new HttpError(response.status, message, data)
+    }
+
+    if (data === null) {
+      throw new HttpError(response.status, 'Received an invalid response from the hotel service.')
+    }
+
+    return data
   }
 
   // Get countries list
@@ -165,10 +217,20 @@ class HotelApiClient {
       searchResults: HotelSearchResponse
       markupPct: number
     }
+    message?: string
   }> {
+    const payload = {
+      cityCode: params.cityCode?.toUpperCase(),
+      checkInDate: normalizeHotelDate(params.checkIn),
+      checkOutDate: normalizeHotelDate(params.checkOut),
+      rooms: normalizeRooms(params.rooms),
+      nationality: (params.nationality || 'IN').toUpperCase(),
+      currency: (params.currency || 'INR').toUpperCase(),
+    }
+
     return this.request('/hotels/search', {
       method: 'POST',
-      body: JSON.stringify(params),
+      body: JSON.stringify(payload),
     })
   }
 

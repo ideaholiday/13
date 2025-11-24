@@ -1,8 +1,77 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import {
+  useSearchParams,
+  useRouter,
+  type ReadonlyURLSearchParams
+} from "next/navigation";
 import { useFlightSearch } from "@/lib/stores/flightSearch";
 import { AlertCircle, Plane, Clock, ArrowRight } from "lucide-react";
+import {
+  ApiError,
+  searchFlights as backendSearchFlights,
+  type FlightSearchRequest
+} from "@/lib/flight-api";
+
+type ErrorCategory = "network" | "validation" | "server" | "client" | null;
+
+const pickParam = (sp: ReadonlyURLSearchParams | null, ...keys: string[]) => {
+  if (!sp) return "";
+  for (const key of keys) {
+    const value = sp.get(key);
+    if (value && value.trim().length > 0) {
+      return value.trim();
+    }
+  }
+  return "";
+};
+
+const toYMD = (value: string) => {
+  if (!value) return "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${month}-${day}`;
+};
+
+const mapTripType = (value: string): "O" | "R" => {
+  const normalized = value?.toLowerCase?.() ?? "";
+  if (normalized === "roundtrip" || normalized === "round_trip" || normalized === "r") return "R";
+  return "O";
+};
+
+const mapCabinClass = (value: string): FlightSearchRequest["cabinClass"] => {
+  const normalized = value?.toUpperCase?.() ?? "E";
+  if (["E", "B", "F", "PE", "W"].includes(normalized)) {
+    return normalized as FlightSearchRequest["cabinClass"];
+  }
+  if (normalized === "PREMIUM_ECONOMY") return "PE";
+  if (normalized === "PREMIUM") return "W";
+  return "E";
+};
+
+const normalizeFlightResults = (data: any) => {
+  if (!data) return [] as any[];
+  if (Array.isArray(data.results)) return data.results;
+  if (Array.isArray(data.Response?.Results)) {
+    const results = data.Response.Results;
+    if (Array.isArray(results[0])) {
+      // assume first bucket is outbound list for UI needs
+      return results[0] ?? [];
+    }
+    return results;
+  }
+  return [] as any[];
+};
+
+const ERROR_HINTS: Record<Exclude<ErrorCategory, null>, string> = {
+  network: "We couldn't reach our flight services. Check your internet connection or try again in a moment.",
+  validation: "Please review your search inputs. Both airports, a valid departure date, and at least one adult passenger are required.",
+  server: "Our flight partner returned an unexpected error. Please try again shortly or modify your search criteria.",
+  client: "Something went wrong while preparing your search. Please retry or adjust the filters.",
+};
 
 export default function ResultsPage() {
   const sp = useSearchParams();
@@ -10,115 +79,143 @@ export default function ResultsPage() {
   const { set, results } = useFlightSearch();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [errorCategory, setErrorCategory] = useState<ErrorCategory>(null);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
+  const [errorDetails, setErrorDetails] = useState<string[] | null>(null);
   const [providerError, setProviderError] = useState<any>(null);
 
   const payload = useMemo(() => {
-    const get = (key: string) => sp?.get(key) ?? ''
-    
-    // Helper to convert date to proper format
-    const formatDate = (dateStr: string) => {
-      if (!dateStr) return ''
-      // If date doesn't have time component, add it
-      if (dateStr.length === 10) {
-        return `${dateStr}T00:00:00`
-      }
-      return dateStr
-    }
-    
-    const departDate = get("depart") || ''
-    const returnDate = get("return") || ''
-    
+    const origin = pickParam(sp, "from", "origin", "source").toUpperCase();
+    const destination = pickParam(sp, "to", "destination", "dest").toUpperCase();
+    const departRaw = pickParam(sp, "depart", "departureDate", "departDate");
+    const returnRaw = pickParam(sp, "return", "returnDate", "arrivalDate");
+    const tripRaw = pickParam(sp, "tripType", "trip", "type") || "oneway";
+    const cabinRaw = pickParam(sp, "class", "cabin", "cabinClass") || "E";
+
     return {
-      origin: get("from") || '',
-      destination: get("to") || '',
-      departDate: formatDate(departDate),
-      returnDate: returnDate ? formatDate(returnDate) : undefined,
-      tripType: get("trip") || "O",
-      adults: Number(get("adults") || get("adt") || 1),
-      children: Number(get("children") || get("chd") || 0),
-      infants: Number(get("infants") || get("inf") || 0),
-      cabinClass: get("cabin") || "E",
+      origin,
+      destination,
+      departDate: toYMD(departRaw),
+      returnDate: toYMD(returnRaw) || undefined,
+      tripType: mapTripType(tripRaw),
+      adults: Number(pickParam(sp, "adults", "adt") || 1),
+      children: Number(pickParam(sp, "children", "chd") || 0),
+      infants: Number(pickParam(sp, "infants", "inf") || 0),
+      cabinClass: mapCabinClass(cabinRaw),
     }
   }, [sp]);
 
   useEffect(() => {
     let mounted = true;
-    
-    (async () => {
+
+    const executeSearch = async () => {
       if (!mounted) return;
-      
+
       setLoading(true);
       setError(null);
+      setErrorCategory(null);
+      setErrorStatus(null);
+      setErrorDetails(null);
       setProviderError(null);
-      
+
+      const missingFields: string[] = [];
+      if (!payload.origin) missingFields.push("origin");
+      if (!payload.destination) missingFields.push("destination");
+      if (!payload.departDate) missingFields.push("departDate");
+
+      if (missingFields.length) {
+        setError(`Missing required fields: ${missingFields.join(", ")}`);
+        setErrorCategory("validation");
+        set({ results: [], lastSearchPayload: payload });
+        setLoading(false);
+        return;
+      }
+
+      const request: FlightSearchRequest = {
+        origin: payload.origin,
+        destination: payload.destination,
+        departDate: payload.departDate,
+        tripType: payload.tripType,
+        adults: payload.adults || 1,
+        children: payload.children || 0,
+        infants: payload.infants || 0,
+        cabinClass: payload.cabinClass,
+      };
+
+      if (payload.tripType === "R" && payload.returnDate) {
+        request.returnDate = payload.returnDate;
+      }
+
       try {
-        console.log("Search payload:", payload);
-        
-        // Use Laravel backend API instead of Next.js API route
-        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
-        const res = await fetch(`${apiBaseUrl}/flights/search`, {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({
-            origin: payload.origin,
-            destination: payload.destination,
-            departDate: payload.departDate.split('T')[0], // Send as YYYY-MM-DD
-            returnDate: payload.returnDate ? payload.returnDate.split('T')[0] : undefined,
-            tripType: payload.tripType,
-            adults: payload.adults,
-            children: payload.children,
-            infants: payload.infants,
-            cabinClass: payload.cabinClass
-          }),
-        });
-        
-        const json = await res.json();
-        console.log("Search response:", json);
-        
+        const apiResponse = await backendSearchFlights(request);
+
         if (!mounted) return;
-        
-        if (!res.ok) {
-          console.error("API error:", json);
-          // Show validation errors if present
-          if (json.errors && Array.isArray(json.errors)) {
-            setError(json.errors.join("; "));
-          } else {
-            setError(json.message || "Failed to search flights");
-          }
-          set({ results: [], lastSearchPayload: payload });
+
+        if (!apiResponse.success) {
+          const message = apiResponse.message || "Flight search failed.";
+          setError(message);
+          setErrorCategory("client");
+          set({ results: [], lastSearchPayload: request });
           return;
         }
-        
-        if (!json.success) {
-          // Provider returned an error or no results
-          if (json.providerError) {
-            setProviderError(json.providerError);
-          } else {
-            setError(json.message || "No flights available");
-          }
-          set({ results: [], lastSearchPayload: payload });
-        } else {
-          // Success - store results
-          set({ 
-            results: json.results || [], 
-            lastSearchPayload: payload 
-          });
+
+        const normalizedResults = normalizeFlightResults(apiResponse.data);
+
+        if (!normalizedResults.length) {
+          setProviderError(
+            apiResponse.data?.providerError || {
+              message: "No flights available for your search criteria.",
+            }
+          );
+          set({ results: [], lastSearchPayload: request });
+          return;
         }
-      } catch (e: any) {
+
+        set({
+          results: normalizedResults,
+          lastSearchPayload: request,
+        });
+      } catch (err: unknown) {
         if (!mounted) return;
-        console.error("Flight search error:", e);
-        setError(e.message || "Failed to fetch flights. Please try again.");
-        set({ results: [], lastSearchPayload: payload });
+
+        let message = "Failed to fetch flights. Please try again.";
+        let category: ErrorCategory = "client";
+        let status: number | null = null;
+        let details: string[] | null = null;
+
+        if (err instanceof ApiError) {
+          status = err.status;
+          message = err.message || message;
+          if (err.status >= 500) category = "server";
+          else if (err.status >= 400) category = "validation";
+          if (Array.isArray(err.details)) {
+            details = err.details.map(String);
+          } else if (err.details && typeof err.details === "object") {
+            details = Object.values(err.details).flat().map((item) =>
+              typeof item === "string" ? item : JSON.stringify(item)
+            );
+          }
+        } else if (err instanceof TypeError) {
+          category = "network";
+          message = "We couldn't reach Idea Holiday servers. Please check your connection and try again.";
+        } else if (err instanceof Error) {
+          message = err.message;
+        }
+
+        setError(message);
+        setErrorCategory(category);
+        setErrorStatus(status);
+        setErrorDetails(details);
+        set({ results: [], lastSearchPayload: request });
       } finally {
         if (mounted) {
           setLoading(false);
         }
       }
-    })();
-    
+    };
+
+    executeSearch();
+
     return () => {
       mounted = false;
     };
@@ -208,8 +305,22 @@ export default function ResultsPage() {
               <h3 className="text-lg font-semibold text-red-900 mb-2">
                 Search Error
               </h3>
-              <p className="text-red-800 mb-3">Request failed with status code 400.</p>
+              <p className="text-red-800 mb-3">
+                {errorStatus ? `Request failed (HTTP ${errorStatus}).` : 'We could not complete your search.'}
+              </p>
               <p className="text-red-800 font-medium">{error}</p>
+              {errorDetails && errorDetails.length > 0 && (
+                <ul className="mt-3 list-disc list-inside text-sm text-red-700 space-y-1">
+                  {errorDetails.map((detail, idx) => (
+                    <li key={`${detail}-${idx}`}>{detail}</li>
+                  ))}
+                </ul>
+              )}
+              {errorCategory && (
+                <p className="text-sm text-slate-700 mt-4">
+                  {ERROR_HINTS[errorCategory as Exclude<ErrorCategory, null>]}
+                </p>
+              )}
             </div>
           </div>
         </div>

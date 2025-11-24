@@ -5,9 +5,21 @@ import { useRouter } from 'next/navigation'
 import { Calendar, Users, MapPin, Search, Building2, AlertCircle } from 'lucide-react'
 import { useHotelSearchStore } from '@/lib/stores/hotel-search-store'
 import { trackSearch } from '@/lib/track'
-import { hotelApi, Country, City } from '@/lib/api/hotels'
+import { hotelApi, Country, City, HttpError } from '@/lib/api/hotels'
 import { HotelCitySelector } from '@/components/hotels/hotel-city-selector'
 import HotelAutosuggest from '@/components/HotelAutosuggest'
+
+const flattenValidationErrors = (errors: Record<string, string[] | string>): string[] => {
+  return Object.entries(errors).flatMap(([field, messages]) => {
+    if (Array.isArray(messages)) {
+      return messages.map((msg) => `${field}: ${msg}`)
+    }
+    if (messages) {
+      return [`${field}: ${messages}`]
+    }
+    return []
+  })
+}
 
 export default function HotelSearchPage() {
   const router = useRouter()
@@ -212,6 +224,7 @@ export default function HotelSearchPage() {
       
       const searchParams = {
         cityId: formData.cityId,
+        cityCode: formData.city,
         cityName: formData.cityName,
         countryName: formData.countryName,
         checkIn: formData.checkIn,
@@ -230,11 +243,26 @@ export default function HotelSearchPage() {
         setTraceId(response.data.traceId)
         router.push('/hotels/results')
       } else {
-        setFormErrors(['Hotel search failed. Please try again.'])
+        setFormErrors([response.message || 'Hotel search failed. Please try again.'])
       }
     } catch (error) {
       console.error('Search error:', error)
-      setFormErrors(['Search failed. Please try again.'])
+      if (error instanceof HttpError) {
+        if (error.status === 422 && error.payload?.errors) {
+          setFormErrors(flattenValidationErrors(error.payload.errors))
+        } else if (error.status >= 500) {
+          setFormErrors(['Our hotel partner is temporarily unavailable. Please try again shortly.'])
+        } else {
+          setFormErrors([error.message || 'An unknown error occurred.'])
+        }
+      } else if (error instanceof TypeError) {
+        // This often indicates a network error (e.g., failed to fetch)
+        setFormErrors(['We could not reach the hotel service. Please check your internet connection and try again.'])
+      } else if (error instanceof Error) {
+        setFormErrors([error.message])
+      } else {
+        setFormErrors(['An unexpected error occurred during search. Please try again.'])
+      }
     } finally {
       setSearching(false)
     }
