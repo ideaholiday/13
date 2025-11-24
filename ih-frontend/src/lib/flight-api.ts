@@ -10,8 +10,9 @@ import type {
   FlightDisplayOption,
   FlightDetailsDisplay,
 } from '@/types/tbo-flight-data'
+import { resolveApiBase } from '@/lib/api-base'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1'
+const API_BASE = resolveApiBase('/api/v1')
 
 // ============================================================================
 // Generic API Helpers
@@ -312,7 +313,7 @@ export async function searchFlights(
     adults: Number(params.adults),
     children: Number(params.children ?? 0),
     infants: Number(params.infants ?? 0),
-    class: cabin === 'E' ? 'Economy' : cabin === 'W' ? 'Premium' : cabin === 'B' ? 'Business' : 'First',
+    cabinClass: cabin,
   }
 
   // Add return date for round-trip

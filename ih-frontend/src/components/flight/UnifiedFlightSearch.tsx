@@ -204,14 +204,14 @@ export function UnifiedFlightSearch({ variant = 'homepage', className }: Unified
       const searchParams = new URLSearchParams()
       searchParams.set('from', origin?.code || '')
       searchParams.set('to', destination?.code || '')
-      searchParams.set('depart', departDate || '')
-      if (returnDate) searchParams.set('return', returnDate)
+      searchParams.set('departureDate', departDate || '')
+      if (returnDate) searchParams.set('returnDate', returnDate)
       searchParams.set('adults', passengers.adults.toString())
       searchParams.set('children', passengers.children.toString())
       searchParams.set('infants', passengers.infants.toString())
-      searchParams.set('cabin', cabin)
+      searchParams.set('class', cabin)
       searchParams.set('fare', specialFare)
-      searchParams.set('trip', tripType)
+      searchParams.set('tripType', tripType === 'ONE_WAY' ? 'oneway' : 'roundtrip')
 
       router.push(`/flights/results?${searchParams.toString()}`)
     }
